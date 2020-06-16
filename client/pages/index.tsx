@@ -1,3 +1,4 @@
+import React from 'react';
 import Head from 'next/head';
 import {
   Typography,
@@ -63,6 +64,8 @@ export default function Home() {
   const router = useRouter();
 
   function logIn(e) {
+    e.preventDefault();
+    console.log('myerp');
     fetch('http://localhost:3001/auth', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
@@ -71,10 +74,13 @@ export default function Home() {
       },
     })
       .then(res => {
+        if (res.status === 201) {
+          setLoginRedirect(true);
+        }
         return res.json();
       })
       .then(json => {
-        setLoginRedirect(true);
+        console.log(JSON.stringify(json));
       });
   }
 

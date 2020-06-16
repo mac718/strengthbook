@@ -29,6 +29,7 @@
     "@nestjs/passport": "^7.0.0",
     "@nestjs/platform-express": "^7.0.0",
     "@types/bcrypt": "^3.0.0",
+    "@types/react-dom": "^16.9.8",
     "bcrypt": "^5.0.0",
     "cookie-parser": "^1.4.5",
     "mongoose": "^5.9.19",
