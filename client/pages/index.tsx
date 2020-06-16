@@ -1,194 +1,135 @@
 import Head from 'next/head';
+import {
+  Typography,
+  Button,
+  Container,
+  Grid,
+  FormControl,
+  Input,
+} from '@material-ui/core';
+import styled from 'styled-components';
+//import { useSelector, useDispatch } from 'react-redux';
+//import { logIn, setEmail, setPassword } from '../redux/actions/auth-actions';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+
+const SignInContainer = styled(Container)`
+  background-color: #333;
+`;
+
+const FullLengthGrid = styled(Grid)`
+  height: 100vh;
+`;
+
+const FormContainer = styled.div`
+  border: 1px solid grey;
+  border-radius: 10px;
+  width: 65%;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  background-color: white;
+  opacity: 0.8;
+`;
+
+const SignInForm = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
+
+const GradientLogo = styled(Typography)`
+  background: -webkit-linear-gradient(45deg, #2196f3 30%, #21cbf3 90%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+`;
+
+// export async function getStaticProps() {
+//   const store = await initializeStore();
+
+//   console.log(store);
+
+//   return {
+//     props: { ...store },
+//   };
+// }
 
 export default function Home() {
+  //const dispatch = useDispatch();
+  //const state = useSelector(state => state);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loginRedirect, setLoginRedirect] = useState(false);
+  const router = useRouter();
+
+  function logIn(e) {
+    fetch('http://localhost:3001/auth', {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+      headers: {
+        'content-type': 'application/json',
+      },
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(json => {
+        setLoginRedirect(true);
+      });
+  }
+
+  if (loginRedirect) {
+    router.push('/dashboard');
+  }
+
   return (
-    <div className="container">
+    <SignInContainer disableGutters={true} maxWidth="xl">
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Strength Book</title>
       </Head>
 
-      <main>
-        <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className="description">
-          Get started by editing <code>pages/index.js</code>
-        </p>
-
-        <div className="grid">
-          <a href="https://nextjs.org/docs" className="card">
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className="card">
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className="card"
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="card"
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className="logo" />
-        </a>
-      </footer>
-
-      <style jsx>{`
-        .container {
-          min-height: 100vh;
-          padding: 0 0.5rem;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
-        footer {
-          width: 100%;
-          height: 100px;
-          border-top: 1px solid #eaeaea;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        footer img {
-          margin-left: 0.5rem;
-        }
-
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        a {
-          color: inherit;
-          text-decoration: none;
-        }
-
-        .title a {
-          color: #0070f3;
-          text-decoration: none;
-        }
-
-        .title a:hover,
-        .title a:focus,
-        .title a:active {
-          text-decoration: underline;
-        }
-
-        .title {
-          margin: 0;
-          line-height: 1.15;
-          font-size: 4rem;
-        }
-
-        .title,
-        .description {
-          text-align: center;
-        }
-
-        .description {
-          line-height: 1.5;
-          font-size: 1.5rem;
-        }
-
-        code {
-          background: #fafafa;
-          border-radius: 5px;
-          padding: 0.75rem;
-          font-size: 1.1rem;
-          font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-            DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-        }
-
-        .grid {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-wrap: wrap;
-
-          max-width: 800px;
-          margin-top: 3rem;
-        }
-
-        .card {
-          margin: 1rem;
-          flex-basis: 45%;
-          padding: 1.5rem;
-          text-align: left;
-          color: inherit;
-          text-decoration: none;
-          border: 1px solid #eaeaea;
-          border-radius: 10px;
-          transition: color 0.15s ease, border-color 0.15s ease;
-        }
-
-        .card:hover,
-        .card:focus,
-        .card:active {
-          color: #0070f3;
-          border-color: #0070f3;
-        }
-
-        .card h3 {
-          margin: 0 0 1rem 0;
-          font-size: 1.5rem;
-        }
-
-        .card p {
-          margin: 0;
-          font-size: 1.25rem;
-          line-height: 1.5;
-        }
-
-        .logo {
-          height: 1em;
-        }
-
-        @media (max-width: 600px) {
-          .grid {
-            width: 100%;
-            flex-direction: column;
-          }
-        }
-      `}</style>
+      <FullLengthGrid container alignItems="center">
+        <Grid item xs={8}>
+          <GradientLogo variant="h1">Strength Book</GradientLogo>
+        </Grid>
+        <Grid item xs={4}>
+          <FormContainer>
+            <SignInForm onSubmit={e => logIn(e)}>
+              <Grid container spacing={2} justify="center">
+                <Grid item>
+                  <FormControl>
+                    <label htmlFor="username">
+                      <Typography variant="h5">username</Typography>
+                    </label>
+                    <Input
+                      id="username"
+                      //type="email"
+                      placeholder="username"
+                      onChange={e => {
+                        setEmail(e.target.value);
+                      }}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item>
+                  <FormControl>
+                    <label htmlFor="password">
+                      <Typography variant="h5">password</Typography>
+                    </label>
+                    <Input
+                      id="password"
+                      placeholder="password"
+                      type="password"
+                      onChange={e => setPassword(e.target.value)}
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Button type="submit">Sign In</Button>
+            </SignInForm>
+          </FormContainer>
+        </Grid>
+      </FullLengthGrid>
 
       <style jsx global>{`
         html,
@@ -204,6 +145,6 @@ export default function Home() {
           box-sizing: border-box;
         }
       `}</style>
-    </div>
+    </SignInContainer>
   );
 }
