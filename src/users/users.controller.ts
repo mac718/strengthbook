@@ -25,6 +25,13 @@ export class UsersController {
     return await this.usersService.editProfile(user, editProfileDto);
   }
 
+  @Post('/getuser')
+  async getCurrentUser(@Body() email): Promise<User> {
+    const user = await this.usersService.findOneByEmail(email.email);
+    console.log(user);
+    return user;
+  }
+
   @Get('test')
   @UseGuards(AuthGuard('jwt'))
   testAuthRoute(@GetUser() user: User) {
