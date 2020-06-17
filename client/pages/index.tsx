@@ -9,10 +9,10 @@ import {
   Input,
 } from '@material-ui/core';
 import styled from 'styled-components';
-//import { useSelector, useDispatch } from 'react-redux';
-//import { logIn, setEmail, setPassword } from '../redux/actions/auth-actions';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+
+const Cookies = require('js-cookie');
 
 const SignInContainer = styled(Container)`
   background-color: #333;
@@ -31,6 +31,7 @@ const FormContainer = styled.div`
   justify-content: center;
   background-color: white;
   opacity: 0.8;
+  box-shadow: 5px 5px 5px 5px #111;
 `;
 
 const SignInForm = styled.form`
@@ -45,19 +46,7 @@ const GradientLogo = styled(Typography)`
   font-weight: bold;
 `;
 
-// export async function getStaticProps() {
-//   const store = await initializeStore();
-
-//   console.log(store);
-
-//   return {
-//     props: { ...store },
-//   };
-// }
-
 export default function Home() {
-  //const dispatch = useDispatch();
-  //const state = useSelector(state => state);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginRedirect, setLoginRedirect] = useState(false);
@@ -80,7 +69,7 @@ export default function Home() {
         return res.json();
       })
       .then(json => {
-        console.log(JSON.stringify(json));
+        Cookies.set('email', json.user.email);
       });
   }
 
