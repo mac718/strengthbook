@@ -7,6 +7,7 @@ import {
   Grid,
   FormControl,
   Input,
+  TextField,
 } from '@material-ui/core';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
@@ -27,11 +28,8 @@ const FormContainer = styled.div`
   border-radius: 10px;
   width: 65%;
   padding: 20px;
-  display: flex;
-  justify-content: center;
+
   background-color: white;
-  opacity: 0.8;
-  box-shadow: 5px 5px 5px 5px #111;
 `;
 
 const SignInForm = styled.form`
@@ -46,18 +44,24 @@ const GradientLogo = styled(Typography)`
   font-weight: bold;
 `;
 
+const FirstLast = styled.div`
+  display: flex;
+`;
+
 export default function Home() {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginRedirect, setLoginRedirect] = useState(false);
   const router = useRouter();
 
-  function logIn(e) {
+  function signUp(e) {
     e.preventDefault();
     console.log('myerp');
-    fetch('http://localhost:3001/auth', {
+    fetch('http://localhost:3001/users', {
       method: 'POST',
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, password, firstName, lastName }),
       headers: {
         'content-type': 'application/json',
       },
@@ -89,38 +93,64 @@ export default function Home() {
         </Grid>
         <Grid item xs={4}>
           <FormContainer>
-            <SignInForm onSubmit={e => logIn(e)}>
-              <Grid container spacing={2} justify="center">
-                <Grid item>
-                  <FormControl>
-                    <label htmlFor="username">
-                      <Typography variant="h5">username</Typography>
-                    </label>
-                    <Input
-                      id="username"
-                      //type="email"
-                      placeholder="username"
-                      onChange={e => {
-                        setEmail(e.target.value);
-                      }}
-                    />
-                  </FormControl>
+            <SignInForm onSubmit={e => signUp(e)}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    id="firstName"
+                    label="First Name"
+                    placeholder="First Name"
+                    margin="normal"
+                    variant="outlined"
+                    autoFocus
+                    onChange={e => setFirstName(e.target.value)}
+                  />
                 </Grid>
-                <Grid item>
-                  <FormControl>
-                    <label htmlFor="password">
-                      <Typography variant="h5">password</Typography>
-                    </label>
-                    <Input
-                      id="password"
-                      placeholder="password"
-                      type="password"
-                      onChange={e => setPassword(e.target.value)}
-                    />
-                  </FormControl>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    id="lastName"
+                    label="Last Name"
+                    placeholder="Last Name"
+                    margin="normal"
+                    variant="outlined"
+                    onChange={e => setLastName(e.target.value)}
+                  />
                 </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    id="username"
+                    type="email"
+                    label="email"
+                    placeholder="username"
+                    margin="normal"
+                    variant="outlined"
+                    fullWidth
+                    onChange={e => {
+                      setEmail(e.target.value);
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    id="password"
+                    placeholder="password"
+                    type="password"
+                    label="password"
+                    margin="normal"
+                    variant="outlined"
+                    fullWidth
+                    onChange={e => setPassword(e.target.value)}
+                  />
+                </Grid>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                >
+                  Sign Up
+                </Button>
               </Grid>
-              <Button type="submit">Sign In</Button>
             </SignInForm>
           </FormContainer>
         </Grid>

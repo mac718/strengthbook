@@ -10,13 +10,13 @@ import { EditProfileDto } from './dto/edit-profile.dto';
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
-  @Post()
-  async createUser(
-    @Body() createUserDto: CreateUserDto,
-    editProfileDto: EditProfileDto,
-  ) {
-    return await this.usersService.createUser(createUserDto, editProfileDto);
-  }
+  // @Post()
+  // async createUser(
+  //   @Body() createUserDto: CreateUserDto,
+  //   editProfileDto: EditProfileDto,
+  // ) {
+  //   return await this.usersService.createUser(createUserDto, editProfileDto);
+  // }
 
   @Patch('edit-profile')
   @UseGuards(AuthGuard('jwt'))

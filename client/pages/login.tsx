@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { TextField, Button, Typography } from '@material-ui/core';
 import styled from 'styled-components';
+import { useRouter } from 'next/router';
+const Cookies = require('js-cookie');
 
 const PageContainer = styled.div`
   display: flex;
@@ -24,10 +26,33 @@ const FormContainer = styled.form`
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loginRedirect, setLoginRedirect] = useState(false);
+  const router = useRouter();
+
+  function logIn(e) {
+    e.preventDefault();
+    console.log('myerp');
+    fetch('http://localhost:3001/auth', {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+      headers: {
+        'content-type': 'application/json',
+      },
+    })
+      .then(res => {
+        if (res.status === 201) {
+          setLoginRedirect(true);
+        }
+        return res.json();
+      })
+      .then(json => {
+        Cookies.set('email', json.user.email);
+      });
+  }
 
   return (
     <PageContainer>
-      <FormContainer>
+      <FormContainer onSubmit={e => logIn(e)}>
         <Typography variant="h4">Strengthbook</Typography>
         <TextField
           variant="outlined"
@@ -36,6 +61,7 @@ const Login = () => {
           type="email"
           margin="normal"
           autoFocus
+          onChange={e => setEmail(e.target.value)}
         ></TextField>
 
         <TextField
@@ -44,9 +70,10 @@ const Login = () => {
           placeholder="password"
           type="password"
           margin="normal"
+          onChange={e => setPassword(e.target.value)}
         ></TextField>
 
-        <Button type="submit" variant="outlined" color="primary">
+        <Button type="submit" variant="contained" color="primary">
           Login
         </Button>
       </FormContainer>

@@ -17,10 +17,16 @@ export class UsersService {
     editProfileDto: EditProfileDto,
   ) {
     const user = await this.userModel.create(createUserDto);
-    // user.profile = await new this.profileModel(editProfileDto);
-    // user.profile.firstName = 'Butt';
+    user.profile = await new this.profileModel(editProfileDto);
+    user.profile.firstName = createUserDto.firstName;
+    user.profile.lastName = createUserDto.lastName;
 
-    //return await user.save();
+    await user.save((err, user) => {
+      if (err) {
+        throw new InternalServerErrorException('Could not create account.');
+      }
+    });
+
     console.log('shmerp', user);
     return user;
   }
