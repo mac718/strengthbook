@@ -40,6 +40,7 @@ const Login = () => {
       },
     })
       .then(res => {
+        console.log(res.status);
         if (res.status === 201) {
           setLoginRedirect(true);
         }
@@ -47,7 +48,13 @@ const Login = () => {
       })
       .then(json => {
         Cookies.set('email', json.user.email);
-      });
+        Cookies.set('token', json.token);
+      })
+      .catch(err => alert('error loggin in'));
+  }
+
+  if (loginRedirect) {
+    router.push('/dashboard');
   }
 
   return (

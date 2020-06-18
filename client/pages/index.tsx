@@ -59,7 +59,7 @@ export default function Home() {
   function signUp(e) {
     e.preventDefault();
     console.log('myerp');
-    fetch('http://localhost:3001/users', {
+    fetch('http://localhost:3001/auth/signup', {
       method: 'POST',
       body: JSON.stringify({ email, password, firstName, lastName }),
       headers: {
@@ -74,6 +74,7 @@ export default function Home() {
       })
       .then(json => {
         Cookies.set('email', json.user.email);
+        Cookies.set('token', json.token);
       });
   }
 

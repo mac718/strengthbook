@@ -20,10 +20,10 @@ const Greeting = styled(Typography)`
 
 const Dashboard = ({ user }: DashboardProps) => {
   return (
-    <AppBar color="secondary" position="fixed">
+    <AppBar color="primary" position="fixed">
       <NavBar>
         <Typography variant="h5">Strengthbook</Typography>
-        <Typography>Hi, {user.email}!</Typography>
+        <Typography>Hi, {user.profile.firstName}!</Typography>
       </NavBar>
     </AppBar>
   );
@@ -31,18 +31,22 @@ const Dashboard = ({ user }: DashboardProps) => {
 
 export const getServerSideProps: GetServerSideProps = async context => {
   const { email } = cookies(context);
+  const { token } = cookies(context);
 
   console.log(email);
+  console.log(token);
 
   let user = await fetch('http://localhost:3001/users/getuser', {
     method: 'POST',
     body: JSON.stringify({ email }),
     headers: {
       'content-type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
   })
     .then(res => res.json())
-    .then(json => json);
+    .then(json => json)
+    .catch(err => console.error('not authorized ', err));
 
   return {
     props: { user },

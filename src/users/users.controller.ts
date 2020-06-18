@@ -1,6 +1,5 @@
 import { Controller, Post, Body, Get, UseGuards, Patch } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from '../auth/get-user.decorator';
 import { User } from './user.interface';
@@ -26,6 +25,7 @@ export class UsersController {
   }
 
   @Post('/getuser')
+  @UseGuards(AuthGuard('jwt'))
   async getCurrentUser(@Body() email): Promise<User> {
     const user = await this.usersService.findOneByEmail(email.email);
     console.log(user);
