@@ -68,6 +68,7 @@ const Login = () => {
           type="email"
           margin="normal"
           autoFocus
+          required
           onChange={e => setEmail(e.target.value)}
         ></TextField>
 
@@ -77,6 +78,7 @@ const Login = () => {
           placeholder="password"
           type="password"
           margin="normal"
+          required
           onChange={e => setPassword(e.target.value)}
         ></TextField>
 

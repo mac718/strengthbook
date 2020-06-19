@@ -4,11 +4,13 @@ import * as bcrypt from 'bcrypt';
 export const ProfileSchema = new mongoose.Schema({
   firstName: String,
   lastName: String,
+  bodyweight: Number,
 });
 
 export interface IProfile extends mongoose.Document {
   firstName: string;
   lastName: string;
+  bodyweigt: number;
 }
 
 export interface IUser extends mongoose.Document {

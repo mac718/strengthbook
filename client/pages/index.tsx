@@ -1,12 +1,11 @@
 import React from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 import {
   Typography,
   Button,
   Container,
   Grid,
-  FormControl,
-  Input,
   TextField,
 } from '@material-ui/core';
 import styled from 'styled-components';
@@ -94,6 +93,7 @@ export default function Home() {
         </Grid>
         <Grid item xs={4}>
           <FormContainer>
+            <Typography variant="h4">Sign Up!</Typography>
             <SignInForm onSubmit={e => signUp(e)}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
@@ -104,6 +104,7 @@ export default function Home() {
                     margin="normal"
                     variant="outlined"
                     autoFocus
+                    required
                     onChange={e => setFirstName(e.target.value)}
                   />
                 </Grid>
@@ -114,6 +115,7 @@ export default function Home() {
                     placeholder="Last Name"
                     margin="normal"
                     variant="outlined"
+                    required
                     onChange={e => setLastName(e.target.value)}
                   />
                 </Grid>
@@ -126,6 +128,7 @@ export default function Home() {
                     margin="normal"
                     variant="outlined"
                     fullWidth
+                    required
                     onChange={e => {
                       setEmail(e.target.value);
                     }}
@@ -140,6 +143,7 @@ export default function Home() {
                     margin="normal"
                     variant="outlined"
                     fullWidth
+                    required
                     onChange={e => setPassword(e.target.value)}
                   />
                 </Grid>
@@ -151,6 +155,13 @@ export default function Home() {
                 >
                   Sign Up
                 </Button>
+                <Grid container justify="flex-end">
+                  <Grid item>
+                    <Link href="/login">
+                      <a>Already have an account? Sign in</a>
+                    </Link>
+                  </Grid>
+                </Grid>
               </Grid>
             </SignInForm>
           </FormContainer>
