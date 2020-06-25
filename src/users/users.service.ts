@@ -35,6 +35,8 @@ export class UsersService {
     console.log(editProfileDto);
     user.profile.firstName = editProfileDto.firstName;
     user.profile.lastName = editProfileDto.lastName;
+    user.profile.bodyweight = editProfileDto.bodyWeight;
+
     user.save((err, user) => {
       if (err) {
         throw new InternalServerErrorException('profile could not be saved.');

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import styled from 'styled-components';
 import { Typography } from '@material-ui/core';
+import NewWokoutDialog from '../NewWorkoutDialog';
 
 const StyledTh = styled.th`
   background-color: #456990;
@@ -12,11 +13,22 @@ const StyledTable = styled.table`
   width: 85%;
   border: 1px solid #333;
   height: 85vh;
+  margin: auto;
+`;
+
+const BlankTd = styled.td`
+  border: 1px solid #333;
+  height: 8em;
+  background-color: lightGrey;
 `;
 
 const StyledTd = styled.td`
   border: 1px solid #333;
-  height: 20%;
+  height: 8em;
+`;
+
+const TodayTd = styled(StyledTd)`
+  background-color: #ef767a;
 `;
 
 const DateDiv = styled.div`
@@ -25,10 +37,11 @@ const DateDiv = styled.div`
 `;
 
 const MonthHeading = styled.div`
-  background-color: #ef767a;
+  background-color: #49dcb1;
   height: 50px;
   width: 85%;
   text-align: center;
+  margin: auto;
 `;
 
 const PreviousMonthArrow = styled.span`
@@ -37,6 +50,16 @@ const PreviousMonthArrow = styled.span`
 
 const NextMonthArrow = styled.span`
   float: right;
+`;
+
+const CalenderContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const CalDiv = styled.div`
+  width: 100%;
 `;
 
 const Calender: React.FC = () => {
@@ -65,17 +88,27 @@ const Calender: React.FC = () => {
   let blanks = [];
 
   for (let i = 0; i < parseInt(firstDayOfMonth()); i++) {
-    blanks.push(<StyledTd className="calendar-day empty">{''}</StyledTd>);
+    blanks.push(<BlankTd className="calendar-day empty">{''}</BlankTd>);
   }
 
   let daysInMonthArr = [];
 
-  for (let d = 1; d < daysInMonth; d++) {
-    daysInMonthArr.push(
-      <StyledTd className="calendar-day">
-        <DateDiv>{d}</DateDiv>
-      </StyledTd>,
-    );
+  for (let d = 1; d <= daysInMonth; d++) {
+    if (d === moment().date()) {
+      daysInMonthArr.push(
+        <TodayTd className="calendar-day">
+          <NewWokoutDialog />
+          <DateDiv>{d}</DateDiv>
+        </TodayTd>,
+      );
+    } else {
+      daysInMonthArr.push(
+        <StyledTd className="calendar-day">
+          <NewWokoutDialog />
+          <DateDiv>{d}</DateDiv>
+        </StyledTd>,
+      );
+    }
   }
 
   let totalSlots = [...blanks, ...daysInMonthArr];
@@ -118,25 +151,27 @@ const Calender: React.FC = () => {
   }
 
   return (
-    <>
-      <MonthHeading>
-        <PreviousMonthArrow onClick={() => handlePrevisousMonthClick()}>
-          Prev
-        </PreviousMonthArrow>
-        <NextMonthArrow onClick={() => handleNextMonthClick()}>
-          Next
-        </NextMonthArrow>
-        <Typography variant="h3" color="textSecondary">
-          {month()} {year()}
-        </Typography>
-      </MonthHeading>
-      <StyledTable className="calendar-day">
-        <thead>
-          <tr>{daysOfWeek}</tr>
-        </thead>
-        <tbody>{daysinmonth}</tbody>
-      </StyledTable>
-    </>
+    <CalenderContainer>
+      <CalDiv>
+        <MonthHeading>
+          <PreviousMonthArrow onClick={() => handlePrevisousMonthClick()}>
+            <i className="fas fa-angle-left"></i>
+          </PreviousMonthArrow>
+          <NextMonthArrow onClick={() => handleNextMonthClick()}>
+            <i className="fas fa-angle-right"></i>
+          </NextMonthArrow>
+          <Typography variant="h3" color="textSecondary">
+            {month()} {year()}
+          </Typography>
+        </MonthHeading>
+        <StyledTable className="calendar-day">
+          <thead>
+            <tr>{daysOfWeek}</tr>
+          </thead>
+          <tbody>{daysinmonth}</tbody>
+        </StyledTable>
+      </CalDiv>
+    </CalenderContainer>
   );
 };
 
