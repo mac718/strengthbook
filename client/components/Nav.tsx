@@ -15,6 +15,10 @@ const NavBar = styled(Toolbar)`
   justify-content: space-between;
 `;
 
+const AppBarMargin = styled(AppBar)`
+  margin-bottom: 75px;
+`;
+
 const Nav = ({ user }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -26,7 +30,7 @@ const Nav = ({ user }) => {
     setAnchorEl(null);
   };
   return (
-    <AppBar color="primary">
+    <AppBarMargin color="primary" position="static">
       <NavBar>
         <Typography variant="h5">Strengthbook</Typography>
         <Typography>Hi, {user.profile.firstName}!</Typography>
@@ -47,14 +51,16 @@ const Nav = ({ user }) => {
             onClose={handleClose}
           >
             <MenuItem onClick={handleClose}>
-              <Link href="/profile">Profile</Link>
+              <Link href="/profile">
+                <a>Profile</a>
+              </Link>
             </MenuItem>
             <MenuItem onClick={handleClose}>My account</MenuItem>
             <MenuItem onClick={handleClose}>Logout</MenuItem>
           </Menu>
         </div>
       </NavBar>
-    </AppBar>
+    </AppBarMargin>
   );
 };
 

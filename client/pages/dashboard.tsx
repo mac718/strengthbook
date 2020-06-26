@@ -2,31 +2,13 @@ import React from 'react';
 import { GetServerSideProps } from 'next';
 import { User } from '../types';
 import cookies from 'next-cookies';
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  Menu,
-  MenuItem,
-  Grid,
-} from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
+import { Typography, Grid } from '@material-ui/core';
 import styled from 'styled-components';
-import Link from 'next/link';
+import Nav from '../components/Nav';
 
 interface DashboardProps {
   user: User;
 }
-
-const NavBar = styled(Toolbar)`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const Greeting = styled(Typography)`
-  margin-right: 50px;
-`;
 
 const ProfileDiv = styled(Grid)`
   height: 15vh;
@@ -38,46 +20,9 @@ const DashboardGrid = styled(Grid)`
 `;
 
 const Dashboard = ({ user }: DashboardProps) => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
   return (
     <div>
-      <AppBar color="primary">
-        <NavBar>
-          <Typography variant="h5">Strengthbook</Typography>
-          <Typography>Hi, {user.profile.firstName}!</Typography>
-          <div>
-            <Button
-              aria-controls="simple-menu"
-              aria-haspopup="true"
-              onClick={handleClick}
-              variant="contained"
-            >
-              Open Menu
-            </Button>
-            <Menu
-              id="simple-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
-              <MenuItem onClick={handleClose}>
-                <Link href="/profile">Profile</Link>
-              </MenuItem>
-              <MenuItem onClick={handleClose}>My account</MenuItem>
-              <MenuItem onClick={handleClose}>Logout</MenuItem>
-            </Menu>
-          </div>
-        </NavBar>
-      </AppBar>
+      <Nav user={user} />
       <DashboardGrid container>
         <ProfileDiv item xs={3}>
           <Typography variant="h4">Profile</Typography>
