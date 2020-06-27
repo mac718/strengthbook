@@ -12,6 +12,8 @@ import {
 import Nav from '../components/Nav';
 import { User } from '../types';
 import styled from 'styled-components';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
 
 interface ProfileProps {
   user: User;
@@ -28,10 +30,24 @@ const ProfileContainer = styled.form`
 
 const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
   const [showForm, setShowForm] = useState(false);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const router = useRouter();
 
   const handleSaveChanges = e => {
     e.preventDefault();
-    console.log('thing');
+    const token = Cookies.get('token');
+    fetch('http://localhost:3001/users/edit-profile', {
+      method: 'PATCH',
+      body: JSON.stringify({ firstName, lastName }),
+      headers: {
+        'content-type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(() => {
+      setShowForm(!showForm);
+      router.push('/profile');
+    });
   };
 
   if (showForm) {
@@ -52,6 +68,7 @@ const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
                 variant="outlined"
                 defaultValue={user.profile.firstName}
                 fullWidth
+                onChange={e => setFirstName(e.target.value)}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -62,6 +79,7 @@ const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
                 variant="outlined"
                 defaultValue={user.profile.lastName}
                 fullWidth
+                onChange={e => setLastName(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
