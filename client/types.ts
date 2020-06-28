@@ -7,5 +7,6 @@ export type User = {
 export type Profile = {
   firstName: string;
   lastName: string;
-  bodyWeight: number;
+  bodyweight: number;
+  dob: Date;
 };

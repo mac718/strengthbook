@@ -35,7 +35,8 @@ export class UsersService {
     console.log(editProfileDto);
     user.profile.firstName = editProfileDto.firstName;
     user.profile.lastName = editProfileDto.lastName;
-    user.profile.bodyweight = editProfileDto.bodyWeight;
+    user.profile.bodyweight = editProfileDto.bodyweight;
+    user.profile.dob = editProfileDto.dob;
 
     user.save((err, user) => {
       if (err) {

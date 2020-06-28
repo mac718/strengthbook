@@ -14,6 +14,7 @@ import { User } from '../types';
 import styled from 'styled-components';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
+import moment from 'moment';
 
 interface ProfileProps {
   user: User;
@@ -30,8 +31,12 @@ const ProfileContainer = styled.form`
 
 const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
   const [showForm, setShowForm] = useState(false);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  //   const [firstName, setFirstName] = useState(user.profile.firstName);
+  //   const [lastName, setLastName] = useState(user.profile.lastName);
+  //   const [bodyweight, setBodyweight] = useState(user.profile.bodyweight);
+  //   const [dob, setDob] = useState(user.profile.dob);
+  const [profile, setProfile] = useState(user.profile);
+
   const router = useRouter();
 
   const handleSaveChanges = e => {
@@ -39,14 +44,19 @@ const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
     const token = Cookies.get('token');
     fetch('http://localhost:3001/users/edit-profile', {
       method: 'PATCH',
-      body: JSON.stringify({ firstName, lastName }),
+      body: JSON.stringify({
+        firstName: profile.firstName,
+        lastName: profile.lastName,
+        bodyweight: profile.bodyweight,
+        dob: profile.dob,
+      }),
       headers: {
         'content-type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     }).then(() => {
       setShowForm(!showForm);
-      router.push('/profile');
+      //router.push('/profile');
     });
   };
 
@@ -66,9 +76,11 @@ const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
                 label="First Name"
                 margin="normal"
                 variant="outlined"
-                defaultValue={user.profile.firstName}
+                defaultValue={profile.firstName}
                 fullWidth
-                onChange={e => setFirstName(e.target.value)}
+                onChange={e =>
+                  setProfile({ ...profile, firstName: e.target.value })
+                }
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -77,9 +89,11 @@ const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
                 label="Last Name"
                 margin="normal"
                 variant="outlined"
-                defaultValue={user.profile.lastName}
+                defaultValue={profile.lastName}
                 fullWidth
-                onChange={e => setLastName(e.target.value)}
+                onChange={e =>
+                  setProfile({ ...profile, lastName: e.target.value })
+                }
               />
             </Grid>
             <Grid item xs={12}>
@@ -88,8 +102,29 @@ const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
                 label="Bodyweight"
                 margin="normal"
                 variant="outlined"
-                defaultValue={user.profile.bodyWeight}
+                defaultValue={profile.bodyweight}
                 fullWidth
+                onChange={e =>
+                  setProfile({
+                    ...profile,
+                    bodyweight: parseFloat(e.target.value),
+                  })
+                }
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="dob"
+                label="Birthday"
+                margin="normal"
+                variant="outlined"
+                defaultValue={profile.dob}
+                type="date"
+                InputLabelProps={{ shrink: true }}
+                fullWidth
+                onChange={e =>
+                  setProfile({ ...profile, dob: new Date(e.target.value) })
+                }
               />
             </Grid>
           </Grid>
@@ -112,17 +147,19 @@ const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
         <List>
           <ListItem>
             <Typography variant="h5">
-              Name: {user.profile.firstName} {user.profile.lastName}
+              Name: {profile.firstName} {profile.lastName}
             </Typography>
           </ListItem>
           <ListItem>
-            <Typography variant="h5">Age: 3000</Typography>
+            <Typography variant="h5">Birthday: {profile.dob}</Typography>
           </ListItem>
           <ListItem>
             <Typography variant="h5">Sex: M</Typography>
           </ListItem>
           <ListItem>
-            <Typography variant="h5">Bodyweight: 220 lbs</Typography>
+            <Typography variant="h5">
+              Bodyweight: {profile.bodyweight}
+            </Typography>
           </ListItem>
         </List>
       </ProfileContainer>

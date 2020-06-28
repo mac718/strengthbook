@@ -1,5 +1,6 @@
 export class EditProfileDto {
   firstName: string;
   lastName: string;
-  bodyWeight: number;
+  bodyweight: number;
+  dob: Date;
 }
