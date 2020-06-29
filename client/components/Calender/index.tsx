@@ -101,14 +101,14 @@ const Calender: React.FC = () => {
     if (d === moment().date()) {
       daysInMonthArr.push(
         <TodayTd key={d} className="calendar-day">
-          <NewWokoutDialog />
+          <NewWokoutDialog date={new Date()} />
           <DateDiv>{d}</DateDiv>
         </TodayTd>,
       );
     } else {
       daysInMonthArr.push(
         <StyledTd key={d} className="calendar-day">
-          <NewWokoutDialog />
+          <NewWokoutDialog date={new Date()} />
           <DateDiv>{d}</DateDiv>
         </StyledTd>,
       );

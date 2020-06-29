@@ -1,42 +1,47 @@
 import React from 'react';
-import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import Dialog, { DialogProps } from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import Switch from '@material-ui/core/Switch';
+import Dialog from '@material-ui/core/Dialog';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItem from '@material-ui/core/ListItem';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import CloseIcon from '@material-ui/icons/Close';
 import AddBoxIcon from '@material-ui/icons/AddBox';
+import Slide from '@material-ui/core/Slide';
+import { TransitionProps } from '@material-ui/core/transitions';
+import NewWorkoutForm from './NewWokoutForm';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    form: {
-      display: 'flex',
-      flexDirection: 'column',
-      margin: 'auto',
-      width: 'fit-content',
+    appBar: {
+      position: 'relative',
     },
-    formControl: {
-      marginTop: theme.spacing(2),
-      minWidth: 120,
-    },
-    formControlLabel: {
-      marginTop: theme.spacing(1),
+    title: {
+      marginLeft: theme.spacing(2),
+      flex: 1,
     },
   }),
 );
 
-export default function NewWorkoutDialog() {
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & { children?: React.ReactElement },
+  ref: React.Ref<unknown>,
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+interface NewWorkoutDialogProps {
+  date: Date;
+}
+
+export default function NewWorkoutDialog({ date }: NewWorkoutDialogProps) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [fullWidth, setFullWidth] = React.useState(true);
-  const [maxWidth, setMaxWidth] = React.useState<DialogProps['maxWidth']>('sm');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -46,67 +51,34 @@ export default function NewWorkoutDialog() {
     setOpen(false);
   };
 
-  const handleMaxWidthChange = (
-    event: React.ChangeEvent<{ value: unknown }>,
-  ) => {
-    setMaxWidth(event.target.value as DialogProps['maxWidth']);
-  };
-
-  const handleFullWidthChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setFullWidth(event.target.checked);
-  };
-
   return (
     <React.Fragment>
       <AddBoxIcon onClick={handleClickOpen} />
       <Dialog
-        fullWidth={fullWidth}
-        maxWidth={maxWidth}
+        fullScreen
         open={open}
         onClose={handleClose}
-        aria-labelledby="max-width-dialog-title"
+        TransitionComponent={Transition}
       >
-        <DialogTitle id="max-width-dialog-title">Optional sizes</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            You can set my maximum width and whether to adapt or not.
-          </DialogContentText>
-          <form className={classes.form} noValidate>
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="max-width">maxWidth</InputLabel>
-              <Select
-                autoFocus
-                value={maxWidth}
-                onChange={handleMaxWidthChange}
-                inputProps={{
-                  name: 'max-width',
-                  id: 'max-width',
-                }}
-              >
-                <MenuItem value={false as any}>false</MenuItem>
-                <MenuItem value="xs">xs</MenuItem>
-                <MenuItem value="sm">sm</MenuItem>
-                <MenuItem value="md">md</MenuItem>
-                <MenuItem value="lg">lg</MenuItem>
-                <MenuItem value="xl">xl</MenuItem>
-              </Select>
-            </FormControl>
-            <FormControlLabel
-              className={classes.formControlLabel}
-              control={
-                <Switch checked={fullWidth} onChange={handleFullWidthChange} />
-              }
-              label="Full width"
-            />
-          </form>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Close
-          </Button>
-        </DialogActions>
+        <AppBar className={classes.appBar}>
+          <Toolbar>
+            <IconButton
+              edge="start"
+              color="inherit"
+              onClick={handleClose}
+              aria-label="close"
+            >
+              <CloseIcon />
+            </IconButton>
+            <Typography variant="h6" className={classes.title}>
+              New Workout {date.toLocaleString()}
+            </Typography>
+            <Button autoFocus color="inherit" onClick={handleClose}>
+              save
+            </Button>
+          </Toolbar>
+        </AppBar>
+        <NewWorkoutForm date={new Date()} />
       </Dialog>
     </React.Fragment>
   );

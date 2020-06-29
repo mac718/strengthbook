@@ -5,6 +5,7 @@ import cookies from 'next-cookies';
 import { Typography, Grid } from '@material-ui/core';
 import styled from 'styled-components';
 import Nav from '../components/Nav';
+import { useRouter } from 'next/router';
 
 interface DashboardProps {
   user: User;
@@ -35,6 +36,7 @@ const Dashboard = ({ user }: DashboardProps) => {
 export const getServerSideProps: GetServerSideProps = async context => {
   const { email } = cookies(context);
   const { token } = cookies(context);
+  const router = useRouter();
 
   console.log(email);
   console.log(token);
@@ -47,7 +49,12 @@ export const getServerSideProps: GetServerSideProps = async context => {
       Authorization: `Bearer ${token}`,
     },
   })
-    .then(res => res.json())
+    .then(res => {
+      if (res.status !== 200) {
+        router.push('/login');
+      }
+      res.json();
+    })
     .then(json => json)
     .catch(err => console.error('not authorized ', err));
 

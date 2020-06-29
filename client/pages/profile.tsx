@@ -54,9 +54,11 @@ const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
         'content-type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-    }).then(() => {
+    }).then(res => {
       setShowForm(!showForm);
-      //router.push('/profile');
+      if (res.status !== 200) {
+        router.push('/login');
+      }
     });
   };
 
@@ -67,7 +69,7 @@ const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
 
         <ProfileContainer onSubmit={e => handleSaveChanges(e)}>
           <Button variant="outlined" onClick={() => setShowForm(!showForm)}>
-            Edit Profile
+            Back to Profile
           </Button>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
