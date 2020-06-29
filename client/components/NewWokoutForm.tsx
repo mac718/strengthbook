@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Button, Menu, MenuItem } from '@material-ui/core';
+import ExerciseEntry from '../components/ExerciseEntry';
 
 interface NewWorkoutFormProps {
   date: Date;
 }
 
 const NewWorkoutForm = ({ date }: NewWorkoutFormProps) => {
-  const [exercises, setExercises] = useState([]);
+  const [exercises, setExercises] = useState(['Hello']);
   const [sets, setSets] = useState({});
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -20,7 +21,7 @@ const NewWorkoutForm = ({ date }: NewWorkoutFormProps) => {
 
   const addExercise = e => {
     e.preventDefault();
-    const exercise = e.target.firstChild.innerText;
+    const exercise = e.target.innerText;
     setExercises([...exercises, exercise]);
     console.log(e.target.innerText);
     handleClose();
@@ -31,6 +32,12 @@ const NewWorkoutForm = ({ date }: NewWorkoutFormProps) => {
     const setNumber = Object.keys(sets).length + 1;
     setSets({ ...sets, setNumber: { weight: 0, reps: 0, RPE: 0 } });
   };
+
+  const exerciseDivs = exercises.map(exercise => {
+    return <ExerciseEntry exercise={exercise} />;
+  });
+
+  console.log(exercises);
 
   return (
     <>
@@ -58,6 +65,7 @@ const NewWorkoutForm = ({ date }: NewWorkoutFormProps) => {
           </Menu>
         </div>
       </form>
+      {exerciseDivs}
     </>
   );
 };
