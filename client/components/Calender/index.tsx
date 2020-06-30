@@ -62,7 +62,7 @@ const CalDiv = styled.div`
   width: 100%;
 `;
 
-const Calender: React.FC = () => {
+const Calender = ({ user }) => {
   const currentDate = moment();
   const [dateObject, setDateObject] = useState(currentDate);
   const weekdayShort = moment.weekdaysShort();

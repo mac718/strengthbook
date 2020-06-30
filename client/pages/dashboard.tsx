@@ -48,7 +48,6 @@ export const getServerSideProps: GetServerSideProps = async context => {
     },
   })
     .then(res => {
-      console.log('thing', res.status);
       if (res.status === 401) {
         context.res.setHeader('Location', '/login');
         context.res.statusCode = 302;

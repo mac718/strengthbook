@@ -56,7 +56,16 @@ const Nav = ({ user }) => {
                 <a>Profile</a>
               </Link>
             </MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
+            <MenuItem onClick={handleClose}>
+              <Link href="/dashboard">
+                <a>Dashboard</a>
+              </Link>
+            </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <Link href="/calender">
+                <a>Calender</a>
+              </Link>
+            </MenuItem>
             <MenuItem onClick={handleClose}>Logout</MenuItem>
           </Menu>
         </div>

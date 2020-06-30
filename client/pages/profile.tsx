@@ -15,6 +15,7 @@ import styled from 'styled-components';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import moment from 'moment';
+import { mainModule } from 'process';
 
 interface ProfileProps {
   user: User;
@@ -120,13 +121,16 @@ const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
                 label="Birthday"
                 margin="normal"
                 variant="outlined"
-                defaultValue={profile.dob}
+                defaultValue={moment(profile.dob).format('YYYY-MM-DD')}
                 type="date"
                 InputLabelProps={{ shrink: true }}
                 fullWidth
-                onChange={e =>
-                  setProfile({ ...profile, dob: new Date(e.target.value) })
-                }
+                onChange={e => {
+                  console.log(e.target.value);
+                  let dateArr = e.target.value.split('-');
+                  let date = `${dateArr[1]}-${dateArr[2]}-${dateArr[0]}`;
+                  setProfile({ ...profile, dob: new Date(date) });
+                }}
               />
             </Grid>
           </Grid>
@@ -153,7 +157,11 @@ const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
             </Typography>
           </ListItem>
           <ListItem>
-            <Typography variant="h5">Birthday: {profile.dob}</Typography>
+            <Typography variant="h5">
+              Birthday: {moment(profile.dob).format('YYYY-MM-DD')} (Age:{' '}
+              {moment().diff(moment(profile.dob).format('YYYY-MM-DD'), 'years')}
+              )
+            </Typography>
           </ListItem>
           <ListItem>
             <Typography variant="h5">Sex: M</Typography>
@@ -181,7 +189,15 @@ export const getServerSideProps: GetServerSideProps = async context => {
       Authorization: `Bearer ${token}`,
     },
   })
-    .then(res => res.json())
+    .then(res => {
+      if (res.status === 401) {
+        context.res.setHeader('Location', '/login');
+        context.res.statusCode = 302;
+        context.res.end();
+        return;
+      }
+      return res.json();
+    })
     .then(json => json)
     .catch(err => console.error('not authorized ', err));
 

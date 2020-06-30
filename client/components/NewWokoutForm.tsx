@@ -1,15 +1,41 @@
 import React, { useState } from 'react';
-import { Button, Menu, MenuItem } from '@material-ui/core';
+import {
+  Button,
+  Menu,
+  MenuItem,
+  Grid,
+  Box,
+  List,
+  ListItem,
+  Typography,
+} from '@material-ui/core';
 import ExerciseEntry from '../components/ExerciseEntry';
+import styled from 'styled-components';
 
 interface NewWorkoutFormProps {
   date: Date;
 }
 
+const ExerciseMenu = styled(Box)`
+  height: 50vh;
+  border: 1px solid lightGrey;
+  margin-top: 50px;
+  margin-left: 15px;
+  margin-right: 15px;
+  overflow: scroll;
+`;
+
+const MenuItemDiv = styled(ListItem)`
+  &:hover {
+    background-color: #eeb868;
+  }
+`;
+
 const NewWorkoutForm = ({ date }: NewWorkoutFormProps) => {
   const [exercises, setExercises] = useState(['Hello']);
   const [sets, setSets] = useState({});
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  //const [menuItemHighlight, setItemMenuHighlight] = useState(false);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -37,7 +63,23 @@ const NewWorkoutForm = ({ date }: NewWorkoutFormProps) => {
     return <ExerciseEntry exercise={exercise} />;
   });
 
-  console.log(exercises);
+  let exerciseList = [
+    'Low Bar Squat with Belt',
+    'High Bar Squat with Belt',
+    '2-count Paused Low Bar Squat with Belt',
+    'Competition Bench',
+    '2-count Paused Bench',
+    'Conventional Deadlift with Belt',
+    'Sumo Deadlift with Belt',
+  ];
+
+  const exerciseMenuItems = exerciseList.map(exercise => {
+    return (
+      <MenuItemDiv>
+        <Typography>{exercise}</Typography>
+      </MenuItemDiv>
+    );
+  });
 
   return (
     <>
@@ -65,7 +107,16 @@ const NewWorkoutForm = ({ date }: NewWorkoutFormProps) => {
           </Menu>
         </div>
       </form>
-      {exerciseDivs}
+      <Grid container spacing={2}>
+        <Grid item xs={8}>
+          {exerciseDivs}
+        </Grid>
+        <Grid item xs={4}>
+          <ExerciseMenu>
+            <List>{exerciseMenuItems}</List>
+          </ExerciseMenu>
+        </Grid>
+      </Grid>
     </>
   );
 };
