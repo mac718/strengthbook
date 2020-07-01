@@ -15,7 +15,6 @@ import styled from 'styled-components';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import moment from 'moment';
-import { mainModule } from 'process';
 
 interface ProfileProps {
   user: User;

@@ -19,44 +19,45 @@ interface NewWorkoutFormProps {
 const ExerciseMenu = styled(Box)`
   height: 50vh;
   border: 1px solid lightGrey;
-  margin-top: 50px;
   margin-left: 15px;
   margin-right: 15px;
   overflow: scroll;
 `;
 
+const ExerciseMenuContainer = styled(Grid)`
+  position: fixed;
+  right: calc(1vw - 10px);
+`;
+
 const MenuItemDiv = styled(ListItem)`
   &:hover {
-    background-color: #eeb868;
+    background-color: #49dcb1;
   }
 `;
 
+const SubmitWorkoutButton = styled(Button)`
+  width: 50%;
+  background-color: #9fb7d1 !important;
+`;
+
+const WorkoutForm = styled.form`
+  margin-top: 25px;
+`;
+
+const SubmitButtonContainer = styled.div`
+  width: 100%;
+  display: flex;
+`;
+
 const NewWorkoutForm = ({ date }: NewWorkoutFormProps) => {
-  const [exercises, setExercises] = useState(['Hello']);
+  const [exercises, setExercises] = useState([]);
   const [sets, setSets] = useState({});
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  //const [menuItemHighlight, setItemMenuHighlight] = useState(false);
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const addExercise = e => {
     e.preventDefault();
     const exercise = e.target.innerText;
     setExercises([...exercises, exercise]);
     console.log(e.target.innerText);
-    handleClose();
-  };
-
-  const addSet = e => {
-    e.preventDefault();
-    const setNumber = Object.keys(sets).length + 1;
-    setSets({ ...sets, setNumber: { weight: 0, reps: 0, RPE: 0 } });
   };
 
   const exerciseDivs = exercises.map(exercise => {
@@ -73,9 +74,9 @@ const NewWorkoutForm = ({ date }: NewWorkoutFormProps) => {
     'Sumo Deadlift with Belt',
   ];
 
-  const exerciseMenuItems = exerciseList.map(exercise => {
+  const exerciseMenuItems = exerciseList.map((exercise, i) => {
     return (
-      <MenuItemDiv>
+      <MenuItemDiv key={i * 10} onDoubleClick={e => addExercise(e)}>
         <Typography>{exercise}</Typography>
       </MenuItemDiv>
     );
@@ -83,40 +84,23 @@ const NewWorkoutForm = ({ date }: NewWorkoutFormProps) => {
 
   return (
     <>
-      <form>
-        <div>
-          <Button
-            aria-controls="simple-menu"
-            aria-haspopup="true"
-            onClick={handleClick}
-          >
-            Exercise Menu
-          </Button>
-          <Menu
-            id="simple-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-          >
-            <MenuItem onClick={e => addExercise(e)}>
-              Low Bar Squat w/belt
-            </MenuItem>
-            <MenuItem onClick={e => addExercise(e)}>Competition Bench</MenuItem>
-            <MenuItem onClick={e => addExercise(e)}>Deadlift</MenuItem>
-          </Menu>
-        </div>
-      </form>
-      <Grid container spacing={2}>
-        <Grid item xs={8}>
-          {exerciseDivs}
+      <WorkoutForm>
+        <Grid container spacing={2}>
+          <Grid item xs={8}>
+            {exerciseDivs}
+            <SubmitButtonContainer>
+              <SubmitWorkoutButton type="submit" variant="contained">
+                Save Workout
+              </SubmitWorkoutButton>
+            </SubmitButtonContainer>
+          </Grid>
+          <ExerciseMenuContainer item xs={4}>
+            <ExerciseMenu>
+              <List>{exerciseMenuItems}</List>
+            </ExerciseMenu>
+          </ExerciseMenuContainer>
         </Grid>
-        <Grid item xs={4}>
-          <ExerciseMenu>
-            <List>{exerciseMenuItems}</List>
-          </ExerciseMenu>
-        </Grid>
-      </Grid>
+      </WorkoutForm>
     </>
   );
 };

@@ -2,10 +2,6 @@ import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItem from '@material-ui/core/ListItem';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -15,6 +11,7 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import Slide from '@material-ui/core/Slide';
 import { TransitionProps } from '@material-ui/core/transitions';
 import NewWorkoutForm from './NewWokoutForm';
+import styled from 'styled-components';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,6 +31,10 @@ const Transition = React.forwardRef(function Transition(
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+
+const NewWorkoutAppBar = styled(Toolbar)`
+  background-color: #456990;
+`;
 
 interface NewWorkoutDialogProps {
   date: Date;
@@ -61,7 +62,7 @@ export default function NewWorkoutDialog({ date }: NewWorkoutDialogProps) {
         TransitionComponent={Transition}
       >
         <AppBar className={classes.appBar}>
-          <Toolbar>
+          <NewWorkoutAppBar>
             <IconButton
               edge="start"
               color="inherit"
@@ -76,7 +77,7 @@ export default function NewWorkoutDialog({ date }: NewWorkoutDialogProps) {
             <Button autoFocus color="inherit" onClick={handleClose}>
               save
             </Button>
-          </Toolbar>
+          </NewWorkoutAppBar>
         </AppBar>
         <NewWorkoutForm date={new Date()} />
       </Dialog>
