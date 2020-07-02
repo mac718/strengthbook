@@ -33,7 +33,7 @@ const Transition = React.forwardRef(function Transition(
 });
 
 const NewWorkoutAppBar = styled(Toolbar)`
-  background-color: #456990;
+  background-color: #555;
 `;
 
 interface NewWorkoutDialogProps {

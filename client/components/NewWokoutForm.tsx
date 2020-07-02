@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import {
   Button,
-  Menu,
-  MenuItem,
   Grid,
   Box,
   List,
@@ -22,6 +20,7 @@ const ExerciseMenu = styled(Box)`
   margin-left: 15px;
   margin-right: 15px;
   overflow: scroll;
+  border-radius: 15px;
 `;
 
 const ExerciseMenuContainer = styled(Grid)`
@@ -31,13 +30,13 @@ const ExerciseMenuContainer = styled(Grid)`
 
 const MenuItemDiv = styled(ListItem)`
   &:hover {
-    background-color: #49dcb1;
+    background-color: #fdf6ed;
   }
 `;
 
 const SubmitWorkoutButton = styled(Button)`
   width: 50%;
-  background-color: #9fb7d1 !important;
+  background-color: #91acca !important;
 `;
 
 const WorkoutForm = styled.form`

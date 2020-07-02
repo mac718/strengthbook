@@ -26,7 +26,7 @@ const SetsContainer = styled(Box)`
 const MovementContainer = styled(Box)`
   border: 1px solid lightGray;
   margin-bottom: 15px;
-  box-shadow: 5px 5px 5px #999;
+
   margin-left: 15px;
   border-radius: 15px;
 `;
