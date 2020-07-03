@@ -31,10 +31,6 @@ const ProfileContainer = styled.form`
 
 const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
   const [showForm, setShowForm] = useState(false);
-  //   const [firstName, setFirstName] = useState(user.profile.firstName);
-  //   const [lastName, setLastName] = useState(user.profile.lastName);
-  //   const [bodyweight, setBodyweight] = useState(user.profile.bodyweight);
-  //   const [dob, setDob] = useState(user.profile.dob);
   const [profile, setProfile] = useState(user.profile);
 
   const router = useRouter();

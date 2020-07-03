@@ -46,11 +46,12 @@ const WorkoutForm = styled.form`
 const SubmitButtonContainer = styled.div`
   width: 100%;
   display: flex;
+  justify-content: center;
 `;
 
 const NewWorkoutForm = ({ date }: NewWorkoutFormProps) => {
   const [exercises, setExercises] = useState([]);
-  const [sets, setSets] = useState({});
+  //const [sets, setSets] = useState({});
 
   const addExercise = e => {
     e.preventDefault();
@@ -63,6 +64,7 @@ const NewWorkoutForm = ({ date }: NewWorkoutFormProps) => {
     return <ExerciseEntry exercise={exercise} />;
   });
 
+  //create wrapper function for list
   let exerciseList = [
     'Low Bar Squat with Belt',
     'High Bar Squat with Belt',
@@ -80,6 +82,8 @@ const NewWorkoutForm = ({ date }: NewWorkoutFormProps) => {
       </MenuItemDiv>
     );
   });
+
+  console.log(localStorage);
 
   return (
     <>
