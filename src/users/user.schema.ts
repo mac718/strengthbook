@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose';
 import * as bcrypt from 'bcrypt';
+import { Schema, MongooseModule } from '@nestjs/mongoose';
 
 export const ProfileSchema = new mongoose.Schema({
   firstName: String,
@@ -19,10 +20,35 @@ export interface IProfile extends mongoose.Document {
   unit: string;
 }
 
+export const SetSchema = new mongoose.Schema({
+  name: String,
+  weight: Number,
+  reps: Number,
+  rpe: Number,
+});
+
+export const WorkoutSchema = new mongoose.Schema({
+  date: Date,
+  sets: [SetSchema],
+});
+
+export interface ISet extends mongoose.Document {
+  name: string;
+  weight: number;
+  reps: number;
+  rep: number;
+}
+
+export interface IWorkout extends mongoose.Document {
+  date: Date;
+  sets: ISet[];
+}
+
 export interface IUser extends mongoose.Document {
   email: string;
   password: string;
   profile: IProfile;
+  workouts: IWorkout;
 }
 
 export const UserSchema = new mongoose.Schema({
@@ -38,6 +64,7 @@ export const UserSchema = new mongoose.Schema({
   },
 
   profile: ProfileSchema,
+  workouts: [WorkoutSchema],
 });
 
 UserSchema.pre('save', function(next) {

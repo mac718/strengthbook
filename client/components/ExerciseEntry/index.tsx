@@ -33,7 +33,7 @@ const MovementContainer = styled(Box)`
   border-radius: 15px;
 `;
 
-const ExerciseEntry = ({ exercise }) => {
+const ExerciseEntry = ({ exercise, exerciseNumber }) => {
   const [sets, setSets] = useState([]);
   const [weight, setWeight] = useState(0);
   const [reps, setReps] = useState(0);
@@ -48,7 +48,14 @@ const ExerciseEntry = ({ exercise }) => {
     let setNumber = Object.keys(sets).length + 1;
     setSets([
       ...sets,
-      { number: setNumber, movement: exercise, weight: 0, reps: 0, rpe: 0 },
+      {
+        exerciseOrder: exerciseNumber,
+        setOrder: setNumber,
+        movement: exercise,
+        weight: 0,
+        reps: 0,
+        rpe: 0,
+      },
     ]);
     //console.log(entry);
     console.log(sets);
@@ -104,8 +111,8 @@ const ExerciseEntry = ({ exercise }) => {
               //     weight: parseFloat(e.target.value),
               //   };
               //console.log(entry);
-              //localStorage.setItem(`${exercise}`, JSON.stringify(entry));
-              console.log(sets);
+              localStorage.setItem(`${exercise}`, JSON.stringify(sets));
+              console.log(localStorage);
             }}
             required
           />
@@ -133,6 +140,8 @@ const ExerciseEntry = ({ exercise }) => {
               setSets(tempSets);
               //console.log(entry);
               //localStorage.setItem(`${exercise}`, JSON.stringify(entry));
+              localStorage.setItem(`${exercise}`, JSON.stringify(sets));
+              console.log(localStorage);
             }}
             required
           />
@@ -160,6 +169,8 @@ const ExerciseEntry = ({ exercise }) => {
               setSets(tempSets);
               //console.log(entry);
               //localStorage.setItem(`${exercise}`, JSON.stringify(entry))
+              localStorage.setItem(`${exercise}`, JSON.stringify(sets));
+              console.log(localStorage);
             }}
           />
         </Grid>

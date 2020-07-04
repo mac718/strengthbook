@@ -4,6 +4,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from '../auth/get-user.decorator';
 import { User } from './user.interface';
 import { EditProfileDto } from './dto/edit-profile.dto';
+import { CreateWorkoutDto } from './dto/create-workout.dto';
 
 @Controller('users')
 export class UsersController {
@@ -24,17 +25,20 @@ export class UsersController {
     return await this.usersService.editProfile(user, editProfileDto);
   }
 
+  @Post('new-workout')
+  @UseGuards(AuthGuard('jwt'))
+  async createWorkout(
+    @GetUser() user,
+    @Body() createWorkoutDto: CreateWorkoutDto,
+  ) {
+    return await this.usersService.createWorkout(user, createWorkoutDto);
+  }
+
   @Post('/getuser')
   @UseGuards(AuthGuard('jwt'))
   async getCurrentUser(@Body() email): Promise<User> {
     const user = await this.usersService.findOneByEmail(email.email);
     console.log(user);
     return user;
-  }
-
-  @Get('test')
-  @UseGuards(AuthGuard('jwt'))
-  testAuthRoute(@GetUser() user: User) {
-    console.log(user);
   }
 }

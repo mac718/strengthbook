@@ -60,8 +60,12 @@ const NewWorkoutForm = ({ date }: NewWorkoutFormProps) => {
     console.log(e.target.innerText);
   };
 
-  const exerciseDivs = exercises.map(exercise => {
-    return <ExerciseEntry exercise={exercise} />;
+  const submitWorkout = e => {
+    e.preventDefault();
+  };
+
+  const exerciseDivs = exercises.map((exercise, i) => {
+    return <ExerciseEntry exercise={exercise} exerciseNumber={i + 1} />;
   });
 
   //create wrapper function for list
@@ -77,7 +81,11 @@ const NewWorkoutForm = ({ date }: NewWorkoutFormProps) => {
 
   const exerciseMenuItems = exerciseList.map((exercise, i) => {
     return (
-      <MenuItemDiv key={i * 10} onDoubleClick={e => addExercise(e)}>
+      <MenuItemDiv
+        key={i * 10}
+        onDoubleClick={e => addExercise(e)}
+        title="double click to add to workout"
+      >
         <Typography>{exercise}</Typography>
       </MenuItemDiv>
     );

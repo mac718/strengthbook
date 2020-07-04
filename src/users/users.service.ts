@@ -4,6 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { IUser, IProfile } from './user.schema';
 import { Model } from 'mongoose';
 import { EditProfileDto } from './dto/edit-profile.dto';
+import { CreateWorkoutDto } from './dto/create-workout.dto';
 
 @Injectable()
 export class UsersService {
@@ -38,6 +39,15 @@ export class UsersService {
     user.profile.bodyweight = editProfileDto.bodyweight;
     user.profile.dob = editProfileDto.dob;
 
+    user.save((err, user) => {
+      if (err) {
+        throw new InternalServerErrorException('profile could not be saved.');
+      }
+    });
+  }
+
+  async createWorkout(user: Model<IUser>, createWorkoutDto: CreateWorkoutDto) {
+    user.workouts = [...user.workouts, createWorkoutDto];
     user.save((err, user) => {
       if (err) {
         throw new InternalServerErrorException('profile could not be saved.');
