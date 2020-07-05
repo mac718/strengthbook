@@ -5,8 +5,6 @@ import { IUser, IProfile } from './user.schema';
 import { Model } from 'mongoose';
 import { EditProfileDto } from './dto/edit-profile.dto';
 import { CreateWorkoutDto } from './dto/create-workout.dto';
-import { create } from 'domain';
-import { setServers } from 'dns';
 
 @Injectable()
 export class UsersService {
@@ -49,10 +47,6 @@ export class UsersService {
   }
 
   async createWorkout(user: Model<IUser>, createWorkoutDto: CreateWorkoutDto) {
-    //createWorkoutDto.date = new Date(createWorkoutDto.date);
-
-    console.log(createWorkoutDto.date);
-
     let keys = Object.keys(createWorkoutDto.sets);
 
     let workout = [];
@@ -69,9 +63,8 @@ export class UsersService {
       ...user.workouts,
       { date: createWorkoutDto.date, sets: workout },
     ];
-    //console.log(createWorkoutDto.sets);
 
-    user.save((err, user) => {
+    await user.save((err, user) => {
       if (err) {
         throw new InternalServerErrorException(
           'workout could not be saved.',

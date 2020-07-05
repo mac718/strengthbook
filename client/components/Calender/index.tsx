@@ -5,7 +5,7 @@ import { Typography } from '@material-ui/core';
 import NewWokoutDialog from '../NewWorkoutDialog';
 
 const StyledTh = styled.th`
-  background-color: #456990;
+  background-color: #fdf6ed;
   width: 10%;
 `;
 
@@ -23,7 +23,7 @@ const BlankTd = styled.td`
 `;
 
 const StyledTd = styled.td`
-  border: 1px solid #333;
+  border: 1px solid #666;
   height: 8em;
 `;
 
@@ -37,8 +37,8 @@ const DateDiv = styled.div`
 `;
 
 const MonthHeading = styled.div`
-  background-color: #49dcb1;
-  height: 50px;
+  background-color: #cbf6ea;
+  height: 60px;
   width: 85%;
   text-align: center;
   margin: auto;
@@ -71,7 +71,11 @@ const Calender = ({ user }) => {
   console.log(dateObject.daysInMonth());
 
   const daysOfWeek = weekdayShort.map(day => {
-    return <StyledTh key={day}>{day}</StyledTh>;
+    return (
+      <StyledTh key={day}>
+        <Typography>{day}</Typography>
+      </StyledTh>
+    );
   });
 
   function firstDayOfMonth() {
@@ -110,14 +114,18 @@ const Calender = ({ user }) => {
       daysInMonthArr.push(
         <TodayTd key={d} className="calendar-day">
           <NewWokoutDialog date={new Date(`${month()}-${d}-${year()}`)} />
-          <DateDiv>{d}</DateDiv>
+          <DateDiv>
+            <Typography>{d}</Typography>
+          </DateDiv>
         </TodayTd>,
       );
     } else {
       daysInMonthArr.push(
         <StyledTd key={d} className="calendar-day">
           <NewWokoutDialog date={new Date(`${month()}-${d}-${year()}`)} />
-          <DateDiv>{d}</DateDiv>
+          <DateDiv>
+            <Typography>{d}</Typography>
+          </DateDiv>
         </StyledTd>,
       );
     }

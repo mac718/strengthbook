@@ -3,12 +3,14 @@ import Calender from '../components/Calender';
 import { Container } from '@material-ui/core';
 import cookies from 'next-cookies';
 import { GetServerSideProps } from 'next';
+import Nav from '../components/Nav';
 
 const CalenderPage = ({ user }) => {
   return (
-    <Container>
+    <>
+      <Nav user={user} />
       <Calender user={user} />
-    </Container>
+    </>
   );
 };
 

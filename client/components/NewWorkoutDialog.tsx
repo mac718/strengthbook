@@ -74,9 +74,9 @@ export default function NewWorkoutDialog({ date }: NewWorkoutDialogProps) {
             <Typography variant="h6" className={classes.title}>
               New Workout {date.toLocaleString()}
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
+            {/* <Button autoFocus color="inherit" onClick={handleClose}>
               save
-            </Button>
+            </Button> */}
           </NewWorkoutAppBar>
         </AppBar>
         <NewWorkoutForm date={date} />

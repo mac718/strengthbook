@@ -57,7 +57,13 @@ export const getServerSideProps: GetServerSideProps = async context => {
       return res.json();
     })
     .then(json => json)
-    .catch(err => console.error('not authorized ', err));
+    .catch(err => {
+      console.error('not authorized ', err);
+      context.res.setHeader('Location', '/login');
+      context.res.statusCode = 302;
+      context.res.end();
+      return;
+    });
 
   return {
     props: { user },
