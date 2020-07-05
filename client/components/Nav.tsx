@@ -20,6 +20,10 @@ const AppBarMargin = styled(AppBar)`
   margin-bottom: 75px;
 `;
 
+const MenuLink = styled.a`
+  text-decoration: none;
+`;
+
 const Nav = ({ user }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -42,7 +46,7 @@ const Nav = ({ user }) => {
             onClick={handleClick}
             variant="contained"
           >
-            Open Menu
+            Menu
           </Button>
           <Menu
             id="simple-menu"
@@ -53,17 +57,17 @@ const Nav = ({ user }) => {
           >
             <MenuItem onClick={handleClose}>
               <Link href="/profile">
-                <a>Profile</a>
+                <MenuLink>Profile</MenuLink>
               </Link>
             </MenuItem>
             <MenuItem onClick={handleClose}>
               <Link href="/dashboard">
-                <a>Dashboard</a>
+                <MenuLink>Dashboard</MenuLink>
               </Link>
             </MenuItem>
             <MenuItem onClick={handleClose}>
               <Link href="/calender">
-                <a>Calender</a>
+                <MenuLink>Calender</MenuLink>
               </Link>
             </MenuItem>
             <MenuItem onClick={handleClose}>Logout</MenuItem>

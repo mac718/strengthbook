@@ -106,17 +106,27 @@ const NewWorkoutForm = ({ date }: NewWorkoutFormProps) => {
 
   console.log(localStorage);
 
+  let submitButton;
+
+  if (exerciseDivs.length > 0) {
+    submitButton = (
+      <SubmitButtonContainer>
+        <SubmitWorkoutButton type="submit" variant="contained">
+          Save Workout
+        </SubmitWorkoutButton>
+      </SubmitButtonContainer>
+    );
+  } else {
+    submitButton = null;
+  }
+
   return (
     <>
       <WorkoutForm onSubmit={e => submitWorkout(e)}>
         <Grid container spacing={2}>
           <Grid item xs={8}>
             {exerciseDivs}
-            <SubmitButtonContainer>
-              <SubmitWorkoutButton type="submit" variant="contained">
-                Save Workout
-              </SubmitWorkoutButton>
-            </SubmitButtonContainer>
+            {submitButton}
           </Grid>
           <ExerciseMenuContainer item xs={4}>
             <ExerciseMenu>
