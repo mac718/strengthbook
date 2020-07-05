@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 import ExerciseEntry from '../components/ExerciseEntry';
 import styled from 'styled-components';
+import Cookies from 'js-cookie';
 
 interface NewWorkoutFormProps {
   date: Date;
@@ -62,6 +63,16 @@ const NewWorkoutForm = ({ date }: NewWorkoutFormProps) => {
 
   const submitWorkout = e => {
     e.preventDefault();
+    const token = Cookies.get('token');
+
+    fetch('http://localhost:3001/users/new-workout', {
+      method: 'POST',
+      body: JSON.stringify(localStorage),
+      headers: {
+        'content-type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
   };
 
   const exerciseDivs = exercises.map((exercise, i) => {
@@ -95,7 +106,7 @@ const NewWorkoutForm = ({ date }: NewWorkoutFormProps) => {
 
   return (
     <>
-      <WorkoutForm>
+      <WorkoutForm onSubmit={e => submitWorkout(e)}>
         <Grid container spacing={2}>
           <Grid item xs={8}>
             {exerciseDivs}

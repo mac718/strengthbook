@@ -21,7 +21,9 @@ export interface IProfile extends mongoose.Document {
 }
 
 export const SetSchema = new mongoose.Schema({
-  name: String,
+  exerciseName: String,
+  exerciseOrder: Number,
+  setOrder: Number,
   weight: Number,
   reps: Number,
   rpe: Number,
@@ -33,7 +35,9 @@ export const WorkoutSchema = new mongoose.Schema({
 });
 
 export interface ISet extends mongoose.Document {
-  name: string;
+  exerciseName: string;
+  exerciseOrder: number;
+  setOrder: number;
   weight: number;
   reps: number;
   rep: number;

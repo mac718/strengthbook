@@ -2,6 +2,7 @@ export type User = {
   email: string;
   password: string;
   profile: Profile;
+  workouts: [];
 };
 
 export type Profile = {

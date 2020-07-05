@@ -19,7 +19,7 @@ const DashboardGrid = styled(Grid)`
   margin-top: 75px;
 `;
 
-const Dashboard = ({ user }: DashboardProps) => {
+const Dashboard = ({ user }) => {
   return (
     <div>
       <Nav user={user} />
