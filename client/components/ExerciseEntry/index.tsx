@@ -33,7 +33,7 @@ const MovementContainer = styled(Box)`
   border-radius: 15px;
 `;
 
-const ExerciseEntry = ({ exercise, exerciseNumber }) => {
+const ExerciseEntry = ({ exercise, exerciseNumber, date }) => {
   const [sets, setSets] = useState([]);
   const [weight, setWeight] = useState(0);
   const [reps, setReps] = useState(0);
@@ -49,6 +49,7 @@ const ExerciseEntry = ({ exercise, exerciseNumber }) => {
     setSets([
       ...sets,
       {
+        date: date,
         exerciseOrder: exerciseNumber,
         setOrder: setNumber,
         movement: exercise,

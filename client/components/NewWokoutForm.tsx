@@ -67,7 +67,7 @@ const NewWorkoutForm = ({ date }: NewWorkoutFormProps) => {
 
     fetch('http://localhost:3001/users/new-workout', {
       method: 'POST',
-      body: JSON.stringify(localStorage),
+      body: JSON.stringify({ date, sets: localStorage }),
       headers: {
         'content-type': 'application/json',
         Authorization: `Bearer ${token}`,
@@ -76,7 +76,9 @@ const NewWorkoutForm = ({ date }: NewWorkoutFormProps) => {
   };
 
   const exerciseDivs = exercises.map((exercise, i) => {
-    return <ExerciseEntry exercise={exercise} exerciseNumber={i + 1} />;
+    return (
+      <ExerciseEntry exercise={exercise} exerciseNumber={i + 1} date={date} />
+    );
   });
 
   //create wrapper function for list

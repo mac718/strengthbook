@@ -51,14 +51,14 @@ export class UsersService {
   async createWorkout(user: Model<IUser>, createWorkoutDto: CreateWorkoutDto) {
     //createWorkoutDto.date = new Date(createWorkoutDto.date);
 
-    console.log(createWorkoutDto);
+    console.log(createWorkoutDto.date);
 
-    let keys = Object.keys(createWorkoutDto);
+    let keys = Object.keys(createWorkoutDto.sets);
 
     let workout = [];
 
     keys.forEach(key => {
-      JSON.parse(createWorkoutDto[key]).forEach(set => {
+      JSON.parse(createWorkoutDto.sets[key]).forEach(set => {
         workout.push(set);
       });
     });

@@ -79,7 +79,7 @@ export default function NewWorkoutDialog({ date }: NewWorkoutDialogProps) {
             </Button>
           </NewWorkoutAppBar>
         </AppBar>
-        <NewWorkoutForm date={new Date()} />
+        <NewWorkoutForm date={date} />
       </Dialog>
     </React.Fragment>
   );

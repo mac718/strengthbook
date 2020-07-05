@@ -95,20 +95,28 @@ const Calender = ({ user }) => {
     );
   }
 
+  let month = () => {
+    return dateObject.format('MMMM');
+  };
+
+  let year = () => {
+    return dateObject.format('YYYY');
+  };
+
   let daysInMonthArr = [];
 
   for (let d = 1; d <= daysInMonth; d++) {
     if (d === moment().date()) {
       daysInMonthArr.push(
         <TodayTd key={d} className="calendar-day">
-          <NewWokoutDialog date={new Date()} />
+          <NewWokoutDialog date={new Date(`${month()}-${d}-${year()}`)} />
           <DateDiv>{d}</DateDiv>
         </TodayTd>,
       );
     } else {
       daysInMonthArr.push(
         <StyledTd key={d} className="calendar-day">
-          <NewWokoutDialog date={new Date()} />
+          <NewWokoutDialog date={new Date(`${month()}-${d}-${year()}`)} />
           <DateDiv>{d}</DateDiv>
         </StyledTd>,
       );
@@ -136,14 +144,6 @@ const Calender = ({ user }) => {
   let daysinmonth = rows.map((d, i) => {
     return <tr>{d}</tr>;
   });
-
-  let month = () => {
-    return dateObject.format('MMMM');
-  };
-
-  let year = () => {
-    return dateObject.format('YYYY');
-  };
 
   function handlePrevisousMonthClick() {
     let date = dateObject;
