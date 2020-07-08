@@ -5,6 +5,7 @@ import { IUser, IProfile } from './user.schema';
 import { Model } from 'mongoose';
 import { EditProfileDto } from './dto/edit-profile.dto';
 import { CreateWorkoutDto } from './dto/create-workout.dto';
+import { rpeChart } from './rpeChart';
 
 @Injectable()
 export class UsersService {
@@ -56,6 +57,16 @@ export class UsersService {
       JSON.parse(createWorkoutDto.sets[key]).forEach(set => {
         workout.push(set);
       });
+    });
+
+    workout.forEach(set => {
+      let rpeArr = rpeChart[set.rpe];
+      let percentage = rpeArr.filter(rpe => {
+        return rpe.reps === set.reps;
+      })[0];
+      let e1rm = set.weight * (100 / percentage.percentage);
+      console.log(percentage.percentage, e1rm);
+      set.e1rm = e1rm;
     });
 
     console.log('workout', workout);

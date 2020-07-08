@@ -27,6 +27,7 @@ export const SetSchema = new mongoose.Schema({
   weight: Number,
   reps: Number,
   rpe: Number,
+  e1rm: Number,
 });
 
 export const WorkoutSchema = new mongoose.Schema({
@@ -41,6 +42,7 @@ export interface ISet extends mongoose.Document {
   weight: number;
   reps: number;
   rep: number;
+  e1rm: number;
 }
 
 export interface IWorkout extends mongoose.Document {
@@ -53,6 +55,7 @@ export interface IUser extends mongoose.Document {
   password: string;
   profile: IProfile;
   workouts: IWorkout;
+  prs: Array<any>;
 }
 
 export const UserSchema = new mongoose.Schema({
@@ -69,6 +72,7 @@ export const UserSchema = new mongoose.Schema({
 
   profile: ProfileSchema,
   workouts: [WorkoutSchema],
+  prs: Array,
 });
 
 UserSchema.pre('save', function(next) {
