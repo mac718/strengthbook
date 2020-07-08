@@ -47,6 +47,7 @@ export class UsersService {
   }
 
   async createWorkout(user: Model<IUser>, createWorkoutDto: CreateWorkoutDto) {
+    console.log(createWorkoutDto);
     let keys = Object.keys(createWorkoutDto.sets);
 
     let workout = [];
@@ -61,7 +62,7 @@ export class UsersService {
 
     user.workouts = [
       ...user.workouts,
-      { date: createWorkoutDto.date, sets: workout },
+      { date: createWorkoutDto.date, sets: workout[0] },
     ];
 
     await user.save((err, user) => {

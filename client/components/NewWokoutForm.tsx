@@ -8,6 +8,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import ExerciseEntry from '../components/ExerciseEntry';
+import { exerciseList } from '../static-data/excersiseList';
 import styled from 'styled-components';
 import Cookies from 'js-cookie';
 
@@ -72,7 +73,7 @@ const NewWorkoutForm = ({ date }: NewWorkoutFormProps) => {
         'content-type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-    });
+    }).then(() => localStorage.clear());
   };
 
   const exerciseDivs = exercises.map((exercise, i) => {
@@ -82,20 +83,11 @@ const NewWorkoutForm = ({ date }: NewWorkoutFormProps) => {
   });
 
   //create wrapper function for list
-  let exerciseList = [
-    'Low Bar Squat with Belt',
-    'High Bar Squat with Belt',
-    '2-count Paused Low Bar Squat with Belt',
-    'Competition Bench',
-    '2-count Paused Bench',
-    'Conventional Deadlift with Belt',
-    'Sumo Deadlift with Belt',
-  ];
 
   const exerciseMenuItems = exerciseList.map((exercise, i) => {
     return (
       <MenuItemDiv
-        key={i * 10}
+        key={exercise}
         onDoubleClick={e => addExercise(e)}
         title="double click to add to workout"
       >
