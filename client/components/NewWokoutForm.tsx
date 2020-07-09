@@ -12,6 +12,10 @@ import { exerciseList } from '../static-data/excersiseList';
 import styled from 'styled-components';
 import Cookies from 'js-cookie';
 
+// interface HandleDialogClose {
+//   (): boolean;
+// }
+
 interface NewWorkoutFormProps {
   date: Date;
 }
@@ -54,7 +58,6 @@ const SubmitButtonContainer = styled.div`
 const NewWorkoutForm = ({ date }: NewWorkoutFormProps) => {
   const [exercises, setExercises] = useState([]);
   //const [sets, setSets] = useState({});
-
   const addExercise = e => {
     e.preventDefault();
     const exercise = e.target.innerText;
@@ -62,8 +65,7 @@ const NewWorkoutForm = ({ date }: NewWorkoutFormProps) => {
     console.log(e.target.innerText);
   };
 
-  const submitWorkout = e => {
-    e.preventDefault();
+  const submitWorkout = () => {
     const token = Cookies.get('token');
 
     fetch('http://localhost:3001/users/new-workout', {
@@ -114,7 +116,7 @@ const NewWorkoutForm = ({ date }: NewWorkoutFormProps) => {
 
   return (
     <>
-      <WorkoutForm onSubmit={e => submitWorkout(e)}>
+      <WorkoutForm onSubmit={() => submitWorkout()}>
         <Grid container spacing={2}>
           <Grid item xs={8}>
             {exerciseDivs}

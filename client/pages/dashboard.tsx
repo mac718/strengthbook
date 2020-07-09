@@ -25,7 +25,7 @@ const Dashboard = ({ user }) => {
       <Nav user={user} />
       <DashboardGrid container>
         <ProfileDiv item xs={3}>
-          <Typography variant="h4">Profile</Typography>
+          <Typography variant="h4">prs</Typography>
         </ProfileDiv>
       </DashboardGrid>
     </div>
