@@ -2,7 +2,7 @@ import React from 'react';
 import { GetServerSideProps } from 'next';
 import { User } from '../types';
 import cookies from 'next-cookies';
-import { Typography, Grid } from '@material-ui/core';
+import { Typography, Grid, List, ListItem } from '@material-ui/core';
 import styled from 'styled-components';
 import Nav from '../components/Nav';
 
@@ -11,7 +11,7 @@ interface DashboardProps {
 }
 
 const ProfileDiv = styled(Grid)`
-  height: 15vh;
+  height: 100vh;
   border: 1px solid;
 `;
 
@@ -20,12 +20,22 @@ const DashboardGrid = styled(Grid)`
 `;
 
 const Dashboard = ({ user }) => {
+  console.log(user.prs);
+  let prs = user.prs.map(pr => {
+    return (
+      <ListItem>
+        {pr.movement}: {pr.weight}
+      </ListItem>
+    );
+  });
+
   return (
     <div>
       <Nav user={user} />
       <DashboardGrid container>
         <ProfileDiv item xs={3}>
           <Typography variant="h4">prs</Typography>
+          <List>{prs}</List>
         </ProfileDiv>
       </DashboardGrid>
     </div>
