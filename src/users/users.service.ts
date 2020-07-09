@@ -8,6 +8,7 @@ import { CreateWorkoutDto } from './dto/create-workout.dto';
 import { rpeChart } from './rpeChart';
 import { monitorEventLoopDelay } from 'perf_hooks';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
+import { create } from 'domain';
 
 @Injectable()
 export class UsersService {
@@ -63,17 +64,23 @@ export class UsersService {
 
     workout.forEach(set => {
       let rpeArr = rpeChart[set.rpe];
+
       let percentage = rpeArr.filter(rpe => {
         return rpe.reps === set.reps;
       })[0];
+
       let e1rm = set.weight * (100 / percentage.percentage);
+
       console.log(percentage.percentage, e1rm);
       set.e1rm = e1rm;
+
       let movement = set.movement;
       console.log('thingy', user.prs);
+
       let pr = user.prs.filter(pr => {
         return pr.movement === movement;
       })[0];
+
       console.log('pr', pr);
       if (pr && pr.weight < set.e1rm) {
         console.log('pr', set.e1rm);
@@ -88,7 +95,11 @@ export class UsersService {
       } else if (!pr) {
         console.log('e1rm2', set.e1rm);
 
-        pr = { movement: movement, weight: set.e1rm };
+        pr = {
+          movement: movement,
+          weight: set.e1rm,
+          date: createWorkoutDto.date,
+        };
         console.log('pr2', pr);
         user.prs = [...user.prs, pr];
       }
@@ -98,7 +109,7 @@ export class UsersService {
 
     user.workouts = [
       ...user.workouts,
-      { date: createWorkoutDto.date, sets: workout[0] },
+      { date: createWorkoutDto.date, sets: workout },
     ];
 
     await user.save((err, user) => {

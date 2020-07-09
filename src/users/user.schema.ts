@@ -33,6 +33,7 @@ export const SetSchema = new mongoose.Schema({
 export const PrSchema = new mongoose.Schema({
   movement: String,
   weight: Number,
+  date: Date,
 });
 
 export const WorkoutSchema = new mongoose.Schema({

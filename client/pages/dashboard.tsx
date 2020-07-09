@@ -5,6 +5,7 @@ import cookies from 'next-cookies';
 import { Typography, Grid, List, ListItem } from '@material-ui/core';
 import styled from 'styled-components';
 import Nav from '../components/Nav';
+import moment from 'moment';
 
 interface DashboardProps {
   user: User;
@@ -24,7 +25,10 @@ const Dashboard = ({ user }) => {
   let prs = user.prs.map(pr => {
     return (
       <ListItem>
-        {pr.movement}: {pr.weight}
+        <Typography>
+          {moment(pr.date).format('MM-DD-YYYY')} {pr.movement}:{' '}
+          {Math.round(pr.weight)}
+        </Typography>
       </ListItem>
     );
   });
@@ -34,7 +38,7 @@ const Dashboard = ({ user }) => {
       <Nav user={user} />
       <DashboardGrid container>
         <ProfileDiv item xs={3}>
-          <Typography variant="h4">prs</Typography>
+          <Typography variant="h4">Recent PRs</Typography>
           <List>{prs}</List>
         </ProfileDiv>
       </DashboardGrid>
