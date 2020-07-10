@@ -36,6 +36,10 @@ const NewWorkoutAppBar = styled(Toolbar)`
   background-color: #555;
 `;
 
+const DialogLaunchButton = styled(IconButton)`
+  float: left;
+`;
+
 interface NewWorkoutDialogProps {
   date: Date;
 }
@@ -63,14 +67,14 @@ export default function NewWorkoutDialog({ date }: NewWorkoutDialogProps) {
       >
         <AppBar className={classes.appBar}>
           <NewWorkoutAppBar>
-            <IconButton
+            <DialogLaunchButton
               edge="start"
               color="inherit"
               onClick={handleClose}
               aria-label="close"
             >
               <CloseIcon />
-            </IconButton>
+            </DialogLaunchButton>
             <Typography variant="h6" className={classes.title}>
               New Workout {date.toLocaleString()}
             </Typography>

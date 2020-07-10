@@ -34,6 +34,7 @@ const TodayTd = styled(StyledTd)`
 const DateDiv = styled.div`
   float: right;
   height: 100%;
+  width: 100%;
 `;
 
 const MonthHeading = styled.div`
@@ -60,6 +61,10 @@ const CalenderContainer = styled.div`
 
 const CalDiv = styled.div`
   width: 100%;
+`;
+
+const CalCellDay = styled(Typography)`
+  float: right;
 `;
 
 const Calender = ({ user }) => {
@@ -121,19 +126,28 @@ const Calender = ({ user }) => {
       let workoutButtons = workouts.map(workout => <Button>Workout</Button>);
       daysInMonthArr.push(
         <TodayTd key={d} className="calendar-day">
-          <NewWokoutDialog date={tdDate} />
           <DateDiv>
-            <Typography>{d}</Typography>
+            <NewWokoutDialog date={tdDate} />
+            <CalCellDay>{d}</CalCellDay>
             {workoutButtons}
           </DateDiv>
         </TodayTd>,
       );
     } else {
+      let tdDate = new Date(`${month()}-${d}-${year()}`);
+      let workouts = user.workouts.filter(workout => {
+        console.log(tdDate, workout.date);
+        return (
+          Date.parse(workout.date) === Date.parse(tdDate.toLocaleDateString())
+        );
+      });
+      let workoutButtons = workouts.map(workout => <Button>Workout</Button>);
       daysInMonthArr.push(
         <StyledTd key={d} className="calendar-day">
-          <NewWokoutDialog date={new Date(`${month()}-${d}-${year()}`)} />
           <DateDiv>
-            <Typography>{d}</Typography>
+            <NewWokoutDialog date={tdDate} />
+            <CalCellDay>{d}</CalCellDay>
+            {workoutButtons}
           </DateDiv>
         </StyledTd>,
       );
