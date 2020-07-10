@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import styled from 'styled-components';
-import { Typography } from '@material-ui/core';
+import { Typography, Button } from '@material-ui/core';
 import NewWokoutDialog from '../NewWorkoutDialog';
 
 const StyledTh = styled.th`
@@ -111,11 +111,20 @@ const Calender = ({ user }) => {
 
   for (let d = 1; d <= daysInMonth; d++) {
     if (d === moment().date()) {
+      let tdDate = new Date(`${month()}-${d}-${year()}`);
+      let workouts = user.workouts.filter(workout => {
+        console.log(tdDate, workout.date);
+        return (
+          Date.parse(workout.date) === Date.parse(tdDate.toLocaleDateString())
+        );
+      });
+      let workoutButtons = workouts.map(workout => <Button>Workout</Button>);
       daysInMonthArr.push(
         <TodayTd key={d} className="calendar-day">
-          <NewWokoutDialog date={new Date(`${month()}-${d}-${year()}`)} />
+          <NewWokoutDialog date={tdDate} />
           <DateDiv>
             <Typography>{d}</Typography>
+            {workoutButtons}
           </DateDiv>
         </TodayTd>,
       );
@@ -137,14 +146,13 @@ const Calender = ({ user }) => {
 
   totalSlots.forEach((row, i) => {
     if (i % 7 !== 0) {
-      cells.push(row); // if index not equal 7 that means not go to next week
+      cells.push(row);
     } else {
-      rows.push(cells); // when reach next week we contain all td in last week to rows
-      cells = []; // empty container
-      cells.push(row); // in current loop we still push current row to new container
+      rows.push(cells);
+      cells = [];
+      cells.push(row);
     }
     if (i === totalSlots.length - 1) {
-      // when end loop we add remain date
       rows.push(cells);
     }
   });
