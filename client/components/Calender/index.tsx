@@ -67,6 +67,14 @@ const CalCellDay = styled(Typography)`
   float: right;
 `;
 
+const WorkoutBanner = styled.div`
+  width: 100%;
+  height: 17%;
+  background-color: lightgreen;
+  text-align: center;
+  margin-bottom: 3px;
+`;
+
 const Calender = ({ user }) => {
   const currentDate = moment();
   const [dateObject, setDateObject] = useState(currentDate);
@@ -123,7 +131,11 @@ const Calender = ({ user }) => {
           Date.parse(workout.date) === Date.parse(tdDate.toLocaleDateString())
         );
       });
-      let workoutButtons = workouts.map(workout => <Button>Workout</Button>);
+      let workoutButtons = workouts.map(workout => (
+        <WorkoutBanner>
+          <Typography>Workout</Typography>
+        </WorkoutBanner>
+      ));
       daysInMonthArr.push(
         <TodayTd key={d} className="calendar-day">
           <DateDiv>
@@ -141,7 +153,11 @@ const Calender = ({ user }) => {
           Date.parse(workout.date) === Date.parse(tdDate.toLocaleDateString())
         );
       });
-      let workoutButtons = workouts.map(workout => <Button>Workout</Button>);
+      let workoutButtons = workouts.map(workout => (
+        <WorkoutBanner>
+          <Typography>Workout</Typography>
+        </WorkoutBanner>
+      ));
       daysInMonthArr.push(
         <StyledTd key={d} className="calendar-day">
           <DateDiv>
