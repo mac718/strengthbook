@@ -6,9 +6,6 @@ import { Model } from 'mongoose';
 import { EditProfileDto } from './dto/edit-profile.dto';
 import { CreateWorkoutDto } from './dto/create-workout.dto';
 import { rpeChart } from './rpeChart';
-import { monitorEventLoopDelay } from 'perf_hooks';
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
-import { create } from 'domain';
 
 @Injectable()
 export class UsersService {

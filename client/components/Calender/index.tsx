@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import styled from 'styled-components';
-import { Typography, Button } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
+import Link from 'next/link';
 import NewWokoutDialog from '../NewWorkoutDialog';
 
 const StyledTh = styled.th`
@@ -70,7 +71,7 @@ const CalCellDay = styled(Typography)`
 const WorkoutBanner = styled.div`
   width: 100%;
   height: 17%;
-  background-color: lightgreen;
+  background-color: #49beaa;
   text-align: center;
   margin-bottom: 3px;
 `;
@@ -102,6 +103,7 @@ const Calender = ({ user }) => {
 
   let daysInMonth = dateObject.daysInMonth();
 
+  //blank calender cells
   let blanks = [];
 
   for (let i = 0; i < parseInt(firstDayOfMonth()); i++) {
@@ -125,6 +127,8 @@ const Calender = ({ user }) => {
   for (let d = 1; d <= daysInMonth; d++) {
     if (d === moment().date()) {
       let tdDate = new Date(`${month()}-${d}-${year()}`);
+
+      //find workouts from the date in question
       let workouts = user.workouts.filter(workout => {
         console.log(tdDate, workout.date);
         return (
@@ -147,6 +151,8 @@ const Calender = ({ user }) => {
       );
     } else {
       let tdDate = new Date(`${month()}-${d}-${year()}`);
+
+      //find workouts from the date in question
       let workouts = user.workouts.filter(workout => {
         console.log(tdDate, workout.date);
         return (
@@ -155,7 +161,11 @@ const Calender = ({ user }) => {
       });
       let workoutButtons = workouts.map(workout => (
         <WorkoutBanner>
-          <Typography>Workout</Typography>
+          <Link href="/workout/[id]" as={`workout/${workout._id}`}>
+            <a>
+              <Typography>Workout</Typography>
+            </a>
+          </Link>
         </WorkoutBanner>
       ));
       daysInMonthArr.push(
@@ -192,7 +202,6 @@ const Calender = ({ user }) => {
   });
 
   function handlePrevisousMonthClick() {
-    let date = dateObject;
     setDateObject(moment(dateObject).subtract(1, 'M'));
   }
 
