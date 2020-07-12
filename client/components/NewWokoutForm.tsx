@@ -12,10 +12,6 @@ import { exerciseList } from '../static-data/excersiseList';
 import styled from 'styled-components';
 import Cookies from 'js-cookie';
 
-// interface HandleDialogClose {
-//   (): boolean;
-// }
-
 interface NewWorkoutFormProps {
   date: Date;
 }

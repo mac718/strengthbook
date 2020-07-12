@@ -2,12 +2,64 @@ import React from 'react';
 import Nav from '../../components/Nav';
 import cookies from 'next-cookies';
 import { GetServerSideProps } from 'next';
+import {
+  MovementContainer,
+  SetsContainer,
+  ExerciseBox,
+} from '../../components/ExerciseEntry/styles';
+import ExerciseEntry from '../../components/ExerciseEntry';
 
 const WorkoutShow = ({ workout, user }) => {
+  const movements = [];
+  let currentMovement;
+
+  //grab movements in workout
+  workout.sets.forEach(set => {
+    if (set.movement != currentMovement) {
+      movements.push(set.movement);
+      currentMovement = set.movement;
+    }
+  });
+
+  console.log(movements);
+
+  const setsArr = [];
+
+  //create array of arrays for sets of each moevemnt
+  movements.forEach(movement => {
+    setsArr.push(
+      workout.sets.filter(set => {
+        console.log(set.movement, movement);
+        return set.movement === movement;
+      }),
+    );
+  });
+
+  console.log(setsArr);
+
+  let setDivs = setsArr.map(set => {
+    console.log(set);
+    return <h4>{set[0].weight}</h4>;
+  });
+
+  let movementHeadings = movements.map((movement, i) => {
+    return (
+      <div>
+        <ExerciseEntry
+          exercise={movement}
+          exerciseNumber={i}
+          date={workout.date}
+        />
+        {setDivs}
+      </div>
+    );
+  });
+
   return (
     <>
       <Nav user={user} />
       <h1>{workout.date}</h1>
+      {movementHeadings}
     </>
   );
 };

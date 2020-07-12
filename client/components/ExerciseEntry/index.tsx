@@ -1,47 +1,12 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  Typography,
-  Button,
-  TextField,
-  Grid,
-  Grow,
-} from '@material-ui/core';
-import styled from 'styled-components';
-import { exec } from 'child_process';
-//import e from 'express';
-
-const ExerciseBox = styled(Box)`
-  display: flex;
-  justify-content: space-between;
-  background-color: #49dcb1;
-  padding-left: 25px;
-  border-radius: 15px 15px 0 0;
-`;
-
-const SetsContainer = styled(Box)`
-  border: 1px solid lightGray;
-  padding-left: 25px;
-  border-radius: 0 0 15px 15px;
-`;
-
-const MovementContainer = styled(Box)`
-  border: 1px solid lightGray;
-  margin-bottom: 15px;
-
-  margin-left: 15px;
-  border-radius: 15px;
-`;
+import { Typography, Button, TextField, Grid } from '@material-ui/core';
+import * as styles from './styles';
 
 const ExerciseEntry = ({ exercise, exerciseNumber, date }) => {
   const [sets, setSets] = useState([]);
   const [weight, setWeight] = useState(0);
   const [reps, setReps] = useState(0);
   const [rpe, setRpe] = useState(0);
-  //   let movement = exercise;
-  //   let object = {};
-  //   object[`${movement}`] = {};
-  //   const [entry, setEntry] = useState(object);
 
   const addSet = e => {
     e.preventDefault();
@@ -58,17 +23,7 @@ const ExerciseEntry = ({ exercise, exerciseNumber, date }) => {
         rpe: 0,
       },
     ]);
-    //console.log(entry);
-    console.log(sets);
   };
-
-  const saveWorkout = e => {
-    e.preventDefault();
-    localStorage.clear();
-  };
-
-  //   console.log(sets);
-  //   console.log(entry);
 
   let setDivs = sets.map(set => {
     return (
@@ -81,21 +36,6 @@ const ExerciseEntry = ({ exercise, exerciseNumber, date }) => {
             label="weight"
             margin="normal"
             onChange={e => {
-              //setWeight(parseFloat(e.target.value));
-              //   setEntry({
-              //     ...entry,
-              //     movement: `${exercise}`,
-              //     number: set.number,
-              //     weight: parseFloat(e.target.value),
-              //   });
-              //   console.log(entry);
-              //   let temp = entry;
-              //   temp[`${movement}`][`${set.number}`] = {
-              //     ...temp[`${set.number}`],
-              //     weight: e.target.value,
-              //   };
-              //   console.log(temp);
-              //   setEntry(temp);
               setWeight(parseFloat(e.target.value));
             }}
             onBlur={() => {
@@ -107,11 +47,6 @@ const ExerciseEntry = ({ exercise, exerciseNumber, date }) => {
               temp.weight = weight;
               tempSets.splice(index, 1, temp);
               setSets(tempSets);
-              //   object[`${movement}`][`${set.number}`] = {
-              //     ...object[`${movement}`][`${set.number}`],
-              //     weight: parseFloat(e.target.value),
-              //   };
-              //console.log(entry);
               localStorage.setItem(`${exercise}`, JSON.stringify(sets));
               console.log(localStorage);
             }}
@@ -122,13 +57,6 @@ const ExerciseEntry = ({ exercise, exerciseNumber, date }) => {
             margin="normal"
             onChange={e => {
               setReps(parseInt(e.target.value));
-              //   let temp = entry;
-              //   temp[`${movement}`][`${set.number}`] = {
-              //     ...temp[`${set.number}`],
-              //     reps: e.target.value,
-              //   };
-              //   console.log(temp);
-              //   setEntry(temp);
             }}
             onBlur={() => {
               let tempSets = sets;
@@ -139,8 +67,6 @@ const ExerciseEntry = ({ exercise, exerciseNumber, date }) => {
               temp.reps = reps;
               tempSets.splice(index, 1, temp);
               setSets(tempSets);
-              //console.log(entry);
-              //localStorage.setItem(`${exercise}`, JSON.stringify(entry));
               localStorage.setItem(`${exercise}`, JSON.stringify(sets));
               console.log(localStorage);
             }}
@@ -151,13 +77,6 @@ const ExerciseEntry = ({ exercise, exerciseNumber, date }) => {
             margin="normal"
             onChange={e => {
               setRpe(parseFloat(e.target.value));
-
-              //   let temp = entry;
-              //   temp[`${movement}`][`${set.number}`] = {
-              //     ...temp[`${set.number}`],
-              //     rpe: e.target.value,
-              //   };
-              //   setEntry(temp);
             }}
             onBlur={() => {
               let tempSets = sets;
@@ -168,8 +87,6 @@ const ExerciseEntry = ({ exercise, exerciseNumber, date }) => {
               temp.rpe = rpe;
               tempSets.splice(index, 1, temp);
               setSets(tempSets);
-              //console.log(entry);
-              //localStorage.setItem(`${exercise}`, JSON.stringify(entry))
               localStorage.setItem(`${exercise}`, JSON.stringify(sets));
               console.log(localStorage);
             }}
@@ -179,13 +96,13 @@ const ExerciseEntry = ({ exercise, exerciseNumber, date }) => {
     );
   });
   return (
-    <MovementContainer>
-      <ExerciseBox>
+    <styles.MovementContainer>
+      <styles.ExerciseBox>
         <Typography variant="h6">{exercise}</Typography>
         <Button onClick={e => addSet(e)}>Add Set</Button>
-      </ExerciseBox>
-      <SetsContainer>{setDivs}</SetsContainer>
-    </MovementContainer>
+      </styles.ExerciseBox>
+      <styles.SetsContainer>{setDivs}</styles.SetsContainer>
+    </styles.MovementContainer>
   );
 };
 
