@@ -13,7 +13,7 @@ import styled from 'styled-components';
 const NavBar = styled(Toolbar)`
   display: flex;
   justify-content: space-between;
-  background-color: #49beaa;
+  background-color: #555;
 `;
 
 const AppBarMargin = styled(AppBar)`

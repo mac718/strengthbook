@@ -27,7 +27,7 @@ const WorkoutShow = ({ workout, user }) => {
 
   //create array of arrays for sets of each moevemnt
   movements.forEach(movement => {
-    setsArr.push(
+    setsArr.unshift(
       workout.sets.filter(set => {
         console.log(set.movement, movement);
         return set.movement === movement;
@@ -35,11 +35,22 @@ const WorkoutShow = ({ workout, user }) => {
     );
   });
 
-  console.log(setsArr);
+  console.log('setsArr', setsArr);
 
-  let setDivs = setsArr.map(set => {
-    console.log(set);
-    return <h4>{set[0].weight}</h4>;
+  let setRows = [];
+
+  setsArr.forEach((sets, i) => {
+    setRows.push(
+      sets.map(set => {
+        return (
+          <tr>
+            <td>{set.weight}</td>
+            <td>{set.reps}</td>
+            <td>{set.rpe}</td>
+          </tr>
+        );
+      }),
+    );
   });
 
   let movementHeadings = movements.map((movement, i) => {
@@ -50,7 +61,7 @@ const WorkoutShow = ({ workout, user }) => {
           exerciseNumber={i}
           date={workout.date}
         />
-        {setDivs}
+        <table>{setRows[i]}</table>
       </div>
     );
   });

@@ -137,7 +137,11 @@ const Calender = ({ user }) => {
       });
       let workoutButtons = workouts.map(workout => (
         <WorkoutBanner>
-          <Typography>Workout</Typography>
+          <Link href="/workout/[id]" as={`workout/${workout._id}`}>
+            <a>
+              <Typography>Workout</Typography>
+            </a>
+          </Link>
         </WorkoutBanner>
       ));
       daysInMonthArr.push(
