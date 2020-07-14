@@ -39,7 +39,7 @@ const DateDiv = styled.div`
 `;
 
 const MonthHeading = styled.div`
-  background-color: #efefef;
+  background-color: #648db9;
   height: 60px;
   width: 85%;
   text-align: center;

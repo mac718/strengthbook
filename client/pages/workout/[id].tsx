@@ -8,6 +8,30 @@ import {
   ExerciseBox,
 } from '../../components/ExerciseEntry/styles';
 import ExerciseEntry from '../../components/ExerciseEntry';
+import {
+  TableContainer,
+  Table,
+  TableBody,
+  Paper,
+  TableHead,
+  TableRow,
+  Typography,
+  TableCell,
+  Button,
+  Box,
+} from '@material-ui/core';
+import styled from 'styled-components';
+import moment from 'moment';
+
+const StyledTableContainer = styled(TableContainer)`
+  margin-left: 15px;
+  margin-bottom: 15px;
+`;
+
+const WorkoutHeading = styled(Box)`
+  display: flex;
+  justify-content: space-between;
+`;
 
 const WorkoutShow = ({ workout, user }) => {
   const movements = [];
@@ -43,13 +67,30 @@ const WorkoutShow = ({ workout, user }) => {
     setRows.push(
       sets.map(set => {
         return (
-          <tr>
-            <td>{set.weight}</td>
-            <td>{set.reps}</td>
-            <td>{set.rpe}</td>
-          </tr>
+          <TableRow key={set._id}>
+            <TableCell>
+              <Typography>{set.setOrder}</Typography>
+            </TableCell>
+            <TableCell>
+              <Typography>{set.weight}</Typography>
+            </TableCell>
+            <TableCell>
+              <Typography>{set.reps}</Typography>
+            </TableCell>
+            <TableCell>
+              <Typography>{set.rpe}</Typography>
+            </TableCell>
+          </TableRow>
         );
       }),
+    );
+  });
+
+  const tableHeadings = movements.map(movement => {
+    return (
+      <TableRow>
+        <Typography variant="h4">{movement}</Typography>
+      </TableRow>
     );
   });
 
@@ -61,7 +102,27 @@ const WorkoutShow = ({ workout, user }) => {
           exerciseNumber={i}
           date={workout.date}
         />
-        <table>{setRows[i]}</table>
+        <StyledTableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>
+                  <Typography variant="h6">Set</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography variant="h6">Weight</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography variant="h6">Reps</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography variant="h6">RPE</Typography>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>{setRows[i]}</TableBody>
+          </Table>
+        </StyledTableContainer>
       </div>
     );
   });
@@ -69,7 +130,11 @@ const WorkoutShow = ({ workout, user }) => {
   return (
     <>
       <Nav user={user} />
-      <h1>{workout.date}</h1>
+      <WorkoutHeading color="#555">
+        <h1>{moment(workout.date).format('dddd, MMMM Do YYYY')} </h1>
+        <Button>Edit Workout</Button>
+      </WorkoutHeading>
+
       {movementHeadings}
     </>
   );
