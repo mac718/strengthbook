@@ -11,9 +11,11 @@ import ExerciseEntry from '../components/ExerciseEntry';
 import { exerciseList } from '../static-data/excersiseList';
 import styled from 'styled-components';
 import Cookies from 'js-cookie';
+import { Workout } from '../types';
 
-interface NewWorkoutFormProps {
+interface EditWorkoutFormProps {
   date: Date;
+  workout: Workout;
 }
 
 const ExerciseMenu = styled(Box)`
@@ -51,7 +53,7 @@ const SubmitButtonContainer = styled.div`
   justify-content: center;
 `;
 
-const NewWorkoutForm = ({ date }: NewWorkoutFormProps) => {
+const EditWorkoutForm = ({ date, workout }: EditWorkoutFormProps) => {
   const [exercises, setExercises] = useState([]);
   //const [sets, setSets] = useState({});
   const addExercise = e => {
@@ -76,12 +78,7 @@ const NewWorkoutForm = ({ date }: NewWorkoutFormProps) => {
 
   const exerciseDivs = exercises.map((exercise, i) => {
     return (
-      <ExerciseEntry
-        key={exercise + exercise}
-        exercise={exercise}
-        exerciseNumber={i + 1}
-        date={date}
-      />
+      <ExerciseEntry exercise={exercise} exerciseNumber={i + 1} date={date} />
     );
   });
 
@@ -134,4 +131,4 @@ const NewWorkoutForm = ({ date }: NewWorkoutFormProps) => {
   );
 };
 
-export default NewWorkoutForm;
+export default EditWorkoutForm;

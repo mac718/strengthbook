@@ -4,8 +4,19 @@ import { getModelToken } from '@nestjs/mongoose';
 import { IUser, IProfile } from './user.schema';
 import { Model } from 'mongoose';
 
-let mockProfile = { firstName: 'Mike', lastName: 'Thing', bodyWeight: 75 };
-let mockUser = { email: 'Mike', password: 'thing', profile: mockProfile };
+let mockProfile = {
+  firstName: 'Mike',
+  lastName: 'Coon',
+  bodyweight: 75,
+  dob: new Date('1980-10-21'),
+};
+let mockUser = {
+  firstName: 'Mike',
+  lastName: 'Coon',
+  email: 'mac718@gmail.com',
+  password: 'thing',
+  profile: mockProfile,
+};
 
 describe('UsersService', () => {
   let service: UsersService;

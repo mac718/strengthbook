@@ -1,12 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Typography, Button, TextField, Grid } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 import * as styles from './styles';
+import { Set } from '../../types';
+import styled from 'styled-components';
 
-const ExerciseEntry = ({ exercise, exerciseNumber, date }) => {
+const DeleteSetIcon = styled(CloseIcon)`
+  cursor: pointer;
+`;
+
+interface ExerciseEntryProps {
+  exercise: string;
+  exerciseNumber: number;
+  date: Date;
+  savedSets?: Set[];
+}
+
+const ExerciseEntry = ({
+  exercise,
+  exerciseNumber,
+  date,
+  savedSets,
+}: ExerciseEntryProps) => {
   const [sets, setSets] = useState([]);
   const [weight, setWeight] = useState(0);
   const [reps, setReps] = useState(0);
   const [rpe, setRpe] = useState(0);
+  const otherSets = useRef(sets);
 
   const addSet = e => {
     e.preventDefault();
@@ -23,18 +43,39 @@ const ExerciseEntry = ({ exercise, exerciseNumber, date }) => {
         rpe: 0,
       },
     ]);
+    otherSets.current = sets;
   };
 
-  let setDivs = sets.map(set => {
+  const handleDeleteSet = set => {
+    let index = sets.indexOf(set);
+    let setsCopy = sets.slice(0);
+    setsCopy.splice(index, 1);
+    setSets(setsCopy);
+  };
+
+  //console.log(otherSets.current);
+
+  let setDivs;
+
+  let thisSets = savedSets ? savedSets : sets;
+  console.log(thisSets);
+
+  setDivs = thisSets.map(set => {
+    console.log(set.movement + set.setOrder + set.exerciseOrder);
     return (
-      <Grid key={set.number} container spacing={2}>
+      <Grid
+        key={set.movement + set.setOrder + set.exerciseOrder}
+        container
+        spacing={2}
+      >
         <Grid item xs={2}>
           <Typography>{set.number}</Typography>
         </Grid>
-        <Grid item xs={10}>
+        <Grid item xs={9}>
           <TextField
             label="weight"
             margin="normal"
+            defaultValue={set.weight}
             onChange={e => {
               setWeight(parseFloat(e.target.value));
             }}
@@ -55,6 +96,7 @@ const ExerciseEntry = ({ exercise, exerciseNumber, date }) => {
           <TextField
             label="reps"
             margin="normal"
+            defaultValue={set.reps}
             onChange={e => {
               setReps(parseInt(e.target.value));
             }}
@@ -75,6 +117,7 @@ const ExerciseEntry = ({ exercise, exerciseNumber, date }) => {
           <TextField
             label="RPE"
             margin="normal"
+            defaultValue={set.rpe}
             onChange={e => {
               setRpe(parseFloat(e.target.value));
             }}
@@ -92,9 +135,13 @@ const ExerciseEntry = ({ exercise, exerciseNumber, date }) => {
             }}
           />
         </Grid>
+        <Grid item xs={1}>
+          <DeleteSetIcon onClick={() => handleDeleteSet(set)} />
+        </Grid>
       </Grid>
     );
   });
+
   return (
     <styles.MovementContainer>
       <styles.ExerciseBox>

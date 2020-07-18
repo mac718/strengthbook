@@ -2,11 +2,6 @@ import React from 'react';
 import Nav from '../../components/Nav';
 import cookies from 'next-cookies';
 import { GetServerSideProps } from 'next';
-import {
-  MovementContainer,
-  SetsContainer,
-  ExerciseBox,
-} from '../../components/ExerciseEntry/styles';
 import ExerciseEntry from '../../components/ExerciseEntry';
 import {
   TableContainer,
@@ -19,6 +14,7 @@ import {
   TableCell,
   Button,
   Box,
+  TextField,
 } from '@material-ui/core';
 import styled from 'styled-components';
 import moment from 'moment';
@@ -31,6 +27,7 @@ const StyledTableContainer = styled(TableContainer)`
 const WorkoutHeading = styled(Box)`
   display: flex;
   justify-content: space-between;
+  margin-left: 15px;
 `;
 
 const WorkoutShow = ({ workout, user }) => {
@@ -51,7 +48,7 @@ const WorkoutShow = ({ workout, user }) => {
 
   //create array of arrays for sets of each moevemnt
   movements.forEach(movement => {
-    setsArr.unshift(
+    setsArr.push(
       workout.sets.filter(set => {
         console.log(set.movement, movement);
         return set.movement === movement;
@@ -63,8 +60,9 @@ const WorkoutShow = ({ workout, user }) => {
 
   let setRows = [];
 
+  //create table rows for each set
   setsArr.forEach((sets, i) => {
-    setRows.push(
+    setRows.unshift(
       sets.map(set => {
         return (
           <TableRow key={set._id}>
@@ -94,7 +92,7 @@ const WorkoutShow = ({ workout, user }) => {
     );
   });
 
-  let movementHeadings = movements.map((movement, i) => {
+  let movementHeadings = movements.reverse().map((movement, i) => {
     return (
       <div>
         <ExerciseEntry
