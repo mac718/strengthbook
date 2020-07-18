@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Typography, Button, TextField, Grid } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import * as styles from './styles';
@@ -7,6 +7,12 @@ import styled from 'styled-components';
 
 const DeleteSetIcon = styled(CloseIcon)`
   cursor: pointer;
+`;
+
+const DeleteSetIconContainer = styled(Grid)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 interface ExerciseEntryProps {
@@ -26,7 +32,6 @@ const ExerciseEntry = ({
   const [weight, setWeight] = useState(0);
   const [reps, setReps] = useState(0);
   const [rpe, setRpe] = useState(0);
-  const otherSets = useRef(sets);
 
   const addSet = e => {
     e.preventDefault();
@@ -43,17 +48,17 @@ const ExerciseEntry = ({
         rpe: 0,
       },
     ]);
-    otherSets.current = sets;
   };
 
   const handleDeleteSet = set => {
     let index = sets.indexOf(set);
     let setsCopy = sets.slice(0);
+    for (let i = index + 1; i < setsCopy.length; i++) {
+      setsCopy[i].setOrder -= 1;
+    }
     setsCopy.splice(index, 1);
     setSets(setsCopy);
   };
-
-  //console.log(otherSets.current);
 
   let setDivs;
 
@@ -69,7 +74,7 @@ const ExerciseEntry = ({
         spacing={2}
       >
         <Grid item xs={2}>
-          <Typography>{set.number}</Typography>
+          <Typography>{set.setOrder}</Typography>
         </Grid>
         <Grid item xs={9}>
           <TextField
@@ -135,9 +140,9 @@ const ExerciseEntry = ({
             }}
           />
         </Grid>
-        <Grid item xs={1}>
+        <DeleteSetIconContainer item xs={1}>
           <DeleteSetIcon onClick={() => handleDeleteSet(set)} />
-        </Grid>
+        </DeleteSetIconContainer>
       </Grid>
     );
   });

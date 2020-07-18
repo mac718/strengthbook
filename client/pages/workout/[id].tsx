@@ -18,6 +18,7 @@ import {
 } from '@material-ui/core';
 import styled from 'styled-components';
 import moment from 'moment';
+import { exerciseList } from '../../static-data/excersiseList';
 
 const StyledTableContainer = styled(TableContainer)`
   margin-left: 15px;
@@ -64,6 +65,8 @@ const WorkoutShow = ({ workout, user }) => {
   setsArr.forEach((sets, i) => {
     setRows.unshift(
       sets.map(set => {
+        console.log('setid', set._id);
+
         return (
           <TableRow key={set._id}>
             <TableCell>
@@ -94,7 +97,7 @@ const WorkoutShow = ({ workout, user }) => {
 
   let movementHeadings = movements.reverse().map((movement, i) => {
     return (
-      <div>
+      <div key={movement + i}>
         <ExerciseEntry
           exercise={movement}
           exerciseNumber={i}

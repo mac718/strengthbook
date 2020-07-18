@@ -158,7 +158,7 @@ const Calender = ({ user }) => {
 
       //find workouts from the date in question
       let workouts = user.workouts.filter(workout => {
-        console.log(tdDate, workout.date);
+        //console.log(tdDate, workout.date);
         return (
           Date.parse(workout.date) === Date.parse(tdDate.toLocaleDateString())
         );
