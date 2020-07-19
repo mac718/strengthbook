@@ -54,7 +54,16 @@ const SubmitButtonContainer = styled.div`
 `;
 
 const EditWorkoutForm = ({ date, workout }: EditWorkoutFormProps) => {
-  const [exercises, setExercises] = useState([]);
+  let savedWorkoutExercises = [];
+
+  workout.sets.forEach(set => {
+    if (!savedWorkoutExercises.includes(set.movement)) {
+      savedWorkoutExercises.push(set.movement);
+    }
+  });
+  const [exercises, setExercises] = useState(
+    savedWorkoutExercises ? savedWorkoutExercises.reverse() : [],
+  );
   //const [sets, setSets] = useState({});
   const addExercise = e => {
     e.preventDefault();
@@ -84,7 +93,8 @@ const EditWorkoutForm = ({ date, workout }: EditWorkoutFormProps) => {
         exercise={exercise}
         exerciseNumber={i + 1}
         date={date}
-        savedSets={workout.sets}
+        savedSets={workout.sets.filter(set => set.movement === exercise)}
+        key={exercise + (i + 1)}
       />
     );
   });
@@ -103,7 +113,7 @@ const EditWorkoutForm = ({ date, workout }: EditWorkoutFormProps) => {
     );
   });
 
-  console.log(localStorage);
+  //console.log(localStorage);
 
   let submitButton;
 
