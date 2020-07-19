@@ -1,5 +1,18 @@
 import React, { useState } from 'react';
-import { Typography, Button, TextField, Grid } from '@material-ui/core';
+import {
+  Typography,
+  Button,
+  TextField,
+  Grid,
+  Table,
+  TableContainer,
+  TableCell,
+  TableRow,
+  TableHead,
+  Box,
+  Paper,
+  TableBody,
+} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import * as styles from './styles';
 import { Set } from '../../types';
@@ -13,6 +26,25 @@ const DeleteSetIconContainer = styled(Grid)`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const StyledTableContainer = styled(TableContainer)`
+  margin-left: 15px;
+  margin-bottom: 15px;
+`;
+
+const WorkoutHeading = styled(Box)`
+  display: flex;
+  justify-content: space-between;
+  margin-left: 15px;
+`;
+
+const ExerciseBox = styled(Box)`
+  display: flex;
+  justify-content: space-between;
+  background-color: #49dcb1;
+  padding-left: 25px;
+  border-radius: 15px 15px 0 0;
 `;
 
 interface ExerciseEntryProps {
@@ -62,10 +94,7 @@ const ExerciseEntry = ({
 
   let setDivs;
 
-  let thisSets = savedSets ? savedSets : sets;
-  console.log(thisSets);
-
-  setDivs = thisSets.map(set => {
+  setDivs = sets.map(set => {
     console.log(set.movement + set.setOrder + set.exerciseOrder);
     return (
       <Grid

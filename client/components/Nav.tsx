@@ -9,7 +9,11 @@ import {
 } from '@material-ui/core';
 import Link from 'next/link';
 import styled from 'styled-components';
+import MenuIcon from '@material-ui/icons/Menu';
 
+const StyledMenuIcon = styled(MenuIcon)`
+  cursor: pointer;
+`;
 const NavBar = styled(Toolbar)`
   display: flex;
   justify-content: space-between;
@@ -40,14 +44,19 @@ const Nav = ({ user }) => {
         <Typography variant="h5">Strengthbook</Typography>
         <Typography>Hi, {user.profile.firstName}!</Typography>
         <div>
-          <Button
+          {/* <Button
             aria-controls="simple-menu"
             aria-haspopup="true"
             onClick={handleClick}
             variant="contained"
           >
             Menu
-          </Button>
+          </Button> */}
+          <StyledMenuIcon
+            aria-controls="simple-menu"
+            aria-haspopup="true"
+            onClick={handleClick}
+          />
           <Menu
             id="simple-menu"
             anchorEl={anchorEl}

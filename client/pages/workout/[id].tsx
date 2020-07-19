@@ -31,7 +31,16 @@ const WorkoutHeading = styled(Box)`
   margin-left: 15px;
 `;
 
+const ExerciseBox = styled(Box)`
+  display: flex;
+  justify-content: space-between;
+  background-color: #49dcb1;
+  padding-left: 25px;
+  border-radius: 15px 15px 0 0;
+`;
+
 const WorkoutShow = ({ workout, user }) => {
+  console.log('workout', workout);
   const movements = [];
   let currentMovement;
 
@@ -102,6 +111,7 @@ const WorkoutShow = ({ workout, user }) => {
           exercise={movement}
           exerciseNumber={i}
           date={workout.date}
+          savedSets={workout.sets}
         />
         <StyledTableContainer component={Paper}>
           <Table>
