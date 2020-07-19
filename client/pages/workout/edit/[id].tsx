@@ -1,10 +1,16 @@
 import React from 'react';
 import EditWorkoutForm from '../../../components/EditWorkoutForm';
+import Nav from '../../../components/Nav';
 import { GetServerSideProps } from 'next';
 import cookies from 'next-cookies';
 
-const EditWorkout = ({ workout, date }) => {
-  return <EditWorkoutForm workout={workout} date={date} />;
+const EditWorkout = ({ user, workout, date }) => {
+  return (
+    <>
+      <Nav user={user} />
+      <EditWorkoutForm workout={workout} date={date} />
+    </>
+  );
 };
 
 export const getServerSideProps: GetServerSideProps = async context => {
