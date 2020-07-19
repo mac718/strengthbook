@@ -18,6 +18,7 @@ import {
 } from '@material-ui/core';
 import styled from 'styled-components';
 import moment from 'moment';
+import Link from 'next/link';
 import { exerciseList } from '../../static-data/excersiseList';
 
 const StyledTableContainer = styled(TableContainer)`
@@ -143,7 +144,11 @@ const WorkoutShow = ({ workout, user }) => {
       <Nav user={user} />
       <WorkoutHeading color="#555">
         <h1>{moment(workout.date).format('dddd, MMMM Do YYYY')} </h1>
-        <Button>Edit Workout</Button>
+        <Link href="/workout/edit/[id]" as={`/workout/edit/${workout._id}`}>
+          <a>
+            <Button>Edit Workout</Button>
+          </a>
+        </Link>
       </WorkoutHeading>
 
       {movementHeadings}
@@ -184,7 +189,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
       return;
     });
 
-  console.log(context.params);
+  console.log('params', context.params);
   console.log(user.workouts);
 
   const workout = user.workouts.filter(

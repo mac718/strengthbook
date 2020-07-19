@@ -13,12 +13,13 @@ export type Profile = {
 };
 
 export interface Set {
+  date: Date;
   movement: string;
   exerciseOrder: number;
   setOrder: number;
   weight: number;
   reps: number;
-  rep: number;
+  rpe: number;
   e1rm: number;
 }
 

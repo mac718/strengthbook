@@ -76,9 +76,16 @@ const EditWorkoutForm = ({ date, workout }: EditWorkoutFormProps) => {
     }).then(() => localStorage.clear());
   };
 
+  console.log(workout);
+
   const exerciseDivs = exercises.map((exercise, i) => {
     return (
-      <ExerciseEntry exercise={exercise} exerciseNumber={i + 1} date={date} />
+      <ExerciseEntry
+        exercise={exercise}
+        exerciseNumber={i + 1}
+        date={date}
+        savedSets={workout.sets}
+      />
     );
   });
 

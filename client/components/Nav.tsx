@@ -44,14 +44,6 @@ const Nav = ({ user }) => {
         <Typography variant="h5">Strengthbook</Typography>
         <Typography>Hi, {user.profile.firstName}!</Typography>
         <div>
-          {/* <Button
-            aria-controls="simple-menu"
-            aria-haspopup="true"
-            onClick={handleClick}
-            variant="contained"
-          >
-            Menu
-          </Button> */}
           <StyledMenuIcon
             aria-controls="simple-menu"
             aria-haspopup="true"

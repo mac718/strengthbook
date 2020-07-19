@@ -60,10 +60,12 @@ const ExerciseEntry = ({
   date,
   savedSets,
 }: ExerciseEntryProps) => {
-  const [sets, setSets] = useState([]);
+  const [sets, setSets] = useState(savedSets ? savedSets : []);
   const [weight, setWeight] = useState(0);
   const [reps, setReps] = useState(0);
   const [rpe, setRpe] = useState(0);
+
+  console.log(sets);
 
   const addSet = e => {
     e.preventDefault();
@@ -78,6 +80,7 @@ const ExerciseEntry = ({
         weight: 0,
         reps: 0,
         rpe: 0,
+        e1rm: 0,
       },
     ]);
   };

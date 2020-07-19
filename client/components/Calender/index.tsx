@@ -165,7 +165,7 @@ const Calender = ({ user }) => {
       });
       let workoutButtons = workouts.map(workout => (
         <WorkoutBanner>
-          <Link href="/workout/[id]" as={`workout/${workout._id}`}>
+          <Link href="/workout/[id]" as={`/workout/${workout._id}`}>
             <a>
               <Typography>Workout</Typography>
             </a>
