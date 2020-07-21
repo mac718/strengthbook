@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Typography,
   Button,
@@ -65,6 +65,26 @@ const ExerciseEntry = ({
   const [reps, setReps] = useState(0);
   const [rpe, setRpe] = useState(0);
 
+  //load pre-existing sets into local storage if provided
+  useEffect(() => {
+    if (sets.length > 0) {
+      let savedWorkoutExercises = [];
+
+      savedSets.forEach(set => {
+        if (!savedWorkoutExercises.includes(set.movement)) {
+          savedWorkoutExercises.push(set.movement + '-' + set.exerciseOrder);
+        }
+      });
+
+      savedWorkoutExercises.forEach(exercise => {
+        let exerciseSets = savedSets.filter(
+          set => set.movement + '-' + set.exerciseOrder === exercise,
+        );
+        localStorage.setItem(`${exercise}`, JSON.stringify(exerciseSets));
+      });
+    }
+  });
+
   console.log(sets);
 
   const addSet = e => {
@@ -98,7 +118,6 @@ const ExerciseEntry = ({
   let setDivs;
 
   setDivs = sets.map(set => {
-    console.log(set.movement + set.setOrder + set.exerciseOrder);
     return (
       <Grid
         key={set.movement + set.setOrder + set.exerciseOrder}
@@ -125,7 +144,10 @@ const ExerciseEntry = ({
               temp.weight = weight;
               tempSets.splice(index, 1, temp);
               setSets(tempSets);
-              localStorage.setItem(`${exercise}`, JSON.stringify(sets));
+              localStorage.setItem(
+                `${exercise}-${set.exerciseOrder}`,
+                JSON.stringify(sets),
+              );
               console.log(localStorage);
             }}
             required
@@ -146,7 +168,10 @@ const ExerciseEntry = ({
               temp.reps = reps;
               tempSets.splice(index, 1, temp);
               setSets(tempSets);
-              localStorage.setItem(`${exercise}`, JSON.stringify(sets));
+              localStorage.setItem(
+                `${exercise}-${set.exerciseOrder}`,
+                JSON.stringify(sets),
+              );
               console.log(localStorage);
             }}
             required
@@ -167,7 +192,10 @@ const ExerciseEntry = ({
               temp.rpe = rpe;
               tempSets.splice(index, 1, temp);
               setSets(tempSets);
-              localStorage.setItem(`${exercise}`, JSON.stringify(sets));
+              localStorage.setItem(
+                `${exercise}-${set.exerciseOrder}`,
+                JSON.stringify(sets),
+              );
               console.log(localStorage);
             }}
           />

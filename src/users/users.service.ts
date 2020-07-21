@@ -119,6 +119,8 @@ export class UsersService {
     });
   }
 
+  async editWorkout(user: Model<IUser>, createWorkoutDto: CreateWorkoutDto) {}
+
   async findOneByEmail(email): Model<IUser> {
     return await this.userModel.findOne({ email });
   }

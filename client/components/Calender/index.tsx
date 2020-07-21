@@ -69,11 +69,20 @@ const CalCellDay = styled(Typography)`
 `;
 
 const WorkoutBanner = styled.div`
-  width: 100%;
+  width: 95%;
   height: 17%;
   background-color: #49beaa;
   text-align: center;
   margin-bottom: 3px;
+  border-radius: 3px;
+  box-shadow: 1px 1px 2px 2px #bbb;
+  margin-left: auto;
+  margin-right: auto;
+  cursor: pointer;
+`;
+
+const WorkoutBannerLink = styled.a`
+  text-decoration: none;
 `;
 
 const Calender = ({ user }) => {
@@ -166,9 +175,9 @@ const Calender = ({ user }) => {
       let workoutButtons = workouts.map(workout => (
         <WorkoutBanner>
           <Link href="/workout/[id]" as={`/workout/${workout._id}`}>
-            <a>
+            <WorkoutBannerLink>
               <Typography>Workout</Typography>
-            </a>
+            </WorkoutBannerLink>
           </Link>
         </WorkoutBanner>
       ));
