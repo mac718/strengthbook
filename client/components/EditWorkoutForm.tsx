@@ -11,6 +11,7 @@ import ExerciseEntry from '../components/ExerciseEntry';
 import { exerciseList } from '../static-data/excersiseList';
 import styled from 'styled-components';
 import Cookies from 'js-cookie';
+import Router from 'next/router';
 import { Workout } from '../types';
 
 interface EditWorkoutFormProps {
@@ -54,6 +55,7 @@ const SubmitButtonContainer = styled.div`
 `;
 
 const EditWorkoutForm = ({ date, workout }: EditWorkoutFormProps) => {
+  const [redirect, setRedirect] = useState(false);
   let savedWorkoutExercises = [];
 
   workout.sets.forEach(set => {
@@ -64,7 +66,7 @@ const EditWorkoutForm = ({ date, workout }: EditWorkoutFormProps) => {
   const [exercises, setExercises] = useState(
     savedWorkoutExercises ? savedWorkoutExercises.reverse() : [],
   );
-  //const [sets, setSets] = useState({});
+
   const addExercise = e => {
     e.preventDefault();
     const exercise = e.target.innerText;
@@ -85,7 +87,12 @@ const EditWorkoutForm = ({ date, workout }: EditWorkoutFormProps) => {
         'content-type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-    }).then(() => localStorage.clear());
+    }).then(res => {
+      if (res.status === 200) {
+        setRedirect(true);
+      }
+      localStorage.clear();
+    });
   };
 
   console.log(workout);
@@ -130,6 +137,11 @@ const EditWorkoutForm = ({ date, workout }: EditWorkoutFormProps) => {
     );
   } else {
     submitButton = null;
+  }
+
+  if (redirect) {
+    Router.push(`/workout/[id]`, `/workout/${workout._id}`);
+    setRedirect(false);
   }
 
   return (

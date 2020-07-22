@@ -6,7 +6,6 @@ import { Model } from 'mongoose';
 import { EditProfileDto } from './dto/edit-profile.dto';
 import { CreateWorkoutDto } from './dto/create-workout.dto';
 import { rpeChart } from './rpeChart';
-import { compareSync } from 'bcrypt';
 
 @Injectable()
 export class UsersService {
