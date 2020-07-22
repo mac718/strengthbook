@@ -2,6 +2,7 @@ import React from 'react';
 import Nav from '../../components/Nav';
 import cookies from 'next-cookies';
 import { GetServerSideProps } from 'next';
+import MovementHeading from '../../components/MovementHeading';
 import ExerciseEntry from '../../components/ExerciseEntry';
 import {
   TableContainer,
@@ -19,7 +20,6 @@ import {
 import styled from 'styled-components';
 import moment from 'moment';
 import Link from 'next/link';
-import { exerciseList } from '../../static-data/excersiseList';
 
 const StyledTableContainer = styled(TableContainer)`
   margin-left: 15px;
@@ -108,11 +108,11 @@ const WorkoutShow = ({ workout, user }) => {
   let movementHeadings = movements.reverse().map((movement, i) => {
     return (
       <div key={movement + i}>
-        <ExerciseEntry
-          exercise={movement}
-          exerciseNumber={i}
-          date={workout.date}
-          savedSets={workout.sets}
+        <MovementHeading
+          movement={movement}
+          // exerciseNumber={i}
+          // date={workout.date}
+          // savedSets={workout.sets}
         />
         <StyledTableContainer component={Paper}>
           <Table>
