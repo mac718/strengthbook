@@ -72,11 +72,14 @@ const EditWorkoutForm = ({ date, workout }: EditWorkoutFormProps) => {
     console.log(e.target.innerText);
   };
 
-  const submitWorkout = () => {
+  const submitWorkout = e => {
+    e.preventDefault();
     const token = Cookies.get('token');
 
-    fetch('http://localhost:3001/users/new-workout', {
-      method: 'POST',
+    console.log('date', date);
+
+    fetch(`http://localhost:3001/users/edit-workout/${workout._id}`, {
+      method: 'PUT',
       body: JSON.stringify({ date, sets: localStorage }),
       headers: {
         'content-type': 'application/json',
@@ -131,7 +134,7 @@ const EditWorkoutForm = ({ date, workout }: EditWorkoutFormProps) => {
 
   return (
     <>
-      <WorkoutForm onSubmit={() => submitWorkout()}>
+      <WorkoutForm onSubmit={e => submitWorkout(e)}>
         <Grid container spacing={2}>
           <Grid item xs={8}>
             {exerciseDivs}

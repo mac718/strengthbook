@@ -6,6 +6,7 @@ import { Model } from 'mongoose';
 import { EditProfileDto } from './dto/edit-profile.dto';
 import { CreateWorkoutDto } from './dto/create-workout.dto';
 import { rpeChart } from './rpeChart';
+import { compareSync } from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -68,7 +69,6 @@ export class UsersService {
 
       let e1rm = set.weight * (100 / percentage.percentage);
 
-      console.log(percentage.percentage, e1rm);
       set.e1rm = e1rm;
 
       let movement = set.movement;
@@ -119,7 +119,82 @@ export class UsersService {
     });
   }
 
-  async editWorkout(user: Model<IUser>, createWorkoutDto: CreateWorkoutDto) {}
+  async editWorkout(
+    user: Model<IUser>,
+    createWorkoutDto: CreateWorkoutDto,
+    workoutId: string,
+  ) {
+    console.log('createWorkoutDto', createWorkoutDto);
+    console.log('workoutId', workoutId);
+
+    let keys = Object.keys(createWorkoutDto.sets);
+
+    let editedWorkout = [];
+
+    keys.forEach(key => {
+      JSON.parse(createWorkoutDto.sets[key]).forEach(set => {
+        editedWorkout.push(set);
+      });
+    });
+
+    let savedWorkout = user.workouts.filter(
+      workout => JSON.stringify(workout._id) === JSON.stringify(workoutId),
+    )[0];
+
+    savedWorkout.date = createWorkoutDto.date;
+    savedWorkout.sets = editedWorkout;
+
+    console.log('user', user);
+
+    console.log('workout', savedWorkout);
+
+    savedWorkout.sets.forEach(set => {
+      console.log('set rpe', set.rpe);
+      let rpeArr = rpeChart[set.rpe];
+
+      let percentage = rpeArr.filter(rpe => {
+        return rpe.reps === set.reps;
+      })[0];
+
+      let e1rm = set.weight * (100 / percentage.percentage);
+
+      set.e1rm = e1rm;
+
+      let movement = set.movement;
+
+      let pr = user.prs.filter(pr => {
+        return pr.movement === movement;
+      })[0];
+
+      console.log('pr', pr);
+      if (pr && pr.weight < set.e1rm) {
+        pr.weight = set.e1rm;
+        let prIndex;
+        user.prs.forEach((pr, i) => {
+          if (pr.movement === movement) {
+            prIndex = i;
+          }
+        });
+        user.prs.splice(prIndex, 1, pr);
+      } else if (!pr) {
+        pr = {
+          movement: movement,
+          weight: set.e1rm,
+          date: createWorkoutDto.date,
+        };
+        console.log('pr2', pr);
+        user.prs = [...user.prs, pr];
+      }
+    });
+    await user.save((err, user) => {
+      if (err) {
+        throw new InternalServerErrorException(
+          'workout could not be saved.',
+          err,
+        );
+      }
+    });
+  }
 
   async findOneByEmail(email): Model<IUser> {
     return await this.userModel.findOne({ email });

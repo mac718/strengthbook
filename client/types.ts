@@ -26,4 +26,5 @@ export interface Set {
 export interface Workout {
   date: Date;
   sets: Set[];
+  _id: string;
 }

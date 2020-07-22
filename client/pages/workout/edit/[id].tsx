@@ -54,7 +54,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
   )[0];
 
   return {
-    props: { user, workout },
+    props: { user, workout, date: workout.date },
   };
 };
 

@@ -1,4 +1,13 @@
-import { Controller, Post, Body, Get, UseGuards, Patch } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  UseGuards,
+  Patch,
+  Put,
+  Param,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from '../auth/get-user.decorator';
@@ -23,6 +32,17 @@ export class UsersController {
     @Body() createWorkoutDto: CreateWorkoutDto,
   ) {
     return await this.usersService.createWorkout(user, createWorkoutDto);
+  }
+
+  @Put('edit-workout/:id')
+  @UseGuards(AuthGuard('jwt'))
+  async editWorkout(
+    @GetUser() user,
+    @Body() createWorkoutDto: CreateWorkoutDto,
+    @Param() params,
+  ) {
+    console.log('user', user);
+    return this.usersService.editWorkout(user, createWorkoutDto, params.id);
   }
 
   @Post('/getuser')
