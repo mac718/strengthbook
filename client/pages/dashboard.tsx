@@ -24,7 +24,7 @@ const Dashboard = ({ user }) => {
   console.log(user.prs);
   let prs = user.prs.map(pr => {
     return (
-      <ListItem>
+      <ListItem key={pr._id}>
         <Typography>
           {moment(pr.date).format('MM-DD-YYYY')} {pr.movement}:{' '}
           {Math.round(pr.weight)}

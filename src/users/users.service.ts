@@ -71,15 +71,12 @@ export class UsersService {
       set.e1rm = e1rm;
 
       let movement = set.movement;
-      console.log('thingy', user.prs);
 
       let pr = user.prs.filter(pr => {
         return pr.movement === movement;
       })[0];
 
-      console.log('pr', pr);
       if (pr && pr.weight < set.e1rm) {
-        console.log('pr', set.e1rm);
         pr.weight = set.e1rm;
         let prIndex;
         user.prs.forEach((pr, i) => {
@@ -89,19 +86,14 @@ export class UsersService {
         });
         user.prs.splice(prIndex, 1, pr);
       } else if (!pr) {
-        console.log('e1rm2', set.e1rm);
-
         pr = {
           movement: movement,
           weight: set.e1rm,
           date: createWorkoutDto.date,
         };
-        console.log('pr2', pr);
         user.prs = [...user.prs, pr];
       }
     });
-
-    console.log('workout', workout);
 
     user.workouts = [
       ...user.workouts,
@@ -123,9 +115,6 @@ export class UsersService {
     createWorkoutDto: CreateWorkoutDto,
     workoutId: string,
   ) {
-    console.log('createWorkoutDto', createWorkoutDto);
-    console.log('workoutId', workoutId);
-
     let keys = Object.keys(createWorkoutDto.sets);
 
     let editedWorkout = [];
@@ -143,12 +132,7 @@ export class UsersService {
     savedWorkout.date = createWorkoutDto.date;
     savedWorkout.sets = editedWorkout;
 
-    console.log('user', user);
-
-    console.log('workout', savedWorkout);
-
     savedWorkout.sets.forEach(set => {
-      console.log('set rpe', set.rpe);
       let rpeArr = rpeChart[set.rpe];
 
       let percentage = rpeArr.filter(rpe => {
@@ -165,7 +149,6 @@ export class UsersService {
         return pr.movement === movement;
       })[0];
 
-      console.log('pr', pr);
       if (pr && pr.weight < set.e1rm) {
         pr.weight = set.e1rm;
         let prIndex;
@@ -181,7 +164,6 @@ export class UsersService {
           weight: set.e1rm,
           date: createWorkoutDto.date,
         };
-        console.log('pr2', pr);
         user.prs = [...user.prs, pr];
       }
     });

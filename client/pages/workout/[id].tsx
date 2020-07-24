@@ -108,12 +108,7 @@ const WorkoutShow = ({ workout, user }) => {
   let movementHeadings = movements.reverse().map((movement, i) => {
     return (
       <div key={movement + i}>
-        <MovementHeading
-          movement={movement}
-          // exerciseNumber={i}
-          // date={workout.date}
-          // savedSets={workout.sets}
-        />
+        <MovementHeading movement={movement} />
         <StyledTableContainer component={Paper}>
           <Table>
             <TableHead>

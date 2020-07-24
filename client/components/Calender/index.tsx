@@ -145,7 +145,7 @@ const Calender = ({ user }) => {
         );
       });
       let workoutButtons = workouts.map(workout => (
-        <WorkoutBanner>
+        <WorkoutBanner key={workout._id}>
           <Link href="/workout/[id]" as={`workout/${workout._id}`}>
             <a>
               <Typography>Workout</Typography>
@@ -173,7 +173,7 @@ const Calender = ({ user }) => {
         );
       });
       let workoutButtons = workouts.map(workout => (
-        <WorkoutBanner>
+        <WorkoutBanner key={workout._id}>
           <Link href="/workout/[id]" as={`/workout/${workout._id}`}>
             <WorkoutBannerLink>
               <Typography>Workout</Typography>
@@ -211,7 +211,7 @@ const Calender = ({ user }) => {
   });
 
   let daysinmonth = rows.map((d, i) => {
-    return <tr key={d}>{d}</tr>;
+    return <tr key={d + 1}>{d}</tr>;
   });
 
   function handlePrevisousMonthClick() {

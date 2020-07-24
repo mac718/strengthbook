@@ -67,7 +67,7 @@ const ExerciseEntry = ({
 
   //load pre-existing sets into local storage if provided
   useEffect(() => {
-    if (sets.length > 0) {
+    if (savedSets) {
       let savedWorkoutExercises = [];
 
       savedSets.forEach(set => {
