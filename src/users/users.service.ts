@@ -6,6 +6,7 @@ import { Model } from 'mongoose';
 import { EditProfileDto } from './dto/edit-profile.dto';
 import { CreateWorkoutDto } from './dto/create-workout.dto';
 import { rpeChart } from './rpeChart';
+import { ExportWorkoutDto } from './dto/export-workout.dto';
 
 @Injectable()
 export class UsersService {
@@ -175,6 +176,27 @@ export class UsersService {
         );
       }
     });
+  }
+
+  exportWorkout(user: Model<IUser>, exportWorkoutDto: ExportWorkoutDto) {
+    const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+    console.log(exportWorkoutDto);
+
+    console.log(exportWorkoutDto.sets);
+
+    const csvWriter = createCsvWriter({
+      path: 'workout.csv',
+      header: [
+        { id: 'movement', title: 'Movement' },
+        { id: 'weight', title: 'weight' },
+      ],
+    });
+
+    csvWriter
+      .writeRecords(exportWorkoutDto.sets) // returns a promise
+      .then(() => {
+        console.log('...Done');
+      });
   }
 
   async findOneByEmail(email): Model<IUser> {

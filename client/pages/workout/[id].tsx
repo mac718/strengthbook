@@ -20,6 +20,7 @@ import {
 import styled from 'styled-components';
 import moment from 'moment';
 import Link from 'next/link';
+import Cookies from 'js-cookie';
 
 const StyledTableContainer = styled(TableContainer)`
   margin-left: 15px;
@@ -134,6 +135,30 @@ const WorkoutShow = ({ workout, user }) => {
     );
   });
 
+  function exportToCsv(e, workout) {
+    e.preventDefault();
+    const token = Cookies.get('token');
+
+    console.log('thingy thingy', workout);
+
+    fetch('http://localhost:3001/users/export', {
+      method: 'POST',
+      body: JSON.stringify({
+        id: workout._id,
+        date: workout.date,
+        sets: workout.sets,
+      }),
+      headers: {
+        'content-type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }).catch(err => {
+      alert(`Not Authorized: ${err}`);
+      console.error('not authorized ', err);
+      return;
+    });
+  }
+
   return (
     <>
       <Nav user={user} />
@@ -144,6 +169,13 @@ const WorkoutShow = ({ workout, user }) => {
             <Button>Edit Workout</Button>
           </a>
         </Link>
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={e => exportToCsv(e, workout)}
+        >
+          Export TO CSV
+        </Button>
       </WorkoutHeading>
 
       {movementHeadings}

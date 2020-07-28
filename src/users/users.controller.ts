@@ -14,6 +14,7 @@ import { GetUser } from '../auth/get-user.decorator';
 import { User } from './user.interface';
 import { EditProfileDto } from './dto/edit-profile.dto';
 import { CreateWorkoutDto } from './dto/create-workout.dto';
+import { ExportWorkoutDto } from './dto/export-workout.dto';
 
 @Controller('users')
 export class UsersController {
@@ -43,6 +44,15 @@ export class UsersController {
   ) {
     console.log('user', user);
     return this.usersService.editWorkout(user, createWorkoutDto, params.id);
+  }
+
+  @Post('export')
+  @UseGuards(AuthGuard('jwt'))
+  async exportWorkout(
+    @GetUser() user,
+    @Body() exportWorkoutDto: ExportWorkoutDto,
+  ) {
+    return await this.usersService.exportWorkout(user, exportWorkoutDto);
   }
 
   @Post('/getuser')
