@@ -152,11 +152,29 @@ const WorkoutShow = ({ workout, user }) => {
         'content-type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-    }).catch(err => {
-      alert(`Not Authorized: ${err}`);
-      console.error('not authorized ', err);
-      return;
-    });
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(json => {
+        var blob = new Blob(json);
+        if (window.navigator.msSaveOrOpenBlob) {
+          window.navigator.msSaveBlob(blob, 'filename.csv');
+        } else {
+          var a = window.document.createElement('a');
+
+          a.href = window.URL.createObjectURL(blob);
+          a.download = 'filename.csv';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }
+      })
+      .catch(err => {
+        alert(`Not Authorized: ${err}`);
+        console.error('not authorized ', err);
+        return;
+      });
   }
 
   return (

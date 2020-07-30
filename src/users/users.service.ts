@@ -179,24 +179,50 @@ export class UsersService {
   }
 
   exportWorkout(user: Model<IUser>, exportWorkoutDto: ExportWorkoutDto) {
-    const createCsvWriter = require('csv-writer').createObjectCsvWriter;
-    console.log(exportWorkoutDto);
+    // const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+    // console.log(exportWorkoutDto);
 
-    console.log(exportWorkoutDto.sets);
+    // console.log(exportWorkoutDto.sets);
 
-    const csvWriter = createCsvWriter({
-      path: 'workout.csv',
-      header: [
-        { id: 'movement', title: 'Movement' },
-        { id: 'weight', title: 'weight' },
-      ],
+    // const csvWriter = createCsvWriter({
+    //   path: 'workout.csv',
+    //   header: [
+    //     { id: 'movement', title: 'Movement' },
+    //     { id: 'weight', title: 'weight' },
+    //   ],
+    // });
+
+    // csvWriter
+    //   .writeRecords(exportWorkoutDto.sets) // returns a promise
+    //   .then(() => {
+    //     console.log('...Done');
+    //   });
+    const fs = require('fs');
+    const path = require('path');
+    const os = require('os');
+
+    // output file in the same folder
+    const filename = path.join(__dirname, 'output.csv');
+    const output = []; // holds all rows of data
+
+    // const squats = exportWorkoutDto.sets.filter(
+    //   set => set.movement === 'Low Bar Squat with Belt',
+    // );
+
+    const headings = ['Movement', 'Weight', 'Reps', 'RPE', '\n'];
+
+    output.push(headings);
+
+    exportWorkoutDto.sets.forEach(d => {
+      const row = []; // a new array for each row of workoutata
+      row.push(d.movement);
+      row.push(d.weight);
+      row.push(d.reps);
+      row.push(d.rpe);
+      output.push(row.join() + '\n');
     });
 
-    csvWriter
-      .writeRecords(exportWorkoutDto.sets) // returns a promise
-      .then(() => {
-        console.log('...Done');
-      });
+    return output; // by default, join() uses a ','
   }
 
   async findOneByEmail(email): Model<IUser> {

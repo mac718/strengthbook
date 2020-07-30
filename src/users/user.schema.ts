@@ -47,7 +47,7 @@ export interface ISet extends mongoose.Document {
   setOrder: number;
   weight: number;
   reps: number;
-  rep: number;
+  rpe: number;
   e1rm: number;
 }
 
