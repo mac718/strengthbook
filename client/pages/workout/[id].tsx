@@ -17,6 +17,7 @@ import {
   Box,
   TextField,
 } from '@material-ui/core';
+import EditIcon from '@material-ui/icons/Edit';
 import styled from 'styled-components';
 import moment from 'moment';
 import Link from 'next/link';
@@ -30,6 +31,7 @@ const StyledTableContainer = styled(TableContainer)`
 const WorkoutHeading = styled(Box)`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-left: 15px;
 `;
 
@@ -180,15 +182,17 @@ const WorkoutShow = ({ workout, user }) => {
   return (
     <>
       <Nav user={user} />
-      <WorkoutHeading color="#555">
-        <h1>{moment(workout.date).format('dddd, MMMM Do YYYY')} </h1>
+      <div>
         <Link href="/workout/edit/[id]" as={`/workout/edit/${workout._id}`}>
           <a>
-            <Button>Edit Workout</Button>
+            <EditIcon />
           </a>
         </Link>
+      </div>
+      <WorkoutHeading color="#555">
+        <h1>{moment(workout.date).format('dddd, MMMM Do YYYY')} </h1>
         <Button
-          variant="outlined"
+          variant="contained"
           color="secondary"
           onClick={e => exportToCsv(e, workout)}
         >

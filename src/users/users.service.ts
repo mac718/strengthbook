@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
-import { IUser, IProfile } from './user.schema';
+import { IUser, IProfile, ISet } from './user.schema';
 import { Model } from 'mongoose';
 import { EditProfileDto } from './dto/edit-profile.dto';
 import { CreateWorkoutDto } from './dto/create-workout.dto';
@@ -60,41 +60,43 @@ export class UsersService {
       });
     });
 
-    workout.forEach(set => {
-      let rpeArr = rpeChart[set.rpe];
+    this.calculatePrs(createWorkoutDto.date, workout, user);
 
-      let percentage = rpeArr.filter(rpe => {
-        return rpe.reps === set.reps;
-      })[0];
+    // workout.forEach(set => {
+    //   let rpeArr = rpeChart[set.rpe];
 
-      let e1rm = set.weight * (100 / percentage.percentage);
+    //   let percentage = rpeArr.filter(rpe => {
+    //     return rpe.reps === set.reps;
+    //   })[0];
 
-      set.e1rm = e1rm;
+    //   let e1rm = set.weight * (100 / percentage.percentage);
 
-      let movement = set.movement;
+    //   set.e1rm = e1rm;
 
-      let pr = user.prs.filter(pr => {
-        return pr.movement === movement;
-      })[0];
+    //   let movement = set.movement;
 
-      if (pr && pr.weight < set.e1rm) {
-        pr.weight = set.e1rm;
-        let prIndex;
-        user.prs.forEach((pr, i) => {
-          if (pr.movement === movement) {
-            prIndex = i;
-          }
-        });
-        user.prs.splice(prIndex, 1, pr);
-      } else if (!pr) {
-        pr = {
-          movement: movement,
-          weight: set.e1rm,
-          date: createWorkoutDto.date,
-        };
-        user.prs = [...user.prs, pr];
-      }
-    });
+    //   let pr = user.prs.filter(pr => {
+    //     return pr.movement === movement;
+    //   })[0];
+
+    //   if (pr && pr.weight < set.e1rm) {
+    //     pr.weight = set.e1rm;
+    //     let prIndex;
+    //     user.prs.forEach((pr, i) => {
+    //       if (pr.movement === movement) {
+    //         prIndex = i;
+    //       }
+    //     });
+    //     user.prs.splice(prIndex, 1, pr);
+    //   } else if (!pr) {
+    //     pr = {
+    //       movement: movement,
+    //       weight: set.e1rm,
+    //       date: createWorkoutDto.date,
+    //     };
+    //     user.prs = [...user.prs, pr];
+    //   }
+    // });
 
     user.workouts = [
       ...user.workouts,
@@ -133,7 +135,84 @@ export class UsersService {
     savedWorkout.date = createWorkoutDto.date;
     savedWorkout.sets = editedWorkout;
 
-    savedWorkout.sets.forEach(set => {
+    this.calculatePrs(createWorkoutDto.date, savedWorkout.sets, user);
+
+    // savedWorkout.sets.forEach(set => {
+    //   let rpeArr = rpeChart[set.rpe];
+
+    //   let percentage = rpeArr.filter(rpe => {
+    //     return rpe.reps === set.reps;
+    //   })[0];
+
+    //   let e1rm = set.weight * (100 / percentage.percentage);
+
+    //   set.e1rm = e1rm;
+
+    //   let movement = set.movement;
+
+    //   let pr = user.prs.filter(pr => {
+    //     return pr.movement === movement;
+    //   })[0];
+
+    //   if (pr && pr.weight < set.e1rm) {
+    //     pr.weight = set.e1rm;
+    //     let prIndex;
+    //     user.prs.forEach((pr, i) => {
+    //       if (pr.movement === movement) {
+    //         prIndex = i;
+    //       }
+    //     });
+    //     user.prs.splice(prIndex, 1, pr);
+    //   } else if (!pr) {
+    //     pr = {
+    //       movement: movement,
+    //       weight: set.e1rm,
+    //       date: createWorkoutDto.date,
+    //     };
+    //     user.prs = [...user.prs, pr];
+    //   }
+    // });
+    await user.save((err, user) => {
+      if (err) {
+        throw new InternalServerErrorException(
+          'workout could not be saved.',
+          err,
+        );
+      }
+    });
+  }
+
+  exportWorkout(user: Model<IUser>, exportWorkoutDto: ExportWorkoutDto) {
+    const fs = require('fs');
+    const path = require('path');
+    const os = require('os');
+
+    // output file in the same folder
+    const filename = path.join(__dirname, 'output.csv');
+    const output = []; // holds all rows of data
+
+    const headings = ['Movement', 'Weight', 'Reps', 'RPE', '\n'];
+
+    output.push(headings);
+
+    exportWorkoutDto.sets.forEach(d => {
+      const row = []; // a new array for each row of workoutata
+      row.push(d.movement);
+      row.push(d.weight);
+      row.push(d.reps);
+      row.push(d.rpe);
+      output.push(row.join() + '\n');
+    });
+
+    return output; // by default, join() uses a ','
+  }
+
+  async findOneByEmail(email): Model<IUser> {
+    return await this.userModel.findOne({ email });
+  }
+
+  calculatePrs(date: Date, sets: ISet[], user: Model<IUser>) {
+    sets.forEach(set => {
       let rpeArr = rpeChart[set.rpe];
 
       let percentage = rpeArr.filter(rpe => {
@@ -163,69 +242,10 @@ export class UsersService {
         pr = {
           movement: movement,
           weight: set.e1rm,
-          date: createWorkoutDto.date,
+          date: date,
         };
         user.prs = [...user.prs, pr];
       }
     });
-    await user.save((err, user) => {
-      if (err) {
-        throw new InternalServerErrorException(
-          'workout could not be saved.',
-          err,
-        );
-      }
-    });
-  }
-
-  exportWorkout(user: Model<IUser>, exportWorkoutDto: ExportWorkoutDto) {
-    // const createCsvWriter = require('csv-writer').createObjectCsvWriter;
-    // console.log(exportWorkoutDto);
-
-    // console.log(exportWorkoutDto.sets);
-
-    // const csvWriter = createCsvWriter({
-    //   path: 'workout.csv',
-    //   header: [
-    //     { id: 'movement', title: 'Movement' },
-    //     { id: 'weight', title: 'weight' },
-    //   ],
-    // });
-
-    // csvWriter
-    //   .writeRecords(exportWorkoutDto.sets) // returns a promise
-    //   .then(() => {
-    //     console.log('...Done');
-    //   });
-    const fs = require('fs');
-    const path = require('path');
-    const os = require('os');
-
-    // output file in the same folder
-    const filename = path.join(__dirname, 'output.csv');
-    const output = []; // holds all rows of data
-
-    // const squats = exportWorkoutDto.sets.filter(
-    //   set => set.movement === 'Low Bar Squat with Belt',
-    // );
-
-    const headings = ['Movement', 'Weight', 'Reps', 'RPE', '\n'];
-
-    output.push(headings);
-
-    exportWorkoutDto.sets.forEach(d => {
-      const row = []; // a new array for each row of workoutata
-      row.push(d.movement);
-      row.push(d.weight);
-      row.push(d.reps);
-      row.push(d.rpe);
-      output.push(row.join() + '\n');
-    });
-
-    return output; // by default, join() uses a ','
-  }
-
-  async findOneByEmail(email): Model<IUser> {
-    return await this.userModel.findOne({ email });
   }
 }
