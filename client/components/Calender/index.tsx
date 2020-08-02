@@ -211,7 +211,8 @@ const Calender = ({ user }) => {
   });
 
   let daysinmonth = rows.map((d, i) => {
-    return <tr key={d + 1}>{d}</tr>;
+    console.log('d', d);
+    return <tr key={d}>{d}</tr>;
   });
 
   function handlePrevisousMonthClick() {

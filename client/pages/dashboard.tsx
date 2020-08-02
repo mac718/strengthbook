@@ -17,7 +17,7 @@ const ProfileDiv = styled(Grid)`
 `;
 
 const DashboardGrid = styled(Grid)`
-  margin-top: 75px;
+  margin-top: 50px;
 `;
 
 const Dashboard = ({ user }) => {

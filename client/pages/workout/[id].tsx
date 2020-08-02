@@ -18,6 +18,7 @@ import {
   TextField,
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
+import DescriptionIcon from '@material-ui/icons/Description';
 import styled from 'styled-components';
 import moment from 'moment';
 import Link from 'next/link';
@@ -41,6 +42,15 @@ const ExerciseBox = styled(Box)`
   background-color: #49dcb1;
   padding-left: 25px;
   border-radius: 15px 15px 0 0;
+`;
+
+const ActionContainer = styled(Box)`
+  display: flex;
+  justify-content: center;
+`;
+
+const ActionButton = styled(Button)`
+  margin: 5px !important;
 `;
 
 const WorkoutShow = ({ workout, user }) => {
@@ -182,22 +192,24 @@ const WorkoutShow = ({ workout, user }) => {
   return (
     <>
       <Nav user={user} />
-      <div>
-        <Link href="/workout/edit/[id]" as={`/workout/edit/${workout._id}`}>
-          <a>
-            <EditIcon />
-          </a>
-        </Link>
-      </div>
       <WorkoutHeading color="#555">
         <h1>{moment(workout.date).format('dddd, MMMM Do YYYY')} </h1>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={e => exportToCsv(e, workout)}
-        >
-          Export TO CSV
-        </Button>
+        <ActionContainer>
+          <Link href="/workout/edit/[id]" as={`/workout/edit/${workout._id}`}>
+            <a>
+              <ActionButton variant="contained" color="primary">
+                <EditIcon /> Edit
+              </ActionButton>
+            </a>
+          </Link>
+          <ActionButton
+            variant="contained"
+            color="secondary"
+            onClick={e => exportToCsv(e, workout)}
+          >
+            <DescriptionIcon /> Export
+          </ActionButton>
+        </ActionContainer>
       </WorkoutHeading>
 
       {movementHeadings}
