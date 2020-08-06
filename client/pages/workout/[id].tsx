@@ -189,6 +189,8 @@ const WorkoutShow = ({ workout, user }) => {
       });
   }
 
+  localStorage.clear();
+
   return (
     <>
       <Nav user={user} />

@@ -7,6 +7,7 @@ import { EditProfileDto } from './dto/edit-profile.dto';
 import { CreateWorkoutDto } from './dto/create-workout.dto';
 import { rpeChart } from './rpeChart';
 import { ExportWorkoutDto } from './dto/export-workout.dto';
+import { create } from 'domain';
 
 @Injectable()
 export class UsersService {
@@ -119,6 +120,13 @@ export class UsersService {
     workoutId: string,
   ) {
     let keys = Object.keys(createWorkoutDto.sets);
+
+    console.log('createWorkoutDto', createWorkoutDto);
+
+    console.log(
+      'bench',
+      JSON.parse(JSON.stringify(createWorkoutDto.sets['Competition Bench-1'])),
+    );
 
     let editedWorkout = [];
 

@@ -80,6 +80,8 @@ const EditWorkoutForm = ({ date, workout }: EditWorkoutFormProps) => {
 
     console.log('date', date);
 
+    console.log(localStorage);
+
     fetch(`http://localhost:3001/users/edit-workout/${workout._id}`, {
       method: 'PUT',
       body: JSON.stringify({ date, sets: localStorage }),
@@ -88,10 +90,10 @@ const EditWorkoutForm = ({ date, workout }: EditWorkoutFormProps) => {
         Authorization: `Bearer ${token}`,
       },
     }).then(res => {
+      localStorage.clear();
       if (res.status === 200) {
         setRedirect(true);
       }
-      localStorage.clear();
     });
   };
 
@@ -146,7 +148,11 @@ const EditWorkoutForm = ({ date, workout }: EditWorkoutFormProps) => {
 
   return (
     <>
-      <WorkoutForm onSubmit={e => submitWorkout(e)}>
+      <WorkoutForm
+        onSubmit={e => {
+          submitWorkout(e);
+        }}
+      >
         <Grid container spacing={2}>
           <Grid item xs={8}>
             {exerciseDivs}

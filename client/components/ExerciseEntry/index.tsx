@@ -67,7 +67,7 @@ const ExerciseEntry = ({
 
   //load pre-existing sets into local storage if provided
   useEffect(() => {
-    if (savedSets) {
+    if (savedSets && localStorage.length === 0) {
       let savedWorkoutExercises = [];
 
       savedSets.forEach(set => {
@@ -80,9 +80,10 @@ const ExerciseEntry = ({
         let exerciseSets = savedSets.filter(
           set => set.movement + '-' + set.exerciseOrder === exercise,
         );
-        localStorage.setItem(`${exercise}`, JSON.stringify(exerciseSets));
+        localStorage.setItem(`${exercise}`, JSON.stringify([...exerciseSets]));
       });
     }
+    console.log('useEffect', localStorage);
   });
 
   console.log(sets);
@@ -106,11 +107,41 @@ const ExerciseEntry = ({
   };
 
   const handleDeleteSet = set => {
+    console.log('fyarts', localStorage);
     let index = sets.indexOf(set);
     let setsCopy = sets.slice(0);
     for (let i = index + 1; i < setsCopy.length; i++) {
       setsCopy[i].setOrder -= 1;
     }
+
+    console.log(sets[index]);
+
+    // let localStorageIndex = localStorage[`${set.movement}-${set.exerciseOrder}`]
+    // ].indexOf(set);
+
+    console.log(`${set.movement}-${set.exerciseOrder}`);
+
+    let json = JSON.parse(localStorage[`${set.movement}-${set.exerciseOrder}`]);
+
+    console.log('json', JSON.stringify(json));
+
+    json.splice(set.setOrder - 1, 1);
+
+    console.log('set order', set.setOrder);
+
+    localStorage.removeItem(`${set.movement}-${set.exerciseOrder}`);
+    console.log('merp', localStorage);
+
+    console.log('localStorgeJSON', json);
+
+    let stringified = JSON.stringify(json);
+
+    localStorage.setItem(`${set.movement}-${set.exerciseOrder}`, stringified);
+
+    console.log('butt', localStorage[`${set.movement}-${set.exerciseOrder}`]);
+
+    console.log('storage', localStorage);
+
     setsCopy.splice(index, 1);
     setSets(setsCopy);
   };

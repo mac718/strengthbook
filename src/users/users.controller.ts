@@ -43,7 +43,11 @@ export class UsersController {
     @Param() params,
   ) {
     console.log('user', user);
-    return this.usersService.editWorkout(user, createWorkoutDto, params.id);
+    return await this.usersService.editWorkout(
+      user,
+      createWorkoutDto,
+      params.id,
+    );
   }
 
   @Post('export')
