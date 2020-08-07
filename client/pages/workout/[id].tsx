@@ -171,12 +171,12 @@ const WorkoutShow = ({ workout, user }) => {
       .then(json => {
         var blob = new Blob(json);
         if (window.navigator.msSaveOrOpenBlob) {
-          window.navigator.msSaveBlob(blob, 'filename.csv');
+          window.navigator.msSaveBlob(blob, `workout_${workout.date}.csv`);
         } else {
           var a = window.document.createElement('a');
 
           a.href = window.URL.createObjectURL(blob);
-          a.download = 'filename.csv';
+          a.download = `workout_${workout.date}.csv`;
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);

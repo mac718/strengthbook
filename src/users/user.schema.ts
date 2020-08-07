@@ -27,6 +27,7 @@ export const SetSchema = new mongoose.Schema({
   weight: Number,
   reps: Number,
   rpe: Number,
+  rir: Number,
   e1rm: Number,
 });
 
@@ -48,6 +49,7 @@ export interface ISet extends mongoose.Document {
   weight: number;
   reps: number;
   rpe: number;
+  rir: number;
   e1rm: number;
 }
 

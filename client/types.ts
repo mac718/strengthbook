@@ -20,6 +20,7 @@ export interface Set {
   weight: number;
   reps: number;
   rpe: number;
+  rir: number;
   e1rm: number;
 }
 

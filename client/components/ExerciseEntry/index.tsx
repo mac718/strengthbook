@@ -64,6 +64,7 @@ const ExerciseEntry = ({
   const [weight, setWeight] = useState(0);
   const [reps, setReps] = useState(0);
   const [rpe, setRpe] = useState(0);
+  const [rir, setRir] = useState(0);
 
   //load pre-existing sets into local storage if provided
   useEffect(() => {
@@ -101,6 +102,7 @@ const ExerciseEntry = ({
         weight: 0,
         reps: 0,
         rpe: 0,
+        rir: 0,
         e1rm: 0,
       },
     ]);
@@ -114,33 +116,15 @@ const ExerciseEntry = ({
       setsCopy[i].setOrder -= 1;
     }
 
-    console.log(sets[index]);
-
-    // let localStorageIndex = localStorage[`${set.movement}-${set.exerciseOrder}`]
-    // ].indexOf(set);
-
-    console.log(`${set.movement}-${set.exerciseOrder}`);
-
     let json = JSON.parse(localStorage[`${set.movement}-${set.exerciseOrder}`]);
-
-    console.log('json', JSON.stringify(json));
 
     json.splice(set.setOrder - 1, 1);
 
-    console.log('set order', set.setOrder);
-
     localStorage.removeItem(`${set.movement}-${set.exerciseOrder}`);
-    console.log('merp', localStorage);
-
-    console.log('localStorgeJSON', json);
 
     let stringified = JSON.stringify(json);
 
     localStorage.setItem(`${set.movement}-${set.exerciseOrder}`, stringified);
-
-    console.log('butt', localStorage[`${set.movement}-${set.exerciseOrder}`]);
-
-    console.log('storage', localStorage);
 
     setsCopy.splice(index, 1);
     setSets(setsCopy);
@@ -221,6 +205,30 @@ const ExerciseEntry = ({
               let index = tempSets.indexOf(set);
 
               temp.rpe = rpe;
+              tempSets.splice(index, 1, temp);
+              setSets(tempSets);
+              localStorage.setItem(
+                `${exercise}-${set.exerciseOrder}`,
+                JSON.stringify(sets),
+              );
+              console.log(localStorage);
+            }}
+          />
+          <TextField
+            label="RIR"
+            margin="normal"
+            defaultValue={set.rir}
+            disabled={rpe > 0 ? true : false}
+            onChange={e => {
+              setRir(parseFloat(e.target.value));
+            }}
+            onBlur={() => {
+              let tempSets = sets;
+              let temp = set;
+
+              let index = tempSets.indexOf(set);
+
+              temp.rir = rir;
               tempSets.splice(index, 1, temp);
               setSets(tempSets);
               localStorage.setItem(
