@@ -60,7 +60,13 @@ export default function Home() {
     console.log('myerp');
     fetch('http://localhost:3001/auth/signup', {
       method: 'POST',
-      body: JSON.stringify({ email, password, firstName, lastName }),
+      body: JSON.stringify({
+        email,
+        password,
+        firstName,
+        lastName,
+        profile: { firstName, lastName },
+      }),
       headers: {
         'content-type': 'application/json',
       },

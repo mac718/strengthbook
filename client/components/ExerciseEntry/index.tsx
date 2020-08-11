@@ -63,8 +63,8 @@ const ExerciseEntry = ({
   const [sets, setSets] = useState(savedSets ? savedSets : []);
   const [weight, setWeight] = useState(0);
   const [reps, setReps] = useState(0);
-  const [rpe, setRpe] = useState(0);
-  const [rir, setRir] = useState(0);
+  const [rpe, setRpe] = useState(null);
+  const [rir, setRir] = useState(null);
 
   //load pre-existing sets into local storage if provided
   useEffect(() => {
@@ -195,6 +195,7 @@ const ExerciseEntry = ({
             label="RPE"
             margin="normal"
             defaultValue={set.rpe}
+            disabled={rir ? true : false}
             onChange={e => {
               setRpe(parseFloat(e.target.value));
             }}
@@ -218,7 +219,7 @@ const ExerciseEntry = ({
             label="RIR"
             margin="normal"
             defaultValue={set.rir}
-            disabled={rpe > 0 ? true : false}
+            disabled={rpe ? true : false}
             onChange={e => {
               setRir(parseFloat(e.target.value));
             }}

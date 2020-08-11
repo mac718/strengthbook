@@ -7,7 +7,6 @@ import { EditProfileDto } from './dto/edit-profile.dto';
 import { CreateWorkoutDto } from './dto/create-workout.dto';
 import { rpeChart } from './rpeChart';
 import { ExportWorkoutDto } from './dto/export-workout.dto';
-import { create } from 'domain';
 
 @Injectable()
 export class UsersService {
@@ -20,19 +19,20 @@ export class UsersService {
     createUserDto: CreateUserDto,
     editProfileDto: EditProfileDto,
   ) {
-    const user = await this.userModel.create(createUserDto);
-    user.profile = await new this.profileModel(editProfileDto);
-    user.profile.firstName = createUserDto.firstName;
-    user.profile.lastName = createUserDto.lastName;
+    //const user =
+    return await this.userModel.create(createUserDto);
+    // user.profile = await new this.profileModel(editProfileDto);
+    // user.profile.firstName = createUserDto.firstName;
+    // user.profile.lastName = createUserDto.lastName;
 
-    await user.save((err, user) => {
-      if (err) {
-        throw new InternalServerErrorException('Could not create account.');
-      }
-    });
+    // await user.save((err, user) => {
+    //   if (err) {
+    //     throw new InternalServerErrorException('Could not create account.');
+    //   }
+    // });
 
-    console.log('shmerp', user);
-    return user;
+    // console.log('shmerp', user);
+    // return user;
   }
 
   async editProfile(user: Model<IUser>, editProfileDto: EditProfileDto) {
@@ -250,6 +250,7 @@ export class UsersService {
         pr = {
           movement: movement,
           weight: set.e1rm,
+          set: set.id,
           date: date,
         };
         user.prs = [...user.prs, pr];
