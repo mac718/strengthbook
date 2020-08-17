@@ -109,7 +109,6 @@ const ExerciseEntry = ({
   };
 
   const handleDeleteSet = set => {
-    console.log('fyarts', localStorage);
     let index = sets.indexOf(set);
     let setsCopy = sets.slice(0);
     for (let i = index + 1; i < setsCopy.length; i++) {

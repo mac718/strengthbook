@@ -61,7 +61,7 @@ export class UsersService {
       });
     });
 
-    this.calculatePrs(createWorkoutDto.date, workout, user);
+    //this._calculatePrs(createWorkoutDto.date, workout, user);
 
     // workout.forEach(set => {
     //   let rpeArr = rpeChart[set.rpe];
@@ -123,10 +123,10 @@ export class UsersService {
 
     console.log('createWorkoutDto', createWorkoutDto);
 
-    console.log(
-      'bench',
-      JSON.parse(JSON.stringify(createWorkoutDto.sets['Competition Bench-1'])),
-    );
+    // console.log(
+    //   'bench',
+    //   JSON.parse(JSON.stringify(createWorkoutDto.sets['Competition Bench-1'])),
+    // );
 
     let editedWorkout = [];
 
@@ -143,7 +143,7 @@ export class UsersService {
     savedWorkout.date = createWorkoutDto.date;
     savedWorkout.sets = editedWorkout;
 
-    this.calculatePrs(createWorkoutDto.date, savedWorkout.sets, user);
+    this._calculatePrs(createWorkoutDto.date, savedWorkout.sets, user);
 
     // savedWorkout.sets.forEach(set => {
     //   let rpeArr = rpeChart[set.rpe];
@@ -191,12 +191,12 @@ export class UsersService {
   }
 
   exportWorkout(user: Model<IUser>, exportWorkoutDto: ExportWorkoutDto) {
-    const fs = require('fs');
-    const path = require('path');
-    const os = require('os');
+    // const fs = require('fs');
+    // const path = require('path');
+    // const os = require('os');
 
     // output file in the same folder
-    const filename = path.join(__dirname, 'output.csv');
+    //const filename = path.join(__dirname, 'output.csv');
     const output = []; // holds all rows of data
 
     const headings = ['Movement', 'Weight', 'Reps', 'RPE', '\n'];
@@ -219,7 +219,57 @@ export class UsersService {
     return await this.userModel.findOne({ email });
   }
 
-  calculatePrs(date: Date, sets: ISet[], user: Model<IUser>) {
+  // calculatePrs(date: Date, sets: ISet[], user: Model<IUser>) {
+  //   sets.forEach(set => {
+  //     let rpeArr = rpeChart[set.rpe];
+
+  //     let percentage = rpeArr.filter(rpe => {
+  //       return rpe.reps === set.reps;
+  //     })[0];
+
+  //     let e1rm = set.weight * (100 / percentage.percentage);
+
+  //     set.e1rm = e1rm;
+
+  //     let movement = set.movement;
+
+  //     let pr = user.prs.filter(pr => {
+  //       return pr.movement === movement;
+  //     })[0];
+
+  //     if (pr && pr.weight < set.e1rm) {
+  //       pr.weight = set.e1rm;
+  //       let prIndex;
+  //       user.prs.forEach((pr, i) => {
+  //         if (pr.movement === movement) {
+  //           prIndex = i;
+  //         }
+  //       });
+  //       user.prs.splice(prIndex, 1, pr);
+  //     } else if (!pr) {
+  //       pr = {
+  //         movement: movement,
+  //         weight: set.e1rm,
+  //         set: set.id,
+  //         date: date,
+  //       };
+  //       user.prs = [...user.prs, pr];
+  //     }
+  //   });
+  // }
+
+  _calculatePrs(date: Date, sets: ISet[], user: Model<IUser>) {
+    let setIds = [];
+    sets.forEach(set => {
+      setIds.push(set.id);
+    });
+    user.prs.forEach((pr, i) => {
+      if (setIds.includes(pr.set._id)) {
+        let editedIndex = i;
+        user.prs.splice(editedIndex, 1);
+      }
+    });
+
     sets.forEach(set => {
       let rpeArr = rpeChart[set.rpe];
 
@@ -231,29 +281,23 @@ export class UsersService {
 
       set.e1rm = e1rm;
 
-      let movement = set.movement;
+      let previousPrs = user.prs.filter(pr => pr.movement === set.movement);
+      let sortedPreviousPrs = previousPrs.sort((a, b) => {
+        if (b.e1rm > a.e1rm) {
+          return 1;
+        } else if ((b.e1rm = a.e1rm)) {
+          return 0;
+        } else {
+          return -1;
+        }
+      });
 
-      let pr = user.prs.filter(pr => {
-        return pr.movement === movement;
-      })[0];
+      let currentPr = sortedPreviousPrs[0];
 
-      if (pr && pr.weight < set.e1rm) {
-        pr.weight = set.e1rm;
-        let prIndex;
-        user.prs.forEach((pr, i) => {
-          if (pr.movement === movement) {
-            prIndex = i;
-          }
-        });
-        user.prs.splice(prIndex, 1, pr);
-      } else if (!pr) {
-        pr = {
-          movement: movement,
-          weight: set.e1rm,
-          set: set.id,
-          date: date,
-        };
-        user.prs = [...user.prs, pr];
+      console.log('currentPr', currentPr);
+
+      if (!currentPr || currentPr.weight < set.e1rm) {
+        user.prs = [...user.prs, { date, set }];
       }
     });
   }
