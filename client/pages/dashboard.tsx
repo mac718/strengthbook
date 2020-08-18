@@ -26,8 +26,8 @@ const Dashboard = ({ user }) => {
     return (
       <ListItem key={pr._id}>
         <Typography>
-          {moment(pr.date).format('MM-DD-YYYY')} {pr.movement}:{' '}
-          {Math.round(pr.weight)}
+          {moment(pr.date).format('MM-DD-YYYY')} {pr.set.movement}:{' '}
+          {Math.round(pr.set.e1rm)}
         </Typography>
       </ListItem>
     );
