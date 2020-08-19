@@ -22,7 +22,20 @@ const DashboardGrid = styled(Grid)`
 
 const Dashboard = ({ user }) => {
   console.log(user.prs);
-  let prs = user.prs.map(pr => {
+
+  let sortedPrs = user.prs.sort((a, b) => {
+    if (a.date > b.date) {
+      return 1;
+    } else if (a.date === b.date) {
+      return 0;
+    } else {
+      return -1;
+    }
+  });
+
+  let recentPrs = sortedPrs.slice(0, 10);
+
+  let prsListItems = recentPrs.map(pr => {
     return (
       <ListItem key={pr._id}>
         <Typography>
@@ -39,7 +52,7 @@ const Dashboard = ({ user }) => {
       <DashboardGrid container>
         <ProfileDiv item xs={3}>
           <Typography variant="h4">Recent PRs</Typography>
-          <List>{prs}</List>
+          <List>{prsListItems}</List>
         </ProfileDiv>
       </DashboardGrid>
     </div>

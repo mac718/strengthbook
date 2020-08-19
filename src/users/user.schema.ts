@@ -59,7 +59,7 @@ export interface ISet extends mongoose.Document {
 export interface IPr extends mongoose.Document {
   movement: string;
   weight: number;
-  set: string;
+  set: ISet;
   date: Date;
 }
 

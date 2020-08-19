@@ -281,7 +281,7 @@ export class UsersService {
 
       set.e1rm = e1rm;
 
-      let previousPrs = user.prs.filter(pr => pr.movement === set.movement);
+      let previousPrs = user.prs.filter(pr => pr.set.movement === set.movement);
       let sortedPreviousPrs = previousPrs.sort((a, b) => {
         if (b.e1rm > a.e1rm) {
           return 1;
@@ -296,7 +296,7 @@ export class UsersService {
 
       console.log('currentPr', currentPr);
 
-      if (!currentPr || currentPr.weight < set.e1rm) {
+      if (!currentPr || currentPr.set.e1rm < set.e1rm) {
         user.prs = [...user.prs, { date, set }];
       }
     });
