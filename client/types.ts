@@ -3,6 +3,7 @@ export type User = {
   password: string;
   profile: Profile;
   workouts: [];
+  prs: [];
 };
 
 export type Profile = {

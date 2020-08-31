@@ -15,9 +15,9 @@ export interface IProfile extends mongoose.Document {
   firstName: string;
   lastName: string;
   dob: Date;
-  sex: string;
-  bodyweigt: number;
-  unit: string;
+  // sex: string;
+  bodyweight: number;
+  // unit: string;
 }
 
 export const SetSchema = new mongoose.Schema({
@@ -70,6 +70,8 @@ export interface IWorkout extends mongoose.Document {
 
 export interface IUser extends mongoose.Document {
   email: string;
+  firstName: string;
+  lastName: string;
   password: string;
   profile: IProfile;
   workouts: Array<IWorkout>;

@@ -123,11 +123,6 @@ export class UsersService {
 
     console.log('createWorkoutDto', createWorkoutDto);
 
-    // console.log(
-    //   'bench',
-    //   JSON.parse(JSON.stringify(createWorkoutDto.sets['Competition Bench-1'])),
-    // );
-
     let editedWorkout = [];
 
     keys.forEach(key => {
@@ -145,41 +140,6 @@ export class UsersService {
 
     this._calculatePrs(createWorkoutDto.date, savedWorkout.sets, user);
 
-    // savedWorkout.sets.forEach(set => {
-    //   let rpeArr = rpeChart[set.rpe];
-
-    //   let percentage = rpeArr.filter(rpe => {
-    //     return rpe.reps === set.reps;
-    //   })[0];
-
-    //   let e1rm = set.weight * (100 / percentage.percentage);
-
-    //   set.e1rm = e1rm;
-
-    //   let movement = set.movement;
-
-    //   let pr = user.prs.filter(pr => {
-    //     return pr.movement === movement;
-    //   })[0];
-
-    //   if (pr && pr.weight < set.e1rm) {
-    //     pr.weight = set.e1rm;
-    //     let prIndex;
-    //     user.prs.forEach((pr, i) => {
-    //       if (pr.movement === movement) {
-    //         prIndex = i;
-    //       }
-    //     });
-    //     user.prs.splice(prIndex, 1, pr);
-    //   } else if (!pr) {
-    //     pr = {
-    //       movement: movement,
-    //       weight: set.e1rm,
-    //       date: createWorkoutDto.date,
-    //     };
-    //     user.prs = [...user.prs, pr];
-    //   }
-    // });
     await user.save((err, user) => {
       if (err) {
         throw new InternalServerErrorException(
@@ -191,12 +151,6 @@ export class UsersService {
   }
 
   exportWorkout(user: Model<IUser>, exportWorkoutDto: ExportWorkoutDto) {
-    // const fs = require('fs');
-    // const path = require('path');
-    // const os = require('os');
-
-    // output file in the same folder
-    //const filename = path.join(__dirname, 'output.csv');
     const output = []; // holds all rows of data
 
     const headings = ['Movement', 'Weight', 'Reps', 'RPE', '\n'];
