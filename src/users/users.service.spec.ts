@@ -64,9 +64,9 @@ describe('UsersService', () => {
 
   describe('editProfile', () => {
     it('should edit user profile attributes', async () => {
-      //const user = await service.createUser(mockUser, mockProfile);
+      const user = await service.createUser(mockUser, mockProfile);
       //console.log('test', user);
-      let user = await userModel.new();
+      //let user = await userModel.new();
       jest.spyOn(userModel, 'save').mockResolvedValue(true);
       console.log('test', user);
       expect(user.profile.firstName).toBe('Mike');

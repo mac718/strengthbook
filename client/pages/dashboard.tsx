@@ -11,9 +11,13 @@ interface DashboardProps {
   user: User;
 }
 
-const ProfileDiv = styled(Grid)`
-  height: 100vh;
+const PrDiv = styled(Grid)`
+  height: 25%;
   border: 1px solid;
+  border-radius: 10px;
+  overflow: scroll;
+  background-color: #c3e9e3;
+  padding-top: 10px;
 `;
 
 const DashboardGrid = styled(Grid)`
@@ -50,10 +54,12 @@ const Dashboard = ({ user }) => {
     <div>
       <Nav user={user} />
       <DashboardGrid container>
-        <ProfileDiv item xs={3}>
-          <Typography variant="h4">Recent PRs</Typography>
+        <PrDiv item xs={3}>
+          <Typography variant="h4" align="center">
+            Recent PRs
+          </Typography>
           <List>{prsListItems}</List>
-        </ProfileDiv>
+        </PrDiv>
       </DashboardGrid>
     </div>
   );
