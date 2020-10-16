@@ -3,9 +3,6 @@ import { UsersService } from './users.service';
 import { getModelToken } from '@nestjs/mongoose';
 import { IUser, IProfile } from './user.schema';
 import { Model } from 'mongoose';
-import { async } from 'rxjs/internal/scheduler/async';
-import { EditProfileDto } from './dto/edit-profile.dto';
-import { UsersController } from './users.controller';
 
 let mockProfile: Model<IProfile> = {
   firstName: 'Mike',
@@ -29,6 +26,12 @@ describe('UsersService', () => {
   let profileModel: Model<IProfile>;
 
   beforeEach(async () => {
+    // function mockUserModel(dto: any) {
+    //   this.data = dto;
+    //   this.save = () => {
+    //     return this.data;
+    //   };
+    // }
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UsersService,
@@ -38,11 +41,14 @@ describe('UsersService', () => {
             new: jest.fn().mockResolvedValue(mockUser),
             create: jest.fn().mockResolvedValue(mockUser),
             save: jest.fn().mockResolvedValue(mockUser),
+            constructor: jest.fn().mockResolvedValue(mockUser),
           },
         },
         {
           provide: getModelToken('Profile'),
-          useValue: { create: jest.fn().mockResolvedValue(mockProfile) },
+          useValue: {
+            create: jest.fn().mockResolvedValue(mockProfile),
+          },
         },
       ],
     }).compile();
@@ -64,11 +70,16 @@ describe('UsersService', () => {
 
   describe('editProfile', () => {
     it('should edit user profile attributes', async () => {
-      const user = await service.createUser(mockUser, mockProfile);
+      await service.createUser(mockUser, mockProfile);
+      let user = await new userModel(); //await service.createUser(mockUser, mockProfile); //userModel.findOne({ email: 'mac718@gmail.com' });
+      let create = jest.spyOn(userModel, 'create');
+      console.log('butt', user.profile);
+      expect(create).toHaveBeenCalled();
       //console.log('test', user);
       //let user = await userModel.new();
-      jest.spyOn(userModel, 'save').mockResolvedValue(true);
-      console.log('test', user);
+
+      // console.log('test', user);
+      // console.log(typeof user);
       expect(user.profile.firstName).toBe('Mike');
       expect(user.profile.lastName).toBe('Coon');
       expect(user.profile.bodyweight).toBe(75);
@@ -82,6 +93,8 @@ describe('UsersService', () => {
       };
 
       await service.editProfile(user, mockProfileDto);
+      let save = jest.spyOn(userModel, 'save');
+      expect(save).toHaveBeenCalled();
       expect(user.profile.firstName).toEqual('John');
     });
   });

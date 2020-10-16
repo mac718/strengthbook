@@ -2,7 +2,18 @@ import React from 'react';
 import { GetServerSideProps } from 'next';
 import { User } from '../types';
 import cookies from 'next-cookies';
-import { Typography, Grid, List, ListItem } from '@material-ui/core';
+import {
+  Typography,
+  Grid,
+  List,
+  ListItem,
+  TableContainer,
+  TableCell,
+  Table,
+  TableHead,
+  Paper,
+  TableRow,
+} from '@material-ui/core';
 import styled from 'styled-components';
 import Nav from '../components/Nav';
 import moment from 'moment';
@@ -11,17 +22,20 @@ interface DashboardProps {
   user: User;
 }
 
-const PrDiv = styled(Grid)`
-  height: 25%;
+const PrDiv = styled(TableContainer)`
   border: 1px solid;
   border-radius: 10px;
   overflow: scroll;
   background-color: #c3e9e3;
-  padding-top: 10px;
 `;
 
 const DashboardGrid = styled(Grid)`
   margin-top: 50px;
+`;
+
+const TableHeading = styled.div`
+  border-bottom: 1px solid;
+  background-color: #c3e9e3;
 `;
 
 const Dashboard = ({ user }) => {
@@ -41,12 +55,17 @@ const Dashboard = ({ user }) => {
 
   let prsListItems = recentPrs.map(pr => {
     return (
-      <ListItem key={pr._id}>
-        <Typography>
-          {moment(pr.date).format('MM-DD-YYYY')} {pr.set.movement}:{' '}
-          {Math.round(pr.set.e1rm)}
-        </Typography>
-      </ListItem>
+      <TableRow key={pr._id}>
+        <TableCell>
+          <Typography>{pr.set.movement}</Typography>
+        </TableCell>
+        <TableCell>
+          <Typography>{Math.round(pr.set.e1rm)}</Typography>
+        </TableCell>
+        <TableCell>
+          <Typography>{moment(pr.date).format('MM-DD-YYYY')}</Typography>
+        </TableCell>
+      </TableRow>
     );
   });
 
@@ -54,12 +73,30 @@ const Dashboard = ({ user }) => {
     <div>
       <Nav user={user} />
       <DashboardGrid container>
-        <PrDiv item xs={3}>
-          <Typography variant="h4" align="center">
-            Recent PRs
-          </Typography>
-          <List>{prsListItems}</List>
-        </PrDiv>
+        <Grid item xs={4}>
+          <PrDiv component={Paper}>
+            <TableHeading>
+              <Typography variant="h4" align="center">
+                Recent PRs
+              </Typography>
+            </TableHeading>
+            <Table size="small">
+              <TableHead>
+                <TableCell>
+                  <Typography variant="h5">Movement</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography variant="h5">E1RM</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography variant="h5">Date</Typography>
+                </TableCell>
+              </TableHead>
+
+              {prsListItems}
+            </Table>
+          </PrDiv>
+        </Grid>
       </DashboardGrid>
     </div>
   );

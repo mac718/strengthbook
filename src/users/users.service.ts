@@ -36,7 +36,7 @@ export class UsersService {
   }
 
   async editProfile(user: Model<IUser>, editProfileDto: EditProfileDto) {
-    console.log(editProfileDto);
+    console.log('thig', editProfileDto, user);
     user.profile.firstName = editProfileDto.firstName;
     user.profile.lastName = editProfileDto.lastName;
     user.profile.bodyweight = editProfileDto.bodyweight;
@@ -61,7 +61,9 @@ export class UsersService {
       });
     });
 
-    //this._calculatePrs(createWorkoutDto.date, workout, user);
+    console.log('workout', workout);
+
+    this._calculatePrs(createWorkoutDto.date, workout, user);
 
     // workout.forEach(set => {
     //   let rpeArr = rpeChart[set.rpe];
