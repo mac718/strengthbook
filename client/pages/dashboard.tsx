@@ -40,6 +40,13 @@ const TableHeading = styled.div`
   background-color: #c3e9e3;
 `;
 
+const TableRowLink = styled(TableRow)`
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.035), 0 6px 35px rgba(0, 0, 0, 0.2);
+  }
+`;
+
 const Dashboard = ({ user }) => {
   console.log(user.prs);
 
@@ -58,7 +65,7 @@ const Dashboard = ({ user }) => {
   let prsListItems = recentPrs.map(pr => {
     return (
       <Link href={`/workout/${pr.workout}`}>
-        <TableRow key={pr._id}>
+        <TableRowLink key={pr._id}>
           <TableCell>
             <Typography>{pr.set.movement}</Typography>
           </TableCell>
@@ -68,7 +75,7 @@ const Dashboard = ({ user }) => {
           <TableCell>
             <Typography>{moment(pr.date).format('MM-DD-YYYY')}</Typography>
           </TableCell>
-        </TableRow>
+        </TableRowLink>
       </Link>
     );
   });

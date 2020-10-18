@@ -20,7 +20,7 @@ let mockUser: IUser = {
 };
 
 describe('dashboard', () => {
-  it("renders 'Recent Prs'", () => {
+  it("renders 'Recent Prs' heading", () => {
     render(<Dashboard user={mockUser} />);
     const heading = screen.getByText('Recent PRs');
     expect(heading).toBeInTheDocument();
