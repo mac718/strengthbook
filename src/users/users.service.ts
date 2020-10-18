@@ -63,7 +63,7 @@ export class UsersService {
 
     console.log('workout', workout);
 
-    this._calculatePrs(createWorkoutDto.date, workout, user);
+    //this._calculatePrs(createWorkoutDto.date, workout, user);
 
     // workout.forEach(set => {
     //   let rpeArr = rpeChart[set.rpe];
@@ -105,6 +105,13 @@ export class UsersService {
       ...user.workouts,
       { date: createWorkoutDto.date, sets: workout },
     ];
+    console.log('butt', user);
+    this._calculatePrs(
+      createWorkoutDto.date,
+      workout,
+      user.workouts[user.workouts.length - 1]._id,
+      user,
+    );
 
     await user.save((err, user) => {
       if (err) {
@@ -140,7 +147,12 @@ export class UsersService {
     savedWorkout.date = createWorkoutDto.date;
     savedWorkout.sets = editedWorkout;
 
-    this._calculatePrs(createWorkoutDto.date, savedWorkout.sets, user);
+    this._calculatePrs(
+      createWorkoutDto.date,
+      savedWorkout.sets,
+      workoutId,
+      user,
+    );
 
     await user.save((err, user) => {
       if (err) {
@@ -214,7 +226,7 @@ export class UsersService {
   //   });
   // }
 
-  _calculatePrs(date: Date, sets: ISet[], user: Model<IUser>) {
+  _calculatePrs(date: Date, sets: ISet[], workout: string, user: Model<IUser>) {
     let setIds = [];
     sets.forEach(set => {
       setIds.push(set.id);
@@ -253,7 +265,7 @@ export class UsersService {
       console.log('currentPr', currentPr);
 
       if (!currentPr || currentPr.set.e1rm < set.e1rm) {
-        user.prs = [...user.prs, { date, set }];
+        user.prs = [...user.prs, { date, set, workout }];
       }
     });
   }

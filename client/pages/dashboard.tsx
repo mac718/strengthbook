@@ -2,6 +2,7 @@ import React from 'react';
 import { GetServerSideProps } from 'next';
 import { User } from '../types';
 import cookies from 'next-cookies';
+import Link from 'next/link';
 import {
   Typography,
   Grid,
@@ -27,10 +28,11 @@ const PrDiv = styled(TableContainer)`
   border-radius: 10px;
   overflow: scroll;
   background-color: #c3e9e3;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.035), 0 6px 35px rgba(0, 0, 0, 0.2) !important;
 `;
 
 const DashboardGrid = styled(Grid)`
-  margin-top: 50px;
+  margin-top: 0px;
 `;
 
 const TableHeading = styled.div`
@@ -55,17 +57,19 @@ const Dashboard = ({ user }) => {
 
   let prsListItems = recentPrs.map(pr => {
     return (
-      <TableRow key={pr._id}>
-        <TableCell>
-          <Typography>{pr.set.movement}</Typography>
-        </TableCell>
-        <TableCell>
-          <Typography>{Math.round(pr.set.e1rm)}</Typography>
-        </TableCell>
-        <TableCell>
-          <Typography>{moment(pr.date).format('MM-DD-YYYY')}</Typography>
-        </TableCell>
-      </TableRow>
+      <Link href={`/workout/${pr.workout}`}>
+        <TableRow key={pr._id}>
+          <TableCell>
+            <Typography>{pr.set.movement}</Typography>
+          </TableCell>
+          <TableCell>
+            <Typography>{Math.round(pr.set.e1rm)}</Typography>
+          </TableCell>
+          <TableCell>
+            <Typography>{moment(pr.date).format('MM-DD-YYYY')}</Typography>
+          </TableCell>
+        </TableRow>
+      </Link>
     );
   });
 

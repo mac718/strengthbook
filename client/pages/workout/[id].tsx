@@ -189,7 +189,9 @@ const WorkoutShow = ({ workout, user }) => {
       });
   }
 
-  localStorage.clear();
+  if (typeof window !== 'undefined') {
+    localStorage.clear();
+  }
 
   return (
     <>

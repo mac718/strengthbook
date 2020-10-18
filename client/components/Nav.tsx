@@ -21,7 +21,7 @@ const NavBar = styled(Toolbar)`
 `;
 
 const AppBarMargin = styled(AppBar)`
-  margin-bottom: 75px;
+  margin-bottom: 25px;
 `;
 
 const MenuLink = styled.a`

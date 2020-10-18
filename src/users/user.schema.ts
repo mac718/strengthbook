@@ -37,6 +37,7 @@ export const PrSchema = new mongoose.Schema({
   workoutId: String,
   set: SetSchema,
   date: Date,
+  workout: String,
 });
 
 export const WorkoutSchema = new mongoose.Schema({
@@ -61,6 +62,7 @@ export interface IPr extends mongoose.Document {
   weight: number;
   set: ISet;
   date: Date;
+  workout: string;
 }
 
 export interface IWorkout extends mongoose.Document {
