@@ -41,6 +41,7 @@ const SpacedSelect = styled(Select)`
 const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
   const [showForm, setShowForm] = useState(false);
   const [profile, setProfile] = useState(user.profile);
+  const [trackedMovements, setTrackedMovements] = useState([]);
 
   const router = useRouter();
 
@@ -51,6 +52,13 @@ const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
       </MenuItem>
     );
   });
+
+  const onChange = (e, order) => {
+    let movements = trackedMovements;
+    movements[order - 1] = e.target.value;
+    setTrackedMovements(movements);
+    console.log(trackedMovements);
+  };
 
   const handleSaveChanges = e => {
     e.preventDefault();
@@ -151,19 +159,31 @@ const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
               </Typography>
               <FormControl fullWidth>
                 <InputLabel id="movement1">Movement 1</InputLabel>
-                <SpacedSelect labelId="movement1" variant="filled" value="">
+                <SpacedSelect
+                  labelId="movement1"
+                  variant="filled"
+                  onChange={e => onChange(e, 1)}
+                >
                   {menuItems}
                 </SpacedSelect>
               </FormControl>
               <FormControl fullWidth>
                 <InputLabel id="movement2">Movement 2</InputLabel>
-                <SpacedSelect labelId="movement2" variant="filled" value="">
+                <SpacedSelect
+                  labelId="movement2"
+                  variant="filled"
+                  onChange={e => onChange(e, 2)}
+                >
                   {menuItems}
                 </SpacedSelect>
               </FormControl>
               <FormControl fullWidth>
                 <InputLabel id="movement3">Movement 3</InputLabel>
-                <SpacedSelect labelId="movement3" variant="filled" value="">
+                <SpacedSelect
+                  labelId="movement3"
+                  variant="filled"
+                  onChange={e => onChange(e, 3)}
+                >
                   {menuItems}
                 </SpacedSelect>
               </FormControl>
