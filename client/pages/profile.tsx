@@ -8,6 +8,10 @@ import {
   Button,
   TextField,
   Grid,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@material-ui/core';
 import Nav from '../components/Nav';
 import { User } from '../types';
@@ -15,6 +19,7 @@ import styled from 'styled-components';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import moment from 'moment';
+import { exerciseList } from '../static-data/excersiseList';
 
 interface ProfileProps {
   user: User;
@@ -29,11 +34,19 @@ const ProfileContainer = styled.form`
   margin: auto;
 `;
 
+const SpacedSelect = styled(Select)`
+  margin-bottom: 20px;
+`;
+
 const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
   const [showForm, setShowForm] = useState(false);
   const [profile, setProfile] = useState(user.profile);
 
   const router = useRouter();
+
+  const menuItems = exerciseList.map(exercise => {
+    return <MenuItem key={exercise}>{exercise}</MenuItem>;
+  });
 
   const handleSaveChanges = e => {
     e.preventDefault();
@@ -127,6 +140,29 @@ const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
                   setProfile({ ...profile, dob: new Date(date) });
                 }}
               />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="h6">
+                Select Tracked/Competition Movements
+              </Typography>
+              <FormControl fullWidth>
+                <InputLabel id="movement1">Movement 1</InputLabel>
+                <SpacedSelect labelId="movement1" variant="outlined">
+                  {menuItems}
+                </SpacedSelect>
+              </FormControl>
+              <FormControl fullWidth>
+                <InputLabel id="movement2">Movement 2</InputLabel>
+                <SpacedSelect labelId="movement2" variant="outlined">
+                  {menuItems}
+                </SpacedSelect>
+              </FormControl>
+              <FormControl fullWidth>
+                <InputLabel id="movement3">Movement 3</InputLabel>
+                <SpacedSelect labelId="movement3" variant="outlined">
+                  {menuItems}
+                </SpacedSelect>
+              </FormControl>
             </Grid>
           </Grid>
           <Button type="submit">Save Changes</Button>

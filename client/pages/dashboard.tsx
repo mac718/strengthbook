@@ -43,7 +43,7 @@ const TableHeading = styled.div`
 const TableRowLink = styled(TableRow)`
   cursor: pointer;
   &:hover {
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.035), 0 6px 35px rgba(0, 0, 0, 0.2);
+    background-color: #e2ebf3;
   }
 `;
 
