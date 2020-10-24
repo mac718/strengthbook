@@ -45,7 +45,11 @@ const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
   const router = useRouter();
 
   const menuItems = exerciseList.map(exercise => {
-    return <MenuItem key={exercise}>{exercise}</MenuItem>;
+    return (
+      <MenuItem value={exercise} key={exercise}>
+        {exercise}
+      </MenuItem>
+    );
   });
 
   const handleSaveChanges = e => {
@@ -147,19 +151,19 @@ const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
               </Typography>
               <FormControl fullWidth>
                 <InputLabel id="movement1">Movement 1</InputLabel>
-                <SpacedSelect labelId="movement1" variant="outlined">
+                <SpacedSelect labelId="movement1" variant="filled" value="">
                   {menuItems}
                 </SpacedSelect>
               </FormControl>
               <FormControl fullWidth>
                 <InputLabel id="movement2">Movement 2</InputLabel>
-                <SpacedSelect labelId="movement2" variant="outlined">
+                <SpacedSelect labelId="movement2" variant="filled" value="">
                   {menuItems}
                 </SpacedSelect>
               </FormControl>
               <FormControl fullWidth>
                 <InputLabel id="movement3">Movement 3</InputLabel>
-                <SpacedSelect labelId="movement3" variant="outlined">
+                <SpacedSelect labelId="movement3" variant="filled" value="">
                   {menuItems}
                 </SpacedSelect>
               </FormControl>
@@ -230,7 +234,13 @@ export const getServerSideProps: GetServerSideProps = async context => {
       return res.json();
     })
     .then(json => json)
-    .catch(err => console.error('not authorized ', err));
+    .catch(err => {
+      console.error('not authorized ', err);
+      context.res.setHeader('Location', '/login');
+      context.res.statusCode = 302;
+      context.res.end();
+      return;
+    });
 
   return {
     props: { user },
