@@ -8,6 +8,7 @@ let mockProfile: IProfile = {
   lastName: 'Coon',
   bodyweight: 75,
   dob: new Date('1980-10-21'),
+  trackedMovements: ['Low Bar Squat'],
 };
 let mockUser: IUser = {
   firstName: 'Mike',

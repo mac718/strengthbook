@@ -70,6 +70,7 @@ const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
         lastName: profile.lastName,
         bodyweight: profile.bodyweight,
         dob: profile.dob,
+        trackedMovements,
       }),
       headers: {
         'content-type': 'application/json',
@@ -163,6 +164,7 @@ const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
                   labelId="movement1"
                   variant="filled"
                   onChange={e => onChange(e, 1)}
+                  value={trackedMovements[0]}
                 >
                   {menuItems}
                 </SpacedSelect>
@@ -173,6 +175,7 @@ const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
                   labelId="movement2"
                   variant="filled"
                   onChange={e => onChange(e, 2)}
+                  value={trackedMovements[1]}
                 >
                   {menuItems}
                 </SpacedSelect>
@@ -183,6 +186,7 @@ const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
                   labelId="movement3"
                   variant="filled"
                   onChange={e => onChange(e, 3)}
+                  value={trackedMovements[2]}
                 >
                   {menuItems}
                 </SpacedSelect>

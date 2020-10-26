@@ -18,6 +18,7 @@ export interface IProfile extends mongoose.Document {
   // sex: string;
   bodyweight: number;
   // unit: string;
+  trackedMovements: string[];
 }
 
 export const SetSchema = new mongoose.Schema({

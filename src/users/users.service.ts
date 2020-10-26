@@ -41,6 +41,7 @@ export class UsersService {
     user.profile.lastName = editProfileDto.lastName;
     user.profile.bodyweight = editProfileDto.bodyweight;
     user.profile.dob = editProfileDto.dob;
+    user.profile.trackedMovements = editProfileDto.trackedMovements;
 
     user.save((err, user) => {
       if (err) {

@@ -3,4 +3,5 @@ export class EditProfileDto {
   lastName: string;
   bodyweight: number;
   dob: Date;
+  trackedMovements: string[];
 }
