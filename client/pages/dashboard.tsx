@@ -6,8 +6,6 @@ import Link from 'next/link';
 import {
   Typography,
   Grid,
-  List,
-  ListItem,
   TableContainer,
   TableCell,
   Table,
@@ -18,6 +16,7 @@ import {
 import styled from 'styled-components';
 import Nav from '../components/Nav';
 import moment from 'moment';
+import E1rmTrend from '../components/E1rmTrend';
 
 interface DashboardProps {
   user: User;
@@ -83,7 +82,7 @@ const Dashboard = ({ user }) => {
   return (
     <div>
       <Nav user={user} />
-      <DashboardGrid container>
+      <DashboardGrid container spacing={2}>
         <Grid item xs={4}>
           <PrDiv component={Paper}>
             <TableHeading>
@@ -107,6 +106,9 @@ const Dashboard = ({ user }) => {
               {prsListItems}
             </Table>
           </PrDiv>
+        </Grid>
+        <Grid item xs={4}>
+          <E1rmTrend />
         </Grid>
       </DashboardGrid>
     </div>

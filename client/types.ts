@@ -11,6 +11,7 @@ export type Profile = {
   lastName: string;
   bodyweight: number;
   dob: Date;
+  trackedMovements: string[];
 };
 
 export interface Set {

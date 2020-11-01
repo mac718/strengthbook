@@ -164,7 +164,8 @@ const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
                   labelId="movement1"
                   variant="filled"
                   onChange={e => onChange(e, 1)}
-                  value={trackedMovements[0]}
+                  // value={trackedMovements[0]}
+                  defaultValue={profile.trackedMovements[0]}
                 >
                   {menuItems}
                 </SpacedSelect>
@@ -175,7 +176,7 @@ const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
                   labelId="movement2"
                   variant="filled"
                   onChange={e => onChange(e, 2)}
-                  value={trackedMovements[1]}
+                  defaultValue={profile.trackedMovements[1]}
                 >
                   {menuItems}
                 </SpacedSelect>
@@ -186,7 +187,7 @@ const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
                   labelId="movement3"
                   variant="filled"
                   onChange={e => onChange(e, 3)}
-                  value={trackedMovements[2]}
+                  defaultValue={profile.trackedMovements[2]}
                 >
                   {menuItems}
                 </SpacedSelect>
@@ -228,6 +229,12 @@ const Profile: React.FC<ProfileProps> = ({ user }: ProfileProps) => {
           <ListItem>
             <Typography variant="h5">
               Bodyweight: {profile.bodyweight}
+            </Typography>
+          </ListItem>
+          <ListItem>
+            <Typography variant="h5">
+              Tracked Movements: {profile.trackedMovements[0]},{' '}
+              {profile.trackedMovements[1]}, {profile.trackedMovements[2]}
             </Typography>
           </ListItem>
         </List>
